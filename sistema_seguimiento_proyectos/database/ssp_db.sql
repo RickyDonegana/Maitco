@@ -20,9 +20,12 @@ CREATE TABLE IF NOT EXISTS usuarios (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    user_role ENUM('Cliente', 'Desarrollador de sitios') NOT NULL
-    -- Otras columnas para detalles adicionales de los usuarios
+    email VARCHAR(255) NOT NULL UNIQUE,
+    user_role ENUM('Cliente', 'Desarrollador de sitios') NOT NULL,
+    acepta_condiciones TINYINT(1) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Tabla de Proyectos
 CREATE TABLE IF NOT EXISTS proyectos (
@@ -30,7 +33,6 @@ CREATE TABLE IF NOT EXISTS proyectos (
     project_name VARCHAR(255) NOT NULL,
     start_date DATE NOT NULL,
     estimated_delivery_date DATE NOT NULL
-    -- Otras columnas relevantes para detalles específicos del proyecto
 );
 
 -- Tabla de Etapas del Proyecto
@@ -38,8 +40,8 @@ CREATE TABLE IF NOT EXISTS etapas_proyecto (
     stage_id INT AUTO_INCREMENT PRIMARY KEY,
     project_id INT NOT NULL,
     stage_name VARCHAR(255) NOT NULL,
-    color VARCHAR(20) NOT NULL
-    -- Otras columnas relacionadas con detalles específicos de la etapa
+    color VARCHAR(20) NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES proyectos (project_id)
 );
 
 -- Tabla de Cambios en el Proyecto
@@ -48,19 +50,7 @@ CREATE TABLE IF NOT EXISTS cambios_proyecto (
     stage_id INT NOT NULL,
     user_id INT NOT NULL,
     change_date DATETIME NOT NULL,
-    change_description TEXT NOT NULL
-    -- Otras columnas para detalles adicionales del cambio
+    change_description TEXT NOT NULL,
+    FOREIGN KEY (stage_id) REFERENCES etapas_proyecto (stage_id),
+    FOREIGN KEY (user_id) REFERENCES usuarios (user_id)
 );
-
--- Agregar restricciones de clave externa
-ALTER TABLE etapas_proyecto
-ADD CONSTRAINT fk_etapas_proyecto_proyectos
-FOREIGN KEY (project_id) REFERENCES proyectos (project_id);
-
-ALTER TABLE cambios_proyecto
-ADD CONSTRAINT fk_cambios_proyecto_etapas_proyecto
-FOREIGN KEY (stage_id) REFERENCES etapas_proyecto (stage_id);
-
-ALTER TABLE cambios_proyecto
-ADD CONSTRAINT fk_cambios_proyecto_usuarios
-FOREIGN KEY (user_id) REFERENCES usuarios (user_id);

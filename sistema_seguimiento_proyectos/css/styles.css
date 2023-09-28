@@ -1,49 +1,33 @@
-/* =========== google fonts ============*/
+/* ========== Google Fonts ========== */
 @import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap");
 
-/**============= variables =============*/
-
+/* ========== Variables ========== */
 :root {
-  /**============= colors ==========*/
-  /* ============ Background ==========*/
+  /* ========== Colors ========== */
   --main-background: hsl(215, 31%, 95%);
   --card-background: hsl(0, 0%, 99%);
-
-  /* ============ text ==========*/
   --tittle-color: hsl(0, 0%, 15%);
   --sub-tittle-color: hsl(0, 0%, 25%);
   --blue-text: hsl(215, 100%, 25%);
   --text-color: hsl(0, 0%, 70%);
   --text-white: hsl(0, 25%, 97%);
-
-  /* ============ neutral ==========*/
   --blue: hsl(215, 100%, 62%);
   --blue-hover: hsl(215, 100%, 50%);
   --blue-ultra-light: hsl(215, 100%, 85%);
 
-  /**============ fonts ============*/
-
-  /* ========== type font ==========*/
+  /* ========== Fonts ========== */
   --heebo: "heebo";
-
-  /* ========= font weight =========*/
   --font-regular: 400;
   --font-medium: 500;
   --font-semi-bold: 600;
   --font-bold: 700;
-
-  /* ========= typography ==========*/
   --fs-1-5: 1.5rem;
   --fs-1-15: 1.15rem;
   --fs-1: 1rem;
   --fs-0-8: 0.8rem;
-
-  /** ========= cards style =========*/
   --border-radius-cards: 0.75rem;
   --shadow-color: rgba(0, 0, 0, 0.2);
   --box-shadow: 0px 4px 32px var(--shadow-color);
-
-  /**========== Margenes ==========*/
   --mb-0-25: 0.25rem;
   --mb-0-5: 0.5rem;
   --mb-0-75: 0.75rem;
@@ -52,15 +36,10 @@
   --mb-1-5: 1.5rem;
   --mb-2: 2rem;
   --mb-2-5: 2.5rem;
-
-  /**========== extra ==========*/
   --transition: color 0.4s, background-color 0.4s ease-in-out;
 }
 
-/** ======+ media variables ====+==*/
-
-/**============ base ============*/
-
+/* ========== Base ========== */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -78,15 +57,10 @@ body {
   font-family: var(--heebo);
 }
 
-/**====== REUSABLE CSS CLASSES ======*/
-
+/* ========== Reusable CSS Classes ========== */
 a {
   text-decoration: none;
   cursor: pointer;
-}
-
-h1 {
-  color: var(--tittle-color);
 }
 
 .card {
@@ -104,18 +78,9 @@ h1 {
   box-shadow: var(--box-shadow);
 }
 
-/**============ login ============*/
-
-.section__form {
+/* ========== Login ========== */
+.section__form, .section__add {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.section__add {
-  min-height: 93vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -150,7 +115,7 @@ h1 {
   font-size: var(--fs-1-5);
   font-weight: var(--font-bold);
   text-transform: uppercase;
-  color: var(--tittle-color);
+  color: var(--text-white);
 }
 
 .form__subtitle {
@@ -181,16 +146,15 @@ h1 {
   border-width: 0 0 2px 0;
   border-color: var(--text-color);
   margin-bottom: var(--mb-1-5);
+  transition: var(--transition);
 }
 
 .input:hover {
-  transition: var(--transition);
   color: hsl(0, 0%, 0%);
   border-color: var(--blue-ultra-light);
 }
 
 .input:focus {
-  transition: var(--transition);
   color: hsl(0, 0%, 0%);
   border-color: var(--blue);
 }
@@ -221,11 +185,11 @@ h1 {
   color: var(--text-white);
   font-size: var(--fs-1);
   font-family: var(--heebo);
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .input__btn:hover {
-  transition: var(--transition);
-  cursor: pointer;
   background-color: var(--blue-hover);
 }
 
@@ -242,32 +206,7 @@ h1 {
   color: var(--blue-hover);
 }
 
-@media screen and (max-width: 1023px) {
-  .div__form {
-    width: 60%;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  .div__form {
-    width: 85%;
-  }
-}
-
-@media screen and (max-width: 424px) {
-    .div__form {
-      width: 100%;
-      padding: var(--mb-1);
-    }
-    .btn__container {
-      display: flex;
-      justify-content: center;
-    }
-    .input__btn {
-      width: auto;
-    }
-  }
-
+/* ========== Header ========== */
 .header {
   position: fixed;
   top: 0;
@@ -280,7 +219,7 @@ h1 {
 
 .menu {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -318,10 +257,10 @@ h1 {
   width: 30px;
 }
 
+/* ========== Main Content ========== */
 .main-content {
   margin-top: 80px;
   padding: 2rem;
-
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -360,7 +299,7 @@ h1 {
   margin-top: 1rem;
 }
 
-/* Estilos para el formulario de nuevo proyecto */
+/* ========== Formulario Nuevo Proyecto ========== */
 .form-container {
   background-color: var(--card-background);
   border-radius: var(--border-radius-cards);
@@ -404,17 +343,17 @@ h1 {
   margin-top: var(--mb-1);
   font-size: var(--fs-1);
   cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
 }
 
 .form-container button[type="submit"]:hover {
   background-color: var(--blue-hover);
 }
 
-/* Estilos para la tabla de proyectos */
+/* ========== Tabla de Proyectos ========== */
 table {
   width: 100%;
   border-collapse: collapse;
-
 }
 
 table, th, td {
@@ -430,7 +369,7 @@ th, td {
   text-align: center;
 }
 
-/* Estilos para los botones de la tabla */
+/* ========== Botones de la Tabla ========== */
 button {
   background-color: var(--blue);
   color: var(--text-white);
