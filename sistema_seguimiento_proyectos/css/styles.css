@@ -85,6 +85,10 @@ a {
   cursor: pointer;
 }
 
+h1 {
+  color: var(--tittle-color);
+}
+
 .card {
   background-color: var(--card-background);
   border-radius: var(--border-radius-cards);
@@ -260,8 +264,8 @@ a {
       justify-content: center;
     }
     .input__btn {
-      width: auto;:
-    }
+      width: auto;
+    }
   }
 
 .header {
@@ -270,17 +274,14 @@ a {
   left: 0;
   width: 100%;
   background-color: var(--card-background);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 1rem;
   z-index: 100;
 }
 
 .menu {
   display: flex;
+  justify-content: space-between; 
   align-items: center;
-  margin-left: auto;
 }
 
 .logo img {
@@ -290,7 +291,7 @@ a {
 .tabs {
   list-style: none;
   display: flex;
-  margin-left: 1rem;
+  margin-right: auto;
 }
 
 .tabs li {
@@ -320,12 +321,19 @@ a {
 .main-content {
   margin-top: 80px;
   padding: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .project-container {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  width: 80%;
 }
 
 .project-box {
@@ -406,7 +414,7 @@ a {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: var(--mb-2);
+
 }
 
 table, th, td {
@@ -414,8 +422,12 @@ table, th, td {
 }
 
 th, td {
+  width: 16%;
   padding: var(--mb-0-5);
   text-align: left;
+  color: var(--tittle-color);
+  background-color: var(--card-background);
+  text-align: center;
 }
 
 /* Estilos para los botones de la tabla */
@@ -424,8 +436,8 @@ button {
   color: var(--text-white);
   border: none;
   border-radius: 4px;
-  padding: var(--mb-0-25) var(--mb-0-5);
-  font-size: var(--fs-0-8);
+  padding: var(--mb-0-75) var(--mb-0-75);
+  font-size: var(--fs-1);
   cursor: pointer;
   margin-right: var(--mb-0-25);
 }
