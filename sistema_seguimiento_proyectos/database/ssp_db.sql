@@ -30,9 +30,13 @@ CREATE TABLE IF NOT EXISTS usuarios (
 CREATE TABLE IF NOT EXISTS proyectos (
     project_id INT AUTO_INCREMENT PRIMARY KEY,
     project_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    client VARCHAR(100),
+    developer VARCHAR(100),
     start_date DATE NOT NULL,
     estimated_delivery_date DATE NOT NULL
 );
+
 
 -- Tabla de Etapas del Proyecto
 CREATE TABLE IF NOT EXISTS etapas_proyecto (

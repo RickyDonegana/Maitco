@@ -72,13 +72,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="email" class="input" name="email" placeholder="Email" required="required">
                     <input type="password" class="input" name="contrasena" placeholder="Contraseña" required="required">
                     <input type="password" class="input" name="confirm_contrasena" placeholder="Confirmar contraseña" required="required">
-                    <label class="input__check"><input type="checkbox" required="required"> Acepto las <a href="#">Condiciones de uso</a> y <a href="#">la política de privacidad</a></label>
+
+                    <label for="user_role" class="input__label">Rol</label>
+                    <select name="user_role" id="user_role" class="input__field" required="required">
+                        <option value="" selected disabled>Seleccionar rol</option>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Desarrollador de sitios">Desarrollador de sitios</option>
+                    </select>
+
+                    <label class="input__check">
+                        <input type="checkbox" required="required"> Acepto las <a href="#">Condiciones de uso</a> y <a href="#">la política de privacidad</a>
+                    </label>
 
                     <div class="btn__container">
                         <button type="submit" class="input__btn">Registrarse</button>
                     </div>
                 </div>
             </form>
+
             <p class="form__link">
                 ¿Ya tienes una cuenta?
                 <a href="../php/login.php" class="text-link">Iniciar sesión</a>
