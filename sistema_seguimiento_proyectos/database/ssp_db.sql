@@ -20,12 +20,11 @@ CREATE TABLE IF NOT EXISTS usuarios (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
     user_role ENUM('Cliente', 'Desarrollador de sitios') NOT NULL,
-    acepta_condiciones TINYINT(1) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    registro_completo TINYINT(1) NOT NULL DEFAULT 0,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 -- Tabla de Proyectos
 CREATE TABLE IF NOT EXISTS proyectos (
