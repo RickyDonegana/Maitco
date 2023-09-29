@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             // Registro exitoso
-            header("Location: ../html/login.html"); // Redirige al formulario de inicio de sesión
+            header("Location: ../php/login.php"); // Redirige al formulario de inicio de sesión
             exit; // Termina el script después de redirigir
         } else {
             // Error en el registro
@@ -81,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
             <p class="form__link">
                 ¿Ya tienes una cuenta?
-                <a href="../html/login.html" class="text-link">Iniciar sesión</a>
+                <a href="../php/login.php" class="text-link">Iniciar sesión</a>
             </p>
         </div>
     </section>
