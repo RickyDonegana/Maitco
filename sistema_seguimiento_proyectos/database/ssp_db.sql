@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS proyectos (
     estimated_delivery_date DATE NOT NULL
 );
 
-
 -- Tabla de Etapas del Proyecto
 CREATE TABLE IF NOT EXISTS etapas_proyecto (
     stage_id INT AUTO_INCREMENT PRIMARY KEY,

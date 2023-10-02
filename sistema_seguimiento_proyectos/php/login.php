@@ -1,15 +1,38 @@
 <?php
-// Incluye la conexión a la base de datos aquí
-$host = "localhost";
-$usuario = "root"; // Cambia esto si es diferente en tu entorno
-$contrasena = ""; // Cambia esto si tienes una contraseña
-$base_de_datos = "ssp_db";
+// Función para conectar a la base de datos
+function conectarBaseDeDatos()
+{
+    $host = "localhost";
+    $usuario = "root";
+    $contrasena = "";
+    $base_de_datos = "ssp_db";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo; // Devuelve la conexión PDO
+    } catch (PDOException $e) {
+        die("Error de conexión: " . $e->getMessage());
+    }
+}
+
+// Función para verificar las credenciales del usuario
+function verificarCredenciales($email, $contrasena)
+{
+    $pdo = conectarBaseDeDatos(); // Obtiene la conexión PDO
+
+    $stmt = $pdo->prepare("SELECT user_id, username, user_role, password FROM usuarios WHERE email = :email");
+    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() == 1) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($contrasena, $row["password"])) {
+            return $row;
+        }
+    }
+
+    return false;
 }
 
 // Verifica si se envió el formulario
@@ -18,28 +41,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $contrasena = $_POST["contrasena"];
 
-    // Consulta la base de datos para verificar las credenciales del usuario
-    $stmt = $pdo->prepare("SELECT user_id, username, user_role FROM usuarios WHERE email = :email AND password = :contrasena");
-    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-    $stmt->bindParam(":contrasena", $contrasena, PDO::PARAM_STR);
-    $stmt->execute();
+    // Verifica las credenciales del usuario
+    $usuario = verificarCredenciales($email, $contrasena);
 
-    // Verifica si se encontró un usuario con las credenciales proporcionadas
-    if ($stmt->rowCount() == 1) {
+    if ($usuario) {
         // Inicio de sesión exitoso
         session_start();
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $_SESSION["user_id"] = $row["user_id"];
-        $_SESSION["username"] = $row["username"];
-        $_SESSION["user_role"] = $row["user_role"];
+        $_SESSION["user_id"] = $usuario["user_id"];
+        $_SESSION["username"] = $usuario["username"];
+        $_SESSION["user_role"] = $usuario["user_role"];
         header("Location: ../html/index.html"); // Redirige al panel de control o página de inicio
         exit; // Termina el script después de redirigir
     } else {
         // Error de inicio de sesión
-        echo "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
+        $mensajeError = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,6 +96,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ¿No tienes una cuenta?
                 <a href="../php/register.php" class="text-link">Regístrate aquí</a>
             </p>
+
+            <?php if (isset($mensajeError)) : ?>
+                <p class="error-message"><?php echo $mensajeError; ?></p>
+            <?php endif; ?>
+            <?php
+            // Muestra mensaje de registro exitoso si está presente
+            session_start();
+            if (isset($_SESSION["registro_exitoso"]) && $_SESSION["registro_exitoso"]) {
+                echo '<p class="success-message">Registro exitoso. Ahora puedes iniciar sesión.</p>';
+                unset($_SESSION["registro_exitoso"]); // Limpia la variable de sesión
+            }
+            ?>
         </div>
     </section>
 </body>

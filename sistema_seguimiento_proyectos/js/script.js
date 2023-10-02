@@ -1,24 +1,34 @@
-// Función para agregar un nuevo proyecto (debes implementar la lógica para agregarlo a la lista de proyectos)
+// Lista de proyectos (simulación de datos)
+const proyectos = [];
+
+// Función para agregar un nuevo proyecto
 function agregarProyecto() {
-    // Obtén los valores del formulario y agrega el nuevo proyecto a la lista de proyectos
-    const nuevoProyecto = {
-        id: proyectos.length + 1,
-        nombre: document.getElementById('nombreProyecto').value,
-        descripcion: document.getElementById('descripcionProyecto').value,
-        fechaInicio: document.getElementById('fechaInicio').value,
-        fechaEstimada: document.getElementById('fechaEstimada').value,
-    };
+    const campos = ["nombreProyecto", "descripcionProyecto", "cliente", "desarrollador", "fechaInicio", "fechaEstimada"];
+    const proyecto = {};
 
-    proyectos.push(nuevoProyecto);
+    // Verificar que todos los campos estén completos
+    for (const campo of campos) {
+        const valor = document.getElementById(campo).value;
+        if (!valor) {
+            alert("Por favor, complete todos los campos.");
+            return;
+        }
+        proyecto[campo] = valor;
+    }
 
-    // Limpia el formulario y vuelve a cargar los proyectos
-    document.getElementById('nombreProyecto').value = '';
-    document.getElementById('descripcionProyecto').value = '';
-    document.getElementById('fechaInicio').value = '';
-    document.getElementById('fechaEstimada').value = '';
+    proyecto.id = proyectos.length + 1;
+    proyectos.push(proyecto);
+    limpiarFormulario();
+    agregarProyectoATabla(proyecto);
+    ocultarFormulario();
+}
 
-    // Agregar el nuevo proyecto a la tabla
-    agregarProyectoATabla(nuevoProyecto);
+// Función para limpiar el formulario
+function limpiarFormulario() {
+    const campos = ["nombreProyecto", "descripcionProyecto", "cliente", "desarrollador", "fechaInicio", "fechaEstimada"];
+    for (const campo of campos) {
+        document.getElementById(campo).value = '';
+    }
 }
 
 // Función para agregar un proyecto a la tabla
@@ -29,6 +39,8 @@ function agregarProyectoATabla(proyecto) {
         <td>${proyecto.id}</td>
         <td>${proyecto.nombre}</td>
         <td>${proyecto.descripcion}</td>
+        <td>${proyecto.cliente}</td>
+        <td>${proyecto.desarrollador}</td>
         <td>${proyecto.fechaInicio}</td>
         <td>${proyecto.fechaEstimada}</td>
         <td>
@@ -40,17 +52,30 @@ function agregarProyectoATabla(proyecto) {
     tbody.appendChild(row);
 }
 
-// Resto de tu código...
+// Función para cargar proyectos (simulación de carga)
+function cargarProyectos() {
+    for (let i = 0; i < 5; i++) {
+        const proyecto = {
+            id: i + 1,
+            nombre: `Proyecto ${i + 1}`,
+            descripcion: `Descripción del Proyecto ${i + 1}`,
+            cliente: `Cliente ${i + 1}`,
+            desarrollador: `Desarrollador ${i + 1}`,
+            fechaInicio: '2023-10-01',
+            fechaEstimada: '2023-10-31',
+        };
+        proyectos.push(proyecto);
+        agregarProyectoATabla(proyecto);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
-    const nuevoProyectoForm = document.getElementById('nuevoProyectoForm');
+    const tablaContainer = document.getElementById('tabla-container');
 
-    // Mostrar el formulario al hacer clic en el botón "Nuevo Proyecto"
     btnNuevoProyecto.addEventListener('click', function () {
-        nuevoProyectoForm.style.display = 'block';
+        tablaContainer.style.display = 'none'; // Oculta la tabla
     });
 
-    // Llama a la función para cargar los proyectos cuando se carga la página
     cargarProyectos();
 });

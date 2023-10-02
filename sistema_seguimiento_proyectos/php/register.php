@@ -1,43 +1,67 @@
 <?php
-// Incluye la conexión a la base de datos aquí
-$host = "localhost";
-$usuario = "root"; // Cambia esto si es diferente en tu entorno
-$contrasena = ""; // Cambia esto si tienes una contraseña
-$base_de_datos = "ssp_db";
+// Función para conectar a la base de datos
+function conectarBaseDeDatos()
+{
+    $host = "localhost";
+    $usuario = "root";
+    $contrasena = "";
+    $base_de_datos = "ssp_db";
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo; // Devuelve la conexión PDO
+    } catch (PDOException $e) {
+        die("Error de conexión: " . $e->getMessage());
+    }
+}
+
+// Función para insertar un nuevo usuario
+function insertarUsuario($nombre_completo, $email, $contrasena, $user_role)
+{
+    $pdo = conectarBaseDeDatos();
+
+    // Hashea la contraseña antes de almacenarla en la base de datos
+    $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+
+    $stmt = $pdo->prepare("INSERT INTO usuarios (username, password, email, user_role, registro_completo) VALUES (:username, :password, :email, :user_role, 1)");
+
+    // Divide el nombre completo en nombre y apellido
+    $nombre_completo_array = explode(" ", $nombre_completo);
+    $primer_nombre = $nombre_completo_array[0];
+    $apellido = count($nombre_completo_array) > 1 ? end($nombre_completo_array) : "";
+
+    $stmt->bindParam(":username", $nombre_completo, PDO::PARAM_STR);
+    $stmt->bindParam(":password", $hashContrasena, PDO::PARAM_STR);
+    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+    $stmt->bindParam(":user_role", $user_role, PDO::PARAM_STR);
+
+    return $stmt->execute();
 }
 
 // Verifica si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los datos del formulario
-    $nombre = $_POST["nombre"];
-    $apellido = $_POST["apellido"];
+    $nombre_completo = $_POST["nombre_completo"];
     $email = $_POST["email"];
     $contrasena = $_POST["contrasena"];
     $confirm_contrasena = $_POST["confirm_contrasena"];
+    $user_role = $_POST["user_role"];
 
     // Verifica si las contraseñas coinciden
     if ($contrasena !== $confirm_contrasena) {
-        echo "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+        $mensajeError = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
     } else {
         // Inserta el nuevo usuario en la base de datos
-        $stmt = $pdo->prepare("INSERT INTO usuarios (username, password, email, user_role, registro_completo) VALUES (:username, :password, :email, 'Cliente', 1)");
-        $stmt->bindParam(":username", $nombre, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $contrasena, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-
-        if ($stmt->execute()) {
+        if (insertarUsuario($nombre_completo, $email, $contrasena, $user_role)) {
             // Registro exitoso
+            session_start();
+            $_SESSION["registro_exitoso"] = true;
             header("Location: ../php/login.php"); // Redirige al formulario de inicio de sesión
             exit; // Termina el script después de redirigir
         } else {
             // Error en el registro
-            echo "Error en el registro. Por favor, inténtalo de nuevo.";
+            $mensajeError = "Error en el registro. Por favor, inténtalo de nuevo.";
         }
     }
 }
@@ -67,8 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form action="" method="post" autocomplete="off">
                 <div class="input__box">
-                    <input type="text" class="input" name="nombre" placeholder="Nombre" required="required">
-                    <input type="text" class="input" name="apellido" placeholder="Apellido" required="required">
+                    <input type="text" class="input" name="nombre_completo" placeholder="Nombre Completo" required="required">
                     <input type="email" class="input" name="email" placeholder="Email" required="required">
                     <input type="password" class="input" name="contrasena" placeholder="Contraseña" required="required">
                     <input type="password" class="input" name="confirm_contrasena" placeholder="Confirmar contraseña" required="required">
@@ -94,6 +117,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ¿Ya tienes una cuenta?
                 <a href="../php/login.php" class="text-link">Iniciar sesión</a>
             </p>
+
+            <?php if (isset($mensajeError)) : ?>
+                <p class="error-message"><?php echo $mensajeError; ?></p>
+            <?php endif; ?>
         </div>
     </section>
 </body>
