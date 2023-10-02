@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["user_id"] = $usuario["user_id"];
         $_SESSION["username"] = $usuario["username"];
         $_SESSION["user_role"] = $usuario["user_role"];
-        header("Location: ../html/index.html"); // Redirige al panel de control o página de inicio
+        header("Location: ../php/inicio.php"); // Redirige al panel de control o página de inicio
         exit; // Termina el script después de redirigir
     } else {
         // Error de inicio de sesión

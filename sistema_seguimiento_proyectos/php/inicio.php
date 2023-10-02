@@ -42,7 +42,7 @@ $result = $conn->query($sql);
                 <img src="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" alt="Logo de la Empresa">
             </div>
             <ul class="tabs">
-                <li><a href="../php/index.php">Inicio</a></li>
+                <li><a href="../php/inicio.php">Inicio</a></li>
                 <li><a href="../php/proyectos.php">Proyectos</a></li>
                 <li><a href="../html/tareas.html">Tareas</a></li>
                 <li><a href="../html/configuracion.html">Configuración</a></li>

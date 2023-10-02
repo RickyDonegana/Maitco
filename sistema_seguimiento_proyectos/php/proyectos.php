@@ -64,7 +64,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <img src="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" alt="Logo de la Empresa">
             </div>
             <ul class="tabs">
-                <li><a href="../html/index.html">Inicio</a></li>
+                <li><a href="../html/inicio.html">Inicio</a></li>
                 <li><a href="../html/proyectos.html">Proyectos</a></li>
                 <li><a href="../html/tareas.html">Tareas</a></li>
                 <li><a href="../html/configuracion.html">Configuración</a></li>
