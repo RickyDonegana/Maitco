@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 $userType = "Cliente"; // Cambia esto por el tipo de usuario actual
 
 // Consulta SQL para obtener los proyectos según el tipo de usuario
-$sql = "SELECT project_name, description, start_date, estimated_delivery_date FROM proyectos WHERE client = '$userType' OR developer = '$userType'";
+$sql = "SELECT nombre_proyecto, descripcion, fecha_inicio, fecha_entrega_estimada FROM proyectos WHERE cliente = '$userType' OR desarrollador = '$userType'";
 $result = $conn->query($sql);
 
 ?>
@@ -28,7 +28,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos | Maitco</title>
+    <title>Inicio | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
@@ -61,11 +61,11 @@ $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo '<div class="project-box">';
-                    echo '<h3 class="project-title">' . $row["project_name"] . '</h3>';
-                    echo '<p class="project-description">' . $row["description"] . '</p>';
+                    echo '<h3 class="project-title">' . $row["nombre_proyecto"] . '</h3>';
+                    echo '<p class="project-description">' . $row["descripcion"] . '</p>';
                     echo '<p class="project-dates">';
-                    echo 'Fecha de Inicio: ' . $row["start_date"] . '<br>';
-                    echo 'Fecha Estimada de Finalización: ' . $row["estimated_delivery_date"];
+                    echo 'Fecha de Inicio: ' . $row["fecha_inicio"] . '<br>';
+                    echo 'Fecha Estimada de Finalización: ' . $row["fecha_entrega_estimada"];
                     echo '</p>';
                     echo '</div>';
                 }
@@ -78,8 +78,7 @@ $result = $conn->query($sql);
             ?>
         </section>
     </main>
-
-    <!-- Pie de página u otros elementos adicionales si es necesario -->
+    <script src="../js/script.js"></script>
 </body>
 
 </html>
