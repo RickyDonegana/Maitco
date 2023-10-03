@@ -6,7 +6,6 @@ function conectarBaseDeDatos()
     $usuario = "root";
     $contrasena = "";
     $base_de_datos = "ssp_db";
-
     try {
         return new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
@@ -15,30 +14,51 @@ function conectarBaseDeDatos()
         die("Error de conexión: " . $e->getMessage());
     }
 }
-
 // Establecer la conexión a la base de datos
 $pdo = conectarBaseDeDatos();
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Procesar el formulario para agregar proyectos
-    $nombreProyecto = $_POST["nombreProyecto"];
-    $descripcionProyecto = $_POST["descripcionProyecto"];
-    $cliente = $_POST["cliente"];
-    $desarrollador = $_POST["desarrollador"];
-    $fechaInicio = $_POST["fechaInicio"];
-    $fechaEstimada = $_POST["fechaEstimada"];
-
-    // Realizar la inserción en la base de datos
-    $stmt = $pdo->prepare("INSERT INTO proyectos (project_name, description, client, developer, start_date, estimated_delivery_date) VALUES (:nombreProyecto, :descripcionProyecto, :cliente, :desarrollador, :fechaInicio, :fechaEstimada)");
-    $stmt->bindParam(":nombreProyecto", $nombreProyecto, PDO::PARAM_STR);
-    $stmt->bindParam(":descripcionProyecto", $descripcionProyecto, PDO::PARAM_STR);
-    $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
-    $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaEstimada", $fechaEstimada, PDO::PARAM_STR);
-    $stmt->execute();
+    // Procesar el formulario para agregar o editar proyectos
+    if (isset($_POST["proyecto_id"])) {
+        // Editar proyecto existente
+        $proyecto_id = $_POST["proyecto_id"];
+        $nombreProyecto = $_POST["nombreProyecto"];
+        $descripcionProyecto = $_POST["descripcionProyecto"];
+        $cliente = $_POST["cliente"];
+        $desarrollador = $_POST["desarrollador"];
+        $fechaInicio = $_POST["fechaInicio"];
+        $fechaEstimada = $_POST["fechaEstimada"];
+        $estado = $_POST["estado"];
+        $stmt = $pdo->prepare("UPDATE proyectos SET project_name = :nombreProyecto, description = :descripcionProyecto, client = :cliente, developer = :desarrollador, start_date = :fechaInicio, estimated_delivery_date = :fechaEstimada, estado = :estado WHERE project_id = :proyecto_id");
+        $stmt->bindParam(":nombreProyecto", $nombreProyecto, PDO::PARAM_STR);
+        $stmt->bindParam(":descripcionProyecto", $descripcionProyecto, PDO::PARAM_STR);
+        $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
+        $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaEstimada", $fechaEstimada, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":proyecto_id", $proyecto_id, PDO::PARAM_INT);
+        $stmt->execute();
+    } else {
+        // Agregar nuevo proyecto
+        $nombreProyecto = $_POST["nombreProyecto"];
+        $descripcionProyecto = $_POST["descripcionProyecto"];
+        $cliente = $_POST["cliente"];
+        $desarrollador = $_POST["desarrollador"];
+        $fechaInicio = $_POST["fechaInicio"];
+        $fechaEstimada = $_POST["fechaEstimada"];
+        $estado = $_POST["estado"];
+        // Realizar la inserción en la base de datos
+        $stmt = $pdo->prepare("INSERT INTO proyectos (project_name, description, client, developer, start_date, estimated_delivery_date, estado) VALUES (:nombreProyecto, :descripcionProyecto, :cliente, :desarrollador, :fechaInicio, :fechaEstimada, :estado)");
+        $stmt->bindParam(":nombreProyecto", $nombreProyecto, PDO::PARAM_STR);
+        $stmt->bindParam(":descripcionProyecto", $descripcionProyecto, PDO::PARAM_STR);
+        $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
+        $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaEstimada", $fechaEstimada, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->execute();
+    }
 }
-
 // Consultar proyectos existentes
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();
@@ -64,8 +84,8 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <img src="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" alt="Logo de la Empresa">
             </div>
             <ul class="tabs">
-                <li><a href="../html/inicio.html">Inicio</a></li>
-                <li><a href="../html/proyectos.html">Proyectos</a></li>
+                <li><a href="../php/inicio.php">Inicio</a></li>
+                <li><a href="../php/proyectos.php">Proyectos</a></li>
                 <li><a href="../html/tareas.html">Tareas</a></li>
                 <li><a href="../html/configuracion.html">Configuración</a></li>
             </ul>
@@ -74,7 +94,6 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </nav>
     </header>
-
     <main class="main-content">
         <h1>Mis Proyectos</h1>
         <!-- Botón para mostrar/ocultar el formulario -->
@@ -90,6 +109,8 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Desarrollador</th>
                     <th>Fecha de Inicio</th>
                     <th>Fecha Estimada de Finalización</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -102,40 +123,55 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $proyecto["developer"]; ?></td>
                         <td><?php echo $proyecto["start_date"]; ?></td>
                         <td><?php echo $proyecto["estimated_delivery_date"]; ?></td>
+                        <td>
+                            <select name="estado" id="estado">
+                                <option value="inicio" <?php if (isset($proyecto["estado"]) && $proyecto["estado"] == 'inicio') echo 'selected'; ?>>Inicio</option>
+                                <option value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
+                                <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
+                                <option value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
+                                <option value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button onclick="editarProyecto(<?php echo $proyecto["project_id"]; ?>)">Editar</button>
+                            <button onclick="finalizarProyecto(<?php echo $proyecto["project_id"]; ?>)">Finalizar</button>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-    </main>
-    <!-- Formulario para agregar nuevos proyectos (inicialmente oculto) -->
-    <div id="nuevoProyectoForm" class="form-container" style="display: none;">
-        <!-- Formulario para agregar nuevos proyectos -->
-        <div id="nuevoProyectoForm" class="form-container">
+        <!-- Formulario para agregar o editar proyectos (inicialmente oculto) -->
+        <div id="nuevoProyectoForm" class="form-container" style="display: none;">
             <h2>Nuevo Proyecto</h2>
             <form method="POST">
-                <label for="nombreProyecto">Nombre del Proyecto:</label>
-                <input type="text" id="nombreProyecto" name="nombreProyecto" required>
-
-                <label for="descripcionProyecto">Descripción:</label>
-                <textarea id="descripcionProyecto" name="descripcionProyecto" rows="4" required></textarea>
-
-                <label for="cliente">Cliente:</label>
-                <input type="text" id="cliente" name="cliente" required>
-
-                <label for="desarrollador">Desarrollador:</label>
-                <input type="text" id="desarrollador" name="desarrollador" required>
-
-                <label for="fechaInicio">Fecha de Inicio:</label>
-                <input type="date" id="fechaInicio" name="fechaInicio" required>
-
-                <label for="fechaEstimada">Fecha Estimada de Finalización:</label>
-                <input type="date" id="fechaEstimada" name="fechaEstimada" required>
-
-                <button type="submit">Agregar Proyecto</button>
-            </form>
-        </div>
-
-        <script src="../js/script.js"></script>
-</body>
+                <!-- Agrega un campo oculto para almacenar el ID del proyecto en caso de edición -->
+                <div class="input__box">
+                    <input type="hidden" class="input" id="proyecto_id" name="proyecto_id">
+                    <label for="nombreProyecto" class="input">Nombre del Proyecto:</label>
+                    <input type=" text" class="input" id="nombreProyecto" name="nombreProyecto" required>
+                    <label for="descripcionProyecto" class="input">Descripción:</label>
+                    <textarea id="descripcionProyecto" class="input" name="descripcionProyecto" rows="4" required></textarea>
+                    <label for="cliente" class="input">Cliente:</label>
+                    <input type="text" class="input" id="cliente" name="cliente" required>
+                    <label for="desarrollador" class="input">Desarrollador:</label>
+                    <input type="text" class="input" id="desarrollador" name="desarrollador" required>
+                    <label for="fechaInicio" class="input">Fecha de Inicio:</label>
+                    <input type="date" class="input" id="fechaInicio" name="fechaInicio" required>
+                    <label for="fechaEstimada" class="input">Fecha Estimada de Finalización:</label>
+                    <input type="date" class="input" id="fechaEstimada" name="fechaEstimada" required>
+                    <label for="estado" class="input">Estado:</label>
+                    <select name="estado" class="input" id="estado">
+                        <option value="inicio" class="input">Inicio</option>
+                        <option value="planificacion" class="input">Planificación</option>
+                        <option value="ejecucion" class="input">Ejecución</option>
+                        <option value="supervision" class="input">Supervisión</option>
+                        <option value="cierre" class="input">Cierre</option>
+                    </select>
+                    <!-- Botón para agregar o editar proyectos -->
+                    <button type="button" class="input_btn" id="btnAgregarEditarProyecto">Agregar</button>
+                    <di </form>
+                </div>
+                <script src="../js/script.js">
+                </script>
 
 </html>

@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS proyectos (
     client VARCHAR(100),
     developer VARCHAR(100),
     start_date DATE NOT NULL,
-    estimated_delivery_date DATE NOT NULL
+    estimated_delivery_date DATE NOT NULL,
+    estado VARCHAR(50) NOT NULL
 );
 
 -- Tabla de Etapas del Proyecto

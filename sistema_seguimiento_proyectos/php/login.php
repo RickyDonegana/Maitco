@@ -6,7 +6,6 @@ function conectarBaseDeDatos()
     $usuario = "root";
     $contrasena = "";
     $base_de_datos = "ssp_db";
-
     try {
         $pdo = new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -15,35 +14,28 @@ function conectarBaseDeDatos()
         die("Error de conexión: " . $e->getMessage());
     }
 }
-
 // Función para verificar las credenciales del usuario
 function verificarCredenciales($email, $contrasena)
 {
     $pdo = conectarBaseDeDatos(); // Obtiene la conexión PDO
-
     $stmt = $pdo->prepare("SELECT user_id, username, user_role, password FROM usuarios WHERE email = :email");
     $stmt->bindParam(":email", $email, PDO::PARAM_STR);
     $stmt->execute();
-
     if ($stmt->rowCount() == 1) {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         if (password_verify($contrasena, $row["password"])) {
             return $row;
         }
     }
-
     return false;
 }
-
 // Verifica si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtiene los datos del formulario
     $email = $_POST["email"];
     $contrasena = $_POST["contrasena"];
-
     // Verifica las credenciales del usuario
     $usuario = verificarCredenciales($email, $contrasena);
-
     if ($usuario) {
         // Inicio de sesión exitoso
         session_start();
@@ -58,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,7 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <h2 class="form__subtitle">Iniciar sesión</h2>
             <p class="form__paragraph">Ingresa tus datos aquí</p>
-
             <form action="" method="post" autocomplete="off">
                 <div class="input__box">
                     <input type="email" name="email" class="input" placeholder="Email" required="required">
@@ -96,7 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ¿No tienes una cuenta?
                 <a href="../php/register.php" class="text-link">Regístrate aquí</a>
             </p>
-
             <?php if (isset($mensajeError)) : ?>
                 <p class="error-message"><?php echo $mensajeError; ?></p>
             <?php endif; ?>
