@@ -1,21 +1,7 @@
 <?php
 // Función para conectar a la base de datos
-function conectarBaseDeDatos()
-{
-    $host = "localhost";
-    $usuario = "root";
-    $contrasena = "";
-    $base_de_datos = "ssp_db";
-
-    try {
-        return new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
-    }
-}
-
+include('../php/conn.php');
+//include ('ruta del archivo');
 // Establecer la conexión a la base de datos
 $pdo = conectarBaseDeDatos();
 
@@ -90,20 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();
 $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Inicia la sesión si aún no se ha iniciado
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Obtener el nombre de usuario del usuario actual
-if (isset($_SESSION["id_usuario"])) {
-    $stmt = $pdo->prepare("SELECT nombre_usuario FROM usuarios WHERE id_usuario = :id_usuario");
-    $stmt->bindParam(":id_usuario", $_SESSION["id_usuario"], PDO::PARAM_INT);
-    $stmt->execute();
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    $nombreUsuario = $usuario["nombre_usuario"];
-}
 ?>
 
 <!DOCTYPE html>
