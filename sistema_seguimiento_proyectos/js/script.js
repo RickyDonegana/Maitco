@@ -1,146 +1,118 @@
-// Lista de proyectos (inicialmente vacía)
-const proyectos = [];
+function mostrarFormulario() {
+    // Verifica si el elemento con id "nuevoProyectoForm" existe
+    var formulario = document.getElementById("nuevoProyectoForm");
+    if (formulario) {
+        // Muestra el formulario y oculta la tabla y el botón "Agregar Nuevo Proyecto"
+        formulario.style.display = "block";
+        document.getElementById("tablaProyectos").style.display = "none";
+        document.getElementById("btnNuevoProyecto").style.display = "none";        
+        document.getElementById("nuevoProyectoForm").style.display = "none";
 
-// Función para obtener los datos del proyecto desde el formulario
-function obtenerDatosProyecto() {
-    const campos = ["nombre_proyecto", "descripcion", "cliente", "desarrollador", "fecha_inicio", "fecha_entrega_estimada", "estado"];
-    const proyecto = {};
-
-    for (const campo of campos) {
-        const valor = document.getElementById(campo).value.trim();
-        if (!valor) {
-            return null; // Retorna null si falta algún campo
-        }
-        proyecto[campo] = valor;
-    }
-
-    return proyecto;
-}
-
-// Función para limpiar el formulario
-function limpiarFormulario() {
-    const campos = ["nombre_proyecto", "descripcion", "cliente", "desarrollador", "fecha_inicio", "fecha_entrega_estimada", "estado"];
-    for (const campo of campos) {
-        document.getElementById(campo).value = '';
-    }
-}
-
-// Función para agregar un proyecto a la tabla
-function agregarProyectoATabla(proyecto) {
-    const tbody = document.querySelector('tbody');
-    const row = document.createElement('tr');
-    row.id = `proyecto-${proyecto.id_proyecto}`; // Agrega un ID a la fila
-    row.innerHTML = `
-        <td>${proyecto.id_proyecto}</td>
-        <td>${proyecto.nombre_proyecto}</td>
-        <td>${proyecto.descripcion}</td>
-        <td>${proyecto.cliente}</td>
-        <td>${proyecto.desarrollador}</td>
-        <td>${proyecto.fecha_inicio}</td>
-        <td>${proyecto.fecha_entrega_estimada}</td>
-        <td>${proyecto.estado || 'Pendiente'}</td>
-        <td>
-            <button onclick="editarProyecto(${proyecto.id_proyecto})">Editar</button>
-            <button onclick="finalizarProyecto(${proyecto.id_proyecto})">Finalizar</button>
-        </td>
-    `;
-
-    tbody.appendChild(row);
-}
-
-// Función para gestionar un proyecto (agregar o editar)
-function gestionarProyecto(id = null) {
-    const proyecto = obtenerDatosProyecto();
-    if (!proyecto) {
-        alert("Por favor, complete todos los campos.");
-        return;
-    }
-
-    if (id === null) {
-        // Agregar un nuevo proyecto
-        proyecto.id_proyecto = proyectos.length + 1;
-        proyectos.push(proyecto);
-        agregarProyectoATabla(proyecto);
     } else {
-        // Editar un proyecto existente
-        const proyectoIndex = proyectos.findIndex((p) => p.id_proyecto === id);
-        if (proyectoIndex !== -1) {
-            proyectos[proyectoIndex] = proyecto;
-            // No necesitas la función actualizarFilaProyecto, ya que no se define en el código proporcionado
-            // Si existe, debes agregarla y usarla aquí
-        }
-    }
-
-    limpiarFormulario();
-    ocultarFormulario();
-}
-
-// Función para editar un proyecto existente
-function editarProyecto(id) {
-    const proyecto = proyectos.find((p) => p.id_proyecto === id);
-    if (proyecto) {
-        // Llena el formulario con los datos del proyecto
-        document.getElementById('id_proyecto').value = proyecto.id_proyecto;
-        const campos = ["nombre_proyecto", "descripcion", "cliente", "desarrollador", "fecha_inicio", "fecha_entrega_estimada", "estado"];
-        for (const campo of campos) {
-            document.getElementById(campo).value = proyecto[campo];
-        }
-
-        // Cambia el texto del botón a "Editar"
-        document.getElementById('btnAgregarEditarProyecto').textContent = 'Editar';
-
-        // Muestra el formulario
-        document.getElementById('nuevoProyectoForm').style.display = 'block';
+        console.error("El elemento con id 'nuevoProyectoForm' no se encontró.");
     }
 }
 
-// Función para finalizar un proyecto con confirmación
+// Función para ocultar el formulario y mostrar la tabla y el botón "Agregar Nuevo Proyecto"
+function ocultarFormulario() {
+    document.getElementById("tablaProyectos").style.display = "none";
+    document.getElementById("btnNuevoProyecto").style.display = "block"; // Mostrar el botón "Agregar Nuevo Proyecto"
+    document.getElementById("nuevoProyectoForm").style.display = "none"; // Ocultar el formulario
+    document.getElementById("btnAgregarEditarProyecto").textContent = "Agregar";
+    document.getElementById("id_proyecto_form").value = ""; // Limpiar el campo oculto de ID
+    document.getElementById("nombre_proyecto").value = "";
+    document.getElementById("descripcion").value = "";
+    document.getElementById("cliente").value = "";
+    document.getElementById("desarrollador").value = "";
+    document.getElementById("fecha_inicio").value = "";
+    document.getElementById("fecha_entrega_estimada").value = "";
+    document.getElementById("estado_form").value = "inicio";
+}
+
+// Función para mostrar el formulario de edición de proyecto
+function editarProyecto(id, nombre, descripcion, cliente, desarrollador, fechaInicio, fechaEntrega, estado) {
+    mostrarFormulario();
+    document.getElementById("btnAgregarEditarProyecto").textContent = "Editar";
+    document.getElementById("id_proyecto_form").value = id;
+    document.getElementById("nombre_proyecto").value = nombre;
+    document.getElementById("descripcion").value = descripcion;
+    document.getElementById("cliente").value = cliente;
+    document.getElementById("desarrollador").value = desarrollador;
+    document.getElementById("fecha_inicio").value = fechaInicio;
+    document.getElementById("fecha_entrega_estimada").value = fechaEntrega;
+    document.getElementById("estado_form").value = estado;
+}
+
+// Función para eliminar una fila de proyecto de la tabla
+function eliminarProyecto(id) {
+    var confirmar = confirm("¿Estás seguro de que deseas eliminar este proyecto?");
+    if (confirmar) {
+        // Eliminar la fila de la tabla
+        document.getElementById("filaProyecto_" + id).remove();
+    }
+}
+
+// Función para finalizar un proyecto
 function finalizarProyecto(id) {
-    const proyecto = proyectos.find((p) => p.id_proyecto === id);
-    if (proyecto) {
-        // Mostrar un mensaje de confirmación
-        const confirmar = window.confirm(`¿Estás seguro de que deseas finalizar el proyecto "${proyecto.nombre_proyecto}"?`);
-        if (confirmar) {
-            // Eliminar el proyecto de la lista de proyectos
-            const proyectoIndex = proyectos.indexOf(proyecto);
-            if (proyectoIndex !== -1) {
-                proyectos.splice(proyectoIndex, 1);
-            }
-
-            // Eliminar la fila de la tabla
-            const fila = document.getElementById(`proyecto-${id}`);
-            if (fila) {
-                fila.remove();
-            }
-        }
+    var confirmar = confirm("¿Estás seguro de que deseas finalizar este proyecto?");
+    if (confirmar) {
+        // Aquí deberías implementar la lógica para finalizar el proyecto
+        // y actualizar la tabla si es necesario.
+        alert("El proyecto se ha finalizado con éxito."); // Mensaje de confirmación
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
-    const nuevoProyectoForm = document.getElementById('nuevoProyectoForm');
+// Evento click para el botón "Agregar Nuevo Proyecto"
+document.getElementById("btnNuevoProyecto").addEventListener("click", mostrarFormulario);
 
-    btnNuevoProyecto.addEventListener('click', function () {
-        // Cambiar el estado de visibilidad del formulario
-        nuevoProyectoForm.style.display = nuevoProyectoForm.style.display === 'none' ? 'block' : 'none';
-
-        // Limpiar el campo oculto del ID del proyecto
-        document.getElementById('id_proyecto').value = '';
-
-        // Cambiar el texto del botón de "Guardar" a "Agregar" si el formulario se muestra
-        document.getElementById('btnAgregarEditarProyecto').textContent = nuevoProyectoForm.style.display === 'none' ? 'Agregar' : 'Guardar';
+// Eventos para los botones "Editar" y "Finalizar" en cada fila de proyecto
+document.querySelectorAll("button[data-action='editar']").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        var nombre = btn.getAttribute("data-nombre");
+        var descripcion = btn.getAttribute("data-descripcion");
+        var cliente = btn.getAttribute("data-cliente");
+        var desarrollador = btn.getAttribute("data-desarrollador");
+        var fechaInicio = btn.getAttribute("data-fecha-inicio");
+        var fechaEntrega = btn.getAttribute("data-fecha-entrega");
+        var estado = btn.getAttribute("data-estado");
+        editarProyecto(id, nombre, descripcion, cliente, desarrollador, fechaInicio, fechaEntrega, estado);
     });
+});
 
-    const btnAgregarEditarProyecto = document.getElementById('btnAgregarEditarProyecto');
+document.querySelectorAll("button[data-action='finalizar']").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        finalizarProyecto(id);
+    });
+});
 
-    btnAgregarEditarProyecto.addEventListener('click', function () {
-        const proyectoId = document.getElementById('id_proyecto').value;
+// Evento click para el botón "Agregar" o "Editar" en el formulario
+document.getElementById("btnAgregarEditarProyecto").addEventListener("click", function () {
+    var nombre = document.getElementById("nombre_proyecto").value;
+    var descripcion = document.getElementById("descripcion").value;
+    var cliente = document.getElementById("cliente").value;
+    var desarrollador = document.getElementById("desarrollador").value;
+    var fechaInicio = document.getElementById("fecha_inicio").value;
+    var fechaEntrega = document.getElementById("fecha_entrega_estimada").value;
+    var estado = document.getElementById("estado_form").value;
 
-        if (proyectoId === '') {
-            gestionarProyecto(); // Agregar un nuevo proyecto
-        } else {
-            gestionarProyecto(parseInt(proyectoId)); // Editar un proyecto existente
+    if (nombre === "" || descripcion === "" || cliente === "" || desarrollador === "" || fechaInicio === "" || fechaEntrega === "") {
+        alert("¡Atención! Debes completar todos los campos.");
+    } else {
+        var mensaje = document.getElementById("btnAgregarEditarProyecto").textContent === "Agregar" ? "¿Estás seguro de que deseas agregar este proyecto?" : "¿Estás seguro de que deseas editar este proyecto?";
+        var confirmar = confirm(mensaje);
+        if (confirmar) {
+            ocultarFormulario();
+            alert("La acción se realizó con éxito."); // Mensaje de confirmación
         }
-    });
+    }
+});
 
+// Evento click para los botones "Finalizar"
+document.querySelectorAll("button[data-action='finalizar']").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+        var id = btn.getAttribute("data-id");
+        finalizarProyecto(id);
+    });
 });

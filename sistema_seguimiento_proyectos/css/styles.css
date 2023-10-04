@@ -284,10 +284,9 @@ a {
   margin-top: 80px;
   padding: 2rem;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
   flex-direction: column;
   gap: 20px;
+  align-items: center;
 }
 
 .project-container {
@@ -373,28 +372,34 @@ a {
 }
 
 /* ========== Tabla de Proyectos ========== */
-table {
+.tabla {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.tabla table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
 }
 
-th, td {
+.tabla th,
+.tabla td {
   padding: 10px;
   text-align: center;
   font-weight: bold;
 }
 
-th {
+.tabla th {
   background-color: black;
   color: white;
 }
 
-tr:nth-child(even) {
+.tabla tr:nth-child(even) {
   background-color: #f5f5f5;
 }
 
-tr:nth-child(odd) {
+.tabla tr:nth-child(odd) {
   background-color: white;
 }
 

@@ -19,49 +19,69 @@ function conectarBaseDeDatos()
 // Establecer la conexión a la base de datos
 $pdo = conectarBaseDeDatos();
 
+// Función para agregar un nuevo proyecto
+function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("INSERT INTO proyectos (nombre_proyecto, descripcion, cliente, desarrollador, fecha_inicio, fecha_entrega_estimada, estado) VALUES (:nombre, :descripcion, :cliente, :desarrollador, :fechaInicio, :fechaEntrega, :estado)");
+    $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+    $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
+    $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
+    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $stmt->bindParam(":fechaEntrega", $fechaEntrega, PDO::PARAM_STR);
+    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+    $stmt->execute();
+}
+
+// Función para editar un proyecto existente
+function editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE proyectos SET nombre_proyecto = :nombre, descripcion = :descripcion, cliente = :cliente, desarrollador = :desarrollador, fecha_inicio = :fechaInicio, fecha_entrega_estimada = :fechaEntrega, estado = :estado WHERE id_proyecto = :id");
+    $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+    $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
+    $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
+    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $stmt->bindParam(":fechaEntrega", $fechaEntrega, PDO::PARAM_STR);
+    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+// Función para finalizar un proyecto (no afecta a la base de datos, solo en la interfaz de usuario)
+function finalizarProyecto($id)
+{
+    echo "Proyecto eliminado con ID: $id";
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Procesar el formulario para agregar o editar proyectos
-    if (isset($_POST["id_proyecto"])) {
-        // Editar proyecto existente
-        $id_proyecto = $_POST["id_proyecto"];
-        $nombre_proyecto = $_POST["nombre_proyecto"];
+    if (isset($_POST["agregar_proyecto"])) {
+        // Procesar formulario para agregar proyecto
+        $nombre = $_POST["nombre_proyecto"];
         $descripcion = $_POST["descripcion"];
         $cliente = $_POST["cliente"];
         $desarrollador = $_POST["desarrollador"];
-        $fecha_inicio = $_POST["fecha_inicio"];
-        $fecha_entrega_estimada = $_POST["fecha_entrega_estimada"];
+        $fechaInicio = $_POST["fecha_inicio"];
+        $fechaEntrega = $_POST["fecha_entrega_estimada"];
         $estado = $_POST["estado"];
-
-        $stmt = $pdo->prepare("UPDATE proyectos SET nombre_proyecto = :nombre_proyecto, descripcion = :descripcion, cliente = :cliente, desarrollador = :desarrollador, fecha_inicio = :fecha_inicio, fecha_entrega_estimada = :fecha_entrega_estimada, estado = :estado WHERE id_proyecto = :id_proyecto");
-        $stmt->bindParam(":nombre_proyecto", $nombre_proyecto, PDO::PARAM_STR);
-        $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-        $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
-        $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_inicio", $fecha_inicio, PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_entrega_estimada", $fecha_entrega_estimada, PDO::PARAM_STR);
-        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
-        $stmt->bindParam(":id_proyecto", $id_proyecto, PDO::PARAM_INT);
-        $stmt->execute();
-    } else {
-        // Agregar nuevo proyecto
-        $nombre_proyecto = $_POST["nombre_proyecto"];
+        agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
+    } elseif (isset($_POST["editar_proyecto"])) {
+        // Procesar formulario para editar proyecto
+        $id = $_POST["id_proyecto"];
+        $nombre = $_POST["nombre_proyecto"];
         $descripcion = $_POST["descripcion"];
         $cliente = $_POST["cliente"];
         $desarrollador = $_POST["desarrollador"];
-        $fecha_inicio = $_POST["fecha_inicio"];
-        $fecha_entrega_estimada = $_POST["fecha_entrega_estimada"];
+        $fechaInicio = $_POST["fecha_inicio"];
+        $fechaEntrega = $_POST["fecha_entrega_estimada"];
         $estado = $_POST["estado"];
-
-        // Realizar la inserción en la base de datos
-        $stmt = $pdo->prepare("INSERT INTO proyectos (nombre_proyecto, descripcion, cliente, desarrollador, fecha_inicio, fecha_entrega_estimada, estado) VALUES (:nombre_proyecto, :descripcion, :cliente, :desarrollador, :fecha_inicio, :fecha_entrega_estimada, :estado)");
-        $stmt->bindParam(":nombre_proyecto", $nombre_proyecto, PDO::PARAM_STR);
-        $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-        $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
-        $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_inicio", $fecha_inicio, PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_entrega_estimada", $fecha_entrega_estimada, PDO::PARAM_STR);
-        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
-        $stmt->execute();
+        editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
+    } elseif (isset($_POST["finalizar_proyecto"])) {
+        // Procesar formulario para finalizar proyecto
+        $id = $_POST["id_proyecto"];
+        finalizarProyecto($id);
     }
 }
 
@@ -108,20 +128,20 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <table>
             <thead>
                 <tr>
-                    <th>ID del Proyecto</th>
+                    <th>ID</th>
                     <th>Nombre del Proyecto</th>
                     <th>Descripción</th>
                     <th>Cliente</th>
                     <th>Desarrollador</th>
                     <th>Fecha de Inicio</th>
-                    <th>Fecha Estimada de Finalización</th>
+                    <th>Fecha de Finalización Estimada</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($proyectos as $proyecto) { ?>
-                    <tr>
+                    <tr id="filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>">
                         <td><?php echo $proyecto["id_proyecto"]; ?></td>
                         <td><?php echo $proyecto["nombre_proyecto"]; ?></td>
                         <td><?php echo $proyecto["descripcion"]; ?></td>
@@ -130,7 +150,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $proyecto["fecha_inicio"]; ?></td>
                         <td><?php echo $proyecto["fecha_entrega_estimada"]; ?></td>
                         <td>
-                            <select name="estado" id="estado">
+                            <select name="estado" id="estado_<?php echo $proyecto["id_proyecto"]; ?>">
                                 <option value="inicio" <?php if ($proyecto["estado"] == 'inicio') echo 'selected'; ?>>Inicio</option>
                                 <option value="planificacion" <?php if ($proyecto["estado"] == 'planificacion') echo 'selected'; ?>>Planificación</option>
                                 <option value="ejecucion" <?php if ($proyecto["estado"] == 'ejecucion') echo 'selected'; ?>>Ejecución</option>
@@ -139,8 +159,8 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </select>
                         </td>
                         <td>
-                            <button onclick="editarProyecto(<?php echo $proyecto["id_proyecto"]; ?>)">Editar</button>
-                            <button onclick="finalizarProyecto(<?php echo $proyecto["id_proyecto"]; ?>)">Finalizar</button>
+                            <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fecha-inicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fecha-entrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
+                            <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>">Finalizar</button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -151,7 +171,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h2>Nuevo Proyecto</h2>
             <form method="POST">
                 <!-- Agrega un campo oculto para almacenar el ID del proyecto en caso de edición -->
-                <input type="hidden" class="input" id="id_proyecto" name="id_proyecto">
+                <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
                 <label for="nombre_proyecto" class="input">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
                 <label for="descripcion" class="input">Descripción:</label>
@@ -162,10 +182,10 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <input type="text" class="input" id="desarrollador" name="desarrollador" required>
                 <label for="fecha_inicio" class="input">Fecha de Inicio:</label>
                 <input type="date" class="input" id="fecha_inicio" name="fecha_inicio" required>
-                <label for="fecha_entrega_estimada" class="input">Fecha Estimada de Finalización:</label>
+                <label for="fecha_entrega_estimada" class="input">Fecha de Finalización Estimada:</label>
                 <input type="date" class="input" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required>
                 <label for="estado" class="input">Estado:</label>
-                <select name="estado" class="input" id="estado" required>
+                <select name="estado" class="input" id="estado_form" required>
                     <option value="inicio">Inicio</option>
                     <option value="planificacion">Planificación</option>
                     <option value="ejecucion">Ejecución</option>
@@ -173,7 +193,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <option value="cierre">Cierre</option>
                 </select>
                 <!-- Botón para agregar o editar proyectos -->
-                <button type="submit" class="input_btn" id="btnAgregarEditarProyecto">Agregar</button>
+                <button type="submit" class="input_btn" id="btnAgregarEditarProyecto" name="agregar_proyecto">Agregar</button>
             </form>
         </div>
     </main>
