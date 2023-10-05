@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 // Función para conectar a la base de datos
 include('../php/conn.php');
 
@@ -72,6 +75,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// Función para cambiar el estado de un proyecto
+function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE proyectos SET estado = :nuevoEstado WHERE id_proyecto = :idProyecto");
+    $stmt->bindParam(":nuevoEstado", $nuevoEstado, PDO::PARAM_STR);
+    $stmt->bindParam(":idProyecto", $idProyecto, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["nuevo_estado"])) {
+        $idProyecto = $_POST["id_proyecto"];
+        $nuevoEstado = $_POST["nuevo_estado"];
+        cambiarEstadoProyecto($idProyecto, $nuevoEstado);
+    }
+}
+
 // Consultar proyectos existentes
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();
@@ -129,7 +150,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </thead>
             <tbody>
                 <?php foreach ($proyectos as $proyecto) { ?>
-                    <tr id=" filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>">
+                    <tr id="filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>">
                         <td><?php echo $proyecto["id_proyecto"]; ?></td>
                         <td><?php echo $proyecto["nombre_proyecto"]; ?></td>
                         <td><?php echo $proyecto["descripcion"]; ?></td>
@@ -138,16 +159,20 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo $proyecto["fecha_inicio"]; ?></td>
                         <td><?php echo $proyecto["fecha_entrega_estimada"]; ?></td>
                         <td>
-                            <select name="estado" id="estado_<?php echo $proyecto["id_proyecto"]; ?>">
-                                <option value="inicio" <?php if ($proyecto["estado"] == 'inicio') echo 'selected'; ?>>Inicio</option>
-                                <option value="planificacion" <?php if ($proyecto["estado"] == 'planificacion') echo 'selected'; ?>>Planificación</option>
-                                <option value="ejecucion" <?php if ($proyecto["estado"] == 'ejecucion') echo 'selected'; ?>>Ejecución</option>
-                                <option value="supervision" <?php if ($proyecto["estado"] == 'supervision') echo 'selected'; ?>>Supervisión</option>
-                                <option value="cierre" <?php if ($proyecto["estado"] == 'cierre') echo 'selected'; ?>>Cierre</option>
-                            </select>
+                            <form method="POST" class="select">
+                                <input type="hidden" name="id_proyecto" value="<?php echo $proyecto["id_proyecto"]; ?>">
+                                <select name="nuevo_estado" class="select" onchange="this.form.submit()">
+                                    <option class="input" value="inicio" <?php echo ($proyecto["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
+                                    <option class="input" value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
+                                    <option class="input" value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
+                                    <option class="input" value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
+                                    <option class="input" value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
+                                </select>
+                            </form>
                         </td>
                         <td>
-                            <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fecha-inicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fecha-entrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
+                            <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
+                            <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>">Finalizar</button>
                         </td>
                     </tr>

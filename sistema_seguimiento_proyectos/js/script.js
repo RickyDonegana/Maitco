@@ -52,20 +52,6 @@ btnNuevoProyecto.addEventListener('click', () => {
     alternarFormularioYTabla();
 });
 
-// Agregar evento al botón de "Cancelar" en el formulario
-const btnCancelar = document.getElementById('btnCancelar');
-btnCancelar.addEventListener('click', () => {
-    // Llama a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
-});
-
-// Agregar evento al botón "Agregar" o "Editar" en el formulario
-btnAgregarEditarProyecto.addEventListener('click', () => {
-    // Tu lógica para agregar o editar el proyecto en la base de datos debe ir aquí
-    // Después de realizar la acción, puedes llamar a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
-});
-
 // Event listener para botones "Editar" en la tabla de proyectos
 tablaProyectos.addEventListener('click', (event) => {
     if (event.target.dataset.action === 'editar') {
@@ -91,19 +77,29 @@ tablaProyectos.addEventListener('click', (event) => {
     }
 });
 
-// Función para eliminar el proyecto de la tabla en la interfaz de usuario
+// Función para finalizar el proyecto en la interfaz de usuario y actualizar su estado en la base de datos
 function finalizarProyecto(idProyecto) {
-    // Mostrar un mensaje de confirmación antes de finalizar
-    const confirmacion = confirm('¿Está seguro de que desea finalizar este proyecto?');
+    // Obtener el estado actual del proyecto
+    const estadoProyectoInput = document.getElementById(`estado_${idProyecto}`);
+    if (!estadoProyectoInput) {
+        console.error(`No se encontró el elemento de estado para el proyecto con ID ${idProyecto}`);
+        return;
+    }
+    
+    const estadoProyecto = estadoProyectoInput.value;
 
-    if (confirmacion) {
-        // Eliminar el proyecto de la tabla en la interfaz de usuario
+    // Verificar si el estado es "cierre" o si se confirma finalizar el proyecto
+    if (estadoProyecto === 'cierre' || confirm('¿Está seguro de que desea finalizar este proyecto? Esta acción ocultará el proyecto en el sistema web, pero no lo eliminará de la base de datos.')) {
+        // Ocultar el proyecto de la tabla en la interfaz de usuario
         const filaProyecto = document.getElementById(`filaProyecto_${idProyecto}`);
         if (filaProyecto) {
-            filaProyecto.remove();
-            alert('El proyecto se ha eliminado de la tabla en la interfaz de usuario.');
-        } else {
-            alert('No se pudo encontrar el proyecto en la tabla.');
+            filaProyecto.style.display = 'none'; // Ocultar la fila en lugar de eliminarla
         }
+
+        // Cambiar el estado del proyecto a "cierre" en la base de datos (puedes implementar esto mediante una solicitud al servidor)
+        // Actualizar el estado del proyecto en la interfaz de usuario
+        estadoProyectoInput.value = 'cierre';
+
+        alert('El proyecto se ha finalizado y se ha ocultado en el sistema web.');
     }
 }
