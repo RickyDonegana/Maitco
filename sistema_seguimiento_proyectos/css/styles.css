@@ -163,13 +163,6 @@ a {
   margin-bottom: var(--mb-0-5);
 }
 
-.input__label {
-  font-size: var(--fs-1);
-  font-weight: var(--font-regular);
-  color: var(--text-color);
-  margin-bottom: var(--mb-1-5);
-}
-
 .input__field {
   width: 100%;
   outline: none;
@@ -283,7 +276,8 @@ a {
 }
 
 .user-icon img {
-  width: 30px;
+  width: 15px;
+  height: 15px;
 }
 
 /* ========== Main Content ========== */

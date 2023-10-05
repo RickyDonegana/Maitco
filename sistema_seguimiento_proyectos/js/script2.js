@@ -12,29 +12,12 @@ const desarrolladorInput = document.getElementById('desarrollador');
 const fechaInicioInput = document.getElementById('fecha_inicio');
 const fechaEntregaEstimadaInput = document.getElementById('fecha_entrega_estimada');
 
-// Variable para rastrear si el formulario está visible
-let formularioVisible = false;
-
-// Función para alternar la visibilidad del formulario y la tabla
-function alternarFormularioYTabla() {
-    if (formularioVisible) {
-        // Si el formulario está visible, ocultarlo y mostrar la tabla
-        nuevoProyectoForm.style.display = 'none';
-        tablaProyectos.style.display = 'table';
-        btnNuevoProyecto.textContent = 'Agregar Nuevo Proyecto';
-    } else {
-        // Si el formulario está oculto, mostrarlo y ocultar la tabla
-        nuevoProyectoForm.style.display = 'block';
-        tablaProyectos.style.display = 'none';
-        btnNuevoProyecto.textContent = 'Mostrar Proyectos'; // Cambia el texto del botón
-    }
-
-    // Cambiar el estado del formularioVisible
-    formularioVisible = !formularioVisible;
-}
-
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
+    // Ocultar la tabla de proyectos y mostrar el formulario
+    tablaProyectos.style.display = 'none';
+    nuevoProyectoForm.style.display = 'block';
+
     // Limpiar los campos del formulario
     idProyectoForm.value = '';
     nombreProyectoInput.value = '';
@@ -47,29 +30,47 @@ btnNuevoProyecto.addEventListener('click', () => {
 
     // Cambiar el texto del botón del formulario a "Agregar"
     btnAgregarEditarProyecto.innerText = 'Agregar';
-
-    // Llama a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
 });
 
-// Agregar evento al botón de "Cancelar" en el formulario
-const btnCancelar = document.getElementById('btnCancelar');
-btnCancelar.addEventListener('click', () => {
-    // Llama a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
-});
+// Agregar evento para el botón "Agregar" del formulario
+btnAgregarEditarProyecto.addEventListener('click', (event) => {
+    event.preventDefault(); // Evitar que se envíe el formulario
 
-// Agregar evento al botón "Agregar" o "Editar" en el formulario
-btnAgregarEditarProyecto.addEventListener('click', () => {
-    // Tu lógica para agregar o editar el proyecto en la base de datos debe ir aquí
-    // Después de realizar la acción, puedes llamar a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
+    // Validar que todos los campos estén completos
+    if (
+        nombreProyectoInput.value.trim() === '' ||
+        descripcionInput.value.trim() === '' ||
+        clienteInput.value.trim() === '' ||
+        desarrolladorInput.value.trim() === '' ||
+        fechaInicioInput.value.trim() === '' ||
+        fechaEntregaEstimadaInput.value.trim() === ''
+    ) {
+        alert('¡Atención! Por favor, complete todos los campos.');
+        return;
+    }
+
+    // Mostrar mensaje de confirmación
+    const confirmacion = confirm(
+        `¿Está seguro de que desea ${idProyectoForm.value ? 'editar' : 'agregar'
+        } este proyecto?`
+    );
+
+    if (confirmacion) {
+        // Ocultar el formulario y mostrar la tabla de proyectos
+        nuevoProyectoForm.style.display = 'none';
+        tablaProyectos.style.display = 'table';
+
+        // Cambiar el texto del botón "Agregar Nuevo Proyecto" a "Editar"
+        btnNuevoProyecto.innerText = 'Editar Proyecto';
+
+        // Aquí puedes enviar el formulario o realizar otras acciones según tu lógica
+    }
 });
 
 // Event listener para botones "Editar" en la tabla de proyectos
 tablaProyectos.addEventListener('click', (event) => {
     if (event.target.dataset.action === 'editar') {
-        // Mostrar el formulario para editar proyectos
+        // Ocultar la tabla de proyectos y mostrar el formulario para editar proyectos
         tablaProyectos.style.display = 'none';
         nuevoProyectoForm.style.display = 'block';
 
@@ -88,22 +89,23 @@ tablaProyectos.addEventListener('click', (event) => {
     } else if (event.target.dataset.action === 'finalizar') {
         // Marcar el proyecto como finalizado en la interfaz de usuario (puedes personalizar esta parte)
         const idProyecto = event.target.dataset.id;
+
+        // Mostrar mensaje de confirmación
+        const confirmacion = confirm(
+            `¿Está seguro de que desea finalizar este proyecto?`
+        );
+
+        if (confirmacion) {
+            finalizarProyecto(idProyecto);
+        }
     }
 });
 
-// Función para eliminar el proyecto de la tabla en la interfaz de usuario
+// Función para marcar el proyecto como finalizado en la interfaz de usuario (puedes personalizar esto)
 function finalizarProyecto(idProyecto) {
-    // Mostrar un mensaje de confirmación antes de finalizar
-    const confirmacion = confirm('¿Está seguro de que desea finalizar este proyecto?');
-
-    if (confirmacion) {
-        // Eliminar el proyecto de la tabla en la interfaz de usuario
-        const filaProyecto = document.getElementById(`filaProyecto_${idProyecto}`);
-        if (filaProyecto) {
-            filaProyecto.remove();
-            alert('El proyecto se ha eliminado de la tabla en la interfaz de usuario.');
-        } else {
-            alert('No se pudo encontrar el proyecto en la tabla.');
-        }
+    // Eliminar el proyecto de la tabla
+    const filaProyecto = document.getElementById(`filaProyecto_${idProyecto}`);
+    if (filaProyecto) {
+        filaProyecto.remove();
     }
 }

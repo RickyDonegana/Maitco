@@ -6,53 +6,54 @@ USE ssp_db;
 
 -- Tabla de Roles
 CREATE TABLE IF NOT EXISTS roles (
-    role_id INT AUTO_INCREMENT PRIMARY KEY,
-    role_name VARCHAR(50) NOT NULL
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_rol VARCHAR(50) NOT NULL
 );
 
 -- Insertar roles iniciales
-INSERT INTO roles (role_name) VALUES
+INSERT INTO roles (nombre_rol) VALUES
     ('Cliente'),
     ('Desarrollador de sitios');
 
 -- Tabla de Usuarios
 CREATE TABLE IF NOT EXISTS usuarios (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    user_role ENUM('Cliente', 'Desarrollador de sitios') NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    rol_usuario ENUM('Cliente', 'Desarrollador de sitios') NOT NULL,
+    correo_electronico VARCHAR(255) NOT NULL UNIQUE,
     registro_completo TINYINT(1) NOT NULL DEFAULT 0,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabla de Proyectos
 CREATE TABLE IF NOT EXISTS proyectos (
-    project_id INT AUTO_INCREMENT PRIMARY KEY,
-    project_name VARCHAR(255) NOT NULL,
-    description TEXT,
-    client VARCHAR(100),
-    developer VARCHAR(100),
-    start_date DATE NOT NULL,
-    estimated_delivery_date DATE NOT NULL
+    id_proyecto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_proyecto VARCHAR(255) NOT NULL,
+    descripcion TEXT,
+    cliente VARCHAR(100),
+    desarrollador VARCHAR(100),
+    fecha_inicio DATE NOT NULL,
+    fecha_entrega_estimada DATE NOT NULL,
+    estado VARCHAR(50) NOT NULL
 );
 
 -- Tabla de Etapas del Proyecto
 CREATE TABLE IF NOT EXISTS etapas_proyecto (
-    stage_id INT AUTO_INCREMENT PRIMARY KEY,
-    project_id INT NOT NULL,
-    stage_name VARCHAR(255) NOT NULL,
+    id_etapa INT AUTO_INCREMENT PRIMARY KEY,
+    id_proyecto INT NOT NULL,
+    nombre_etapa VARCHAR(255) NOT NULL,
     color VARCHAR(20) NOT NULL,
-    FOREIGN KEY (project_id) REFERENCES proyectos (project_id)
+    FOREIGN KEY (id_proyecto) REFERENCES proyectos (id_proyecto)
 );
 
 -- Tabla de Cambios en el Proyecto
 CREATE TABLE IF NOT EXISTS cambios_proyecto (
-    change_id INT AUTO_INCREMENT PRIMARY KEY,
-    stage_id INT NOT NULL,
-    user_id INT NOT NULL,
-    change_date DATETIME NOT NULL,
-    change_description TEXT NOT NULL,
-    FOREIGN KEY (stage_id) REFERENCES etapas_proyecto (stage_id),
-    FOREIGN KEY (user_id) REFERENCES usuarios (user_id)
+    id_cambio INT AUTO_INCREMENT PRIMARY KEY,
+    id_etapa INT NOT NULL,
+    id_usuario INT NOT NULL,
+    fecha_cambio DATETIME NOT NULL,
+    descripcion_cambio TEXT NOT NULL,
+    FOREIGN KEY (id_etapa) REFERENCES etapas_proyecto (id_etapa),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
 );
