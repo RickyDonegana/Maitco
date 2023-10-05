@@ -15,3 +15,6 @@ function conectarBaseDeDatos()
         die("Error de conexión: " . $e->getMessage());
     }
 }
+
+// Establecer la conexión a la base de datos
+$pdo = conectarBaseDeDatos();

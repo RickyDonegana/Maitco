@@ -1,9 +1,9 @@
 <?php
 // Función para conectar a la base de datos
 include('../php/conn.php');
-//include ('ruta del archivo');
-// Establecer la conexión a la base de datos
-$pdo = conectarBaseDeDatos();
+
+// Función para conectar a la base de datos
+include('../php/usuario.php');
 
 // Función para agregar un nuevo proyecto
 function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
