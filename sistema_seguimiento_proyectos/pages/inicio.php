@@ -1,37 +1,9 @@
 <?php
 // Función para conectar a la base de datos
-function conectarBaseDeDatos()
-{
-    $host = "localhost";
-    $usuario = "root";
-    $contrasena = "";
-    $base_de_datos = "ssp_db";
+include('../php/conn.php');
 
-    try {
-        return new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
-    }
-}
-
-// Establecer la conexión a la base de datos
-$pdo = conectarBaseDeDatos();
-
-// Inicia la sesión si aún no se ha iniciado
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Obtener el nombre de usuario del usuario actual
-if (isset($_SESSION["id_usuario"])) {
-    $stmt = $pdo->prepare("SELECT nombre_usuario FROM usuarios WHERE id_usuario = :id_usuario");
-    $stmt->bindParam(":id_usuario", $_SESSION["id_usuario"], PDO::PARAM_INT);
-    $stmt->execute();
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-    $nombreUsuario = $usuario["nombre_usuario"];
-}
+// Función para conectar a la base de datos
+include('../php/usuario.php');
 
 // Obtener la lista de proyectos
 $stmtProyectos = $pdo->query("SELECT * FROM proyectos");
@@ -40,6 +12,7 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +21,7 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 </head>
+
 <body>
     <!-- Encabezado de la página con menú fijo -->
     <header class="header">
@@ -69,21 +43,22 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
     </header>
 
     <main class="main-content">
-    <section class="project-container">
-        <!-- Contenido principal con proyectos -->
-        <?php foreach ($proyectos as $proyecto) : ?>
-            <div class="project-box">
-                <h3 class="project-title"><?php echo $proyecto["nombre_proyecto"]; ?></h3>
-                <p class="project-description"><?php echo $proyecto["descripcion"]; ?></p>
-                <p class="project-dates">
-                    Fecha de Inicio: <?php echo $proyecto["fecha_inicio"]; ?><br>
-                    Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
-                    Cliente: <?php echo $proyecto["cliente"]; ?><br>
-                    Desarrollador: <?php echo $proyecto["desarrollador"]; ?>
-                </p>
-            </div>
-        <?php endforeach; ?>
-    </section>
-</main>
+        <section class="project-container">
+            <!-- Contenido principal con proyectos -->
+            <?php foreach ($proyectos as $proyecto) : ?>
+                <div class="project-box">
+                    <h3 class="project-title"><?php echo $proyecto["nombre_proyecto"]; ?></h3>
+                    <p class="project-description"><?php echo $proyecto["descripcion"]; ?></p>
+                    <p class="project-dates">
+                        Cliente: <?php echo $proyecto["cliente"]; ?><br>
+                        Desarrollador: <?php echo $proyecto["desarrollador"]; ?><br>
+                        Fecha de Inicio: <?php echo $proyecto["fecha_inicio"]; ?><br>
+                        Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
+                    </p>
+                </div>
+            <?php endforeach; ?>
+        </section>
+    </main>
 </body>
+
 </html>
