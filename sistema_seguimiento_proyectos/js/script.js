@@ -75,55 +75,34 @@ tablaProyectos.addEventListener('click', (event) => {
     }
 });
 
-// Función para finalizar el proyecto en la interfaz de usuario y actualizar su estado en la base de datos
+// Función para finalizar un proyecto
 function finalizarProyecto(idProyecto) {
-    // Obtener el estado actual del proyecto
-    const estadoProyectoInput = document.getElementById(`estado_${idProyecto}`);
-    if (!estadoProyectoInput) {
-        console.error(`No se encontró el elemento de estado para el proyecto con ID ${idProyecto}`);
-        return;
-    }
-
-    const estadoProyecto = estadoProyectoInput.value;
-
-    // Mostrar un mensaje de confirmación antes de finalizar
-    const confirmarFinalizacion = confirm('¿Está seguro de que desea finalizar este proyecto? Esta acción ocultará el proyecto en el sistema web, pero no lo eliminará de la base de datos.');
-
-    // Verificar si el estado no es "cierre" (proyecto no finalizado) y se confirma finalizar el proyecto
-    if (estadoProyecto !== 'cierre' && confirmarFinalizacion) {
-        // Ocultar el proyecto de la tabla en la interfaz de usuario
-        const filaProyecto = document.getElementById(`filaProyecto_${idProyecto}`);
-        if (filaProyecto) {
-            filaProyecto.style.display = 'none'; // Ocultar la fila en lugar de eliminarla
-        }
-
-        // Cambiar el estado del proyecto a "cierre" en la base de datos mediante una solicitud al servidor
-        fetch(`../php/proyectos.php?id=${idProyecto}`, {
-            method: 'POST',
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Actualizar el estado del proyecto en la interfaz de usuario
-                    estadoProyectoInput.value = 'cierre';
-
-                    alert('El proyecto se ha finalizado y se ha ocultado en el sistema web.');
+    // Mostrar un mensaje de advertencia antes de finalizar el proyecto
+    if (confirm("¿Estás seguro de que deseas finalizar este proyecto?")) {
+        // Realizar la solicitud AJAX para finalizar el proyecto
+        $.ajax({
+            type: "POST",
+            url: "../php/funcion_proyectos.php", // Reemplaza "ruta_correcta" con la ruta correcta de tu archivo PHP
+            data: { confirmar_finalizar_proyecto: true, id_proyecto: idProyecto }, // Agrega los datos necesarios
+            dataType: "json",
+            success: function (response) {
+                if (response.exito) {
+                    // Mostrar mensaje de éxito
+                    alert("Proyecto finalizado con éxito");
+                    location.reload(); // Recargar la página después de finalizar
                 } else {
-                    console.error('Error al actualizar el estado del proyecto.');
+                    alert("Error al finalizar el proyecto");
                 }
-            })
-            .catch(error => {
-                console.error('Error al realizar la solicitud:', error);
-            });
+            },
+            error: function () {
+                alert("Error al finalizar el proyecto");
+            }
+        });
     }
 }
 
-// Agrega un evento de clic a los botones "Finalizar" en la tabla de proyectos
-const botonesFinalizar = document.querySelectorAll('[data-action="finalizar"]');
-botonesFinalizar.forEach(boton => {
-    boton.addEventListener('click', () => {
-        const idProyecto = boton.dataset.id;
-        console.log('Botón "Finalizar" presionado para el proyecto con ID:', idProyecto);
-        finalizarProyecto(idProyecto);
-    });
+tablaProyectos.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'finalizar') {
+        finalizarProyecto(event.target.dataset.id);
+    }
 });

@@ -6,36 +6,6 @@ $pdo = conectarBaseDeDatos();
 
 require_once('../php/funcion_proyectos.php');
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["agregar_proyecto"])) {
-        // Procesar formulario para agregar proyecto
-        $nombre = $_POST["nombre_proyecto"];
-        $descripcion = $_POST["descripcion"];
-        $cliente = $_POST["cliente"];
-        $desarrollador = $_POST["desarrollador"];
-        $fechaInicio = $_POST["fecha_inicio"];
-        $fechaEntrega = $_POST["fecha_entrega_estimada"];
-        $estado = $_POST["estado"];
-        agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
-        header("Location: ../pages/proyectos.php");
-    } elseif (isset($_POST["editar_proyecto"])) {
-        // Procesar formulario para editar proyecto
-        $id = $_POST["id_proyecto"];
-        $nombre = $_POST["nombre_proyecto"];
-        $descripcion = $_POST["descripcion"];
-        $cliente = $_POST["cliente"];
-        $desarrollador = $_POST["desarrollador"];
-        $fechaInicio = $_POST["fecha_inicio"];
-        $fechaEntrega = $_POST["fecha_entrega_estimada"];
-        $estado = $_POST["estado"];
-        editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
-    } elseif (isset($_POST["finalizar_proyecto"])) {
-        // Procesar formulario para finalizar proyecto
-        $id = $_POST["id_proyecto"];
-        finalizarProyecto($id);
-    }
-}
-
 // Consultar proyectos existentes
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();
@@ -116,11 +86,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
-                            <?php
-                            if ($proyecto["estado"] !== 'cierre') {
-                                echo '<button data-action="finalizar" data-id="' . $proyecto["id_proyecto"] . '">Finalizar</button>';
-                            }
-                            ?>
+                            <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>">Finalizar</button>
                         </td>
                     </tr>
                 <?php } ?>
@@ -157,6 +123,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </form>
         </div>
     </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/script.js"></script>
 </body>
 
