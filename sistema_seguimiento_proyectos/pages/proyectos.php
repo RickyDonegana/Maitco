@@ -1,52 +1,10 @@
 <?php
-// Función para conectar a la base de datos
-include('../php/conn.php');
+require_once('../php/conn.php');
+require_once('../php/usuario.php');
 
-// Función para conectar a la base de datos
-include('../php/usuario.php');
+$pdo = conectarBaseDeDatos();
 
-// Función para agregar un nuevo proyecto
-function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
-{
-    global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO proyectos (nombre_proyecto, descripcion, cliente, desarrollador, fecha_inicio, fecha_entrega_estimada, estado) VALUES (:nombre, :descripcion, :cliente, :desarrollador, :fechaInicio, :fechaEntrega, :estado)");
-    $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
-    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-    $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
-    $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaEntrega", $fechaEntrega, PDO::PARAM_STR);
-    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
-    $stmt->execute();
-}
-
-// Función para editar un proyecto existente
-function editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
-{
-    global $pdo;
-    $stmt = $pdo->prepare("UPDATE proyectos SET nombre_proyecto = :nombre, descripcion = :descripcion, cliente = :cliente, desarrollador = :desarrollador, fecha_inicio = :fechaInicio, fecha_entrega_estimada = :fechaEntrega, estado = :estado WHERE id_proyecto = :id");
-    $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
-    $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-    $stmt->bindParam(":cliente", $cliente, PDO::PARAM_STR);
-    $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-    $stmt->bindParam(":fechaEntrega", $fechaEntrega, PDO::PARAM_STR);
-    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
-    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-    $stmt->execute();
-}
-
-// Función para finalizar un proyecto (actualiza el estado en la base de datos)
-function finalizarProyecto($id)
-{
-    global $pdo;
-    $stmt = $pdo->prepare("UPDATE proyectos SET estado = 'cierre' WHERE id_proyecto = :id");
-    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-    $stmt->execute();
-
-    // Redirige nuevamente a la página de proyectos después de la actualización
-    header("Location: ../pages/proyectos.php");
-}
+require_once('../php/funcion_proyectos.php');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["agregar_proyecto"])) {
@@ -75,24 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Procesar formulario para finalizar proyecto
         $id = $_POST["id_proyecto"];
         finalizarProyecto($id);
-    }
-}
-
-// Función para cambiar el estado de un proyecto
-function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
-{
-    global $pdo;
-    $stmt = $pdo->prepare("UPDATE proyectos SET estado = :nuevoEstado WHERE id_proyecto = :idProyecto");
-    $stmt->bindParam(":nuevoEstado", $nuevoEstado, PDO::PARAM_STR);
-    $stmt->bindParam(":idProyecto", $idProyecto, PDO::PARAM_INT);
-    $stmt->execute();
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["nuevo_estado"])) {
-        $idProyecto = $_POST["id_proyecto"];
-        $nuevoEstado = $_POST["nuevo_estado"];
-        cambiarEstadoProyecto($idProyecto, $nuevoEstado);
     }
 }
 

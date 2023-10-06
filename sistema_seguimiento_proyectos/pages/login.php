@@ -1,58 +1,8 @@
 <?php
-// Función para conectar a la base de datos
-function conectarBaseDeDatos()
-{
-    $host = "localhost";
-    $usuario = "root";
-    $contrasena = "";
-    $base_de_datos = "ssp_db";
-
-    try {
-        return new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
-    }
-}
-
-// Función para verificar las credenciales del usuario
-function verificarCredenciales($email, $contrasena)
-{
-    $pdo = conectarBaseDeDatos(); // Obtiene la conexión PDO
-    $stmt = $pdo->prepare("SELECT id_usuario, nombre_usuario, rol_usuario, contrasena FROM usuarios WHERE correo_electronico = :email");
-    $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-    $stmt->execute();
-    if ($stmt->rowCount() == 1) {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (password_verify($contrasena, $row["contrasena"])) {
-            return $row;
-        }
-    }
-    return false;
-}
-
-// Verifica si se envió el formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtiene los datos del formulario
-    $email = $_POST["email"];
-    $contrasena = $_POST["contrasena"];
-    // Verifica las credenciales del usuario
-    $usuario = verificarCredenciales($email, $contrasena);
-    if ($usuario) {
-        // Inicio de sesión exitoso
-        session_start();
-        $_SESSION["id_usuario"] = $usuario["id_usuario"];
-        $_SESSION["nombre_usuario"] = $usuario["nombre_usuario"];
-        $_SESSION["rol_usuario"] = $usuario["rol_usuario"];
-        header("Location: ../pages/inicio.php"); // Redirige al panel de control o página de inicio
-        exit; // Termina el script después de redirigir
-    } else {
-        // Error de inicio de sesión
-        $mensajeError = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
-    }
-}
+require_once('../php/conn.php');
+require_once('../php/funcion_login.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 

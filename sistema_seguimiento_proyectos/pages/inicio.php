@@ -1,9 +1,8 @@
 <?php
-// Función para conectar a la base de datos
-include('../php/conn.php');
+require_once('../php/conn.php');
+require_once('../php/usuario.php');
 
-// Función para conectar a la base de datos
-include('../php/usuario.php');
+$pdo = conectarBaseDeDatos();
 
 // Obtener la lista de proyectos
 $stmtProyectos = $pdo->query("SELECT * FROM proyectos");
@@ -38,7 +37,7 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
             <div class="user-icon">
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
             </div>
-            <span class="user-name"><?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?></span>
+            <span class="user-name"><?php echo htmlspecialchars($nombreUsuario, ENT_QUOTES, 'UTF-8'); ?></span>
         </nav>
     </header>
 
