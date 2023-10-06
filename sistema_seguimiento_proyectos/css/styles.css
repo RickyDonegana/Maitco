@@ -99,7 +99,7 @@ a {
   border: none;
 }
 
-.form__title {
+.form__tittle {
   align-items: center;
   margin: auto;
   text-align: center;
@@ -114,7 +114,7 @@ a {
   margin-right: 5px;
 }
 
-.title__form {
+.tittle__form {
   font-size: var(--fs-1-5);
   font-weight: var(--font-bold);
   text-transform: uppercase;

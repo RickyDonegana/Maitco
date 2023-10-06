@@ -6,7 +6,6 @@ include('../php/conn.php');
 function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
 {
     $pdo = conectarBaseDeDatos();
-
     try {
         $sql = "INSERT INTO proyectos (nombre_proyecto, descripcion, cliente, desarrollador, fecha_inicio, fecha_entrega_estimada, estado) VALUES (:nombre, :descripcion, :cliente, :desarrollador, :fechaInicio, :fechaEntrega, :estado)";
         $stmt = $pdo->prepare($sql);
@@ -29,7 +28,6 @@ function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fecha
 function editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
 {
     $pdo = conectarBaseDeDatos();
-
     try {
         $sql = "UPDATE proyectos SET nombre_proyecto = :nombre, descripcion = :descripcion, cliente = :cliente, desarrollador = :desarrollador, fecha_inicio = :fechaInicio, fecha_entrega_estimada = :fechaEntrega, estado = :estado WHERE id_proyecto = :id";
         $stmt = $pdo->prepare($sql);
@@ -53,7 +51,6 @@ function editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $f
 function finalizarProyecto($id)
 {
     $pdo = conectarBaseDeDatos();
-
     try {
         // Actualizar el estado del proyecto a "cierre"
         $sql = "UPDATE proyectos SET estado = 'cierre' WHERE id_proyecto = :id";
@@ -100,5 +97,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $estado = $_POST["estado"];
         editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
         exit;
+    }
+}
+
+// Función para cambiar el estado de un proyecto
+function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
+{
+    $pdo = conectarBaseDeDatos();
+    try {
+        $sql = "UPDATE proyectos SET estado = :nuevoEstado WHERE id_proyecto = :idProyecto";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":nuevoEstado", $nuevoEstado, PDO::PARAM_STR);
+        $stmt->bindParam(":idProyecto", $idProyecto, PDO::PARAM_INT);
+        $stmt->execute();
+
+        // Devuelve una respuesta JSON para confirmar el cambio de estado si es necesario
+        echo json_encode(["exito" => true]);
+    } catch (PDOException $e) {
+        // Manejar el error si es necesario
+        echo json_encode(["exito" => false, "mensaje" => "Error al cambiar el estado del proyecto: " . $e->getMessage()]);
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["nuevo_estado"]) && isset($_POST["id_proyecto"])) {
+        $idProyecto = $_POST["id_proyecto"];
+        $nuevoEstado = $_POST["nuevo_estado"];
+        cambiarEstadoProyecto($idProyecto, $nuevoEstado);
     }
 }

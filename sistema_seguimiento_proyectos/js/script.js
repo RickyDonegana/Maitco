@@ -106,3 +106,30 @@ tablaProyectos.addEventListener('click', (event) => {
         finalizarProyecto(event.target.dataset.id);
     }
 });
+
+// Función para cambiar el estado de un proyecto
+function cambiarEstado(idProyecto, nuevoEstado) {
+    if (confirm(`¿Estás seguro de que deseas cambiar el estado del proyecto a "${nuevoEstado}"?`)) {
+        $.ajax({
+            type: "POST",
+            url: "../php/funcion_proyectos.php",
+            data: {
+                nuevo_estado: true,
+                id_proyecto: idProyecto,
+                nuevo_estado: nuevoEstado
+            },
+            dataType: "json",
+            success: function (response) {
+                if (response.exito) {
+                    alert("Estado del proyecto actualizado con éxito.");
+                    // No es necesario recargar la página; el estado se actualiza en el select.
+                } else {
+                    alert("Error al actualizar el estado del proyecto.");
+                }
+            },
+            error: function () {
+                alert("Error al actualizar el estado del proyecto.");
+            }
+        });
+    }
+}

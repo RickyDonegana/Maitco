@@ -74,7 +74,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td>
                             <form method="POST" class="select">
                                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto["id_proyecto"]; ?>">
-                                <select name="nuevo_estado" class="select" onchange="this.form.submit()">
+                                <select name="nuevo_estado" class="select" onchange="cambiarEstado(<?php echo $proyecto['id_proyecto']; ?>, this.value)">
                                     <option class="input" value="inicio" <?php echo ($proyecto["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
                                     <option class="input" value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
                                     <option class="input" value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
@@ -82,7 +82,6 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <option class="input" value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
                                 </select>
                             </form>
-                        </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
