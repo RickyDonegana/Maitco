@@ -1,7 +1,4 @@
 <?php
-
-session_start();
-
 // Función para conectar a la base de datos
 include('../php/conn.php');
 
@@ -39,10 +36,16 @@ function editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $f
     $stmt->execute();
 }
 
-// Función para finalizar un proyecto (no afecta a la base de datos, solo en la interfaz de usuario)
+// Función para finalizar un proyecto (actualiza el estado en la base de datos)
 function finalizarProyecto($id)
 {
-    echo "Proyecto eliminado con ID: $id";
+    global $pdo;
+    $stmt = $pdo->prepare("UPDATE proyectos SET estado = 'cierre' WHERE id_proyecto = :id");
+    $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Redirige nuevamente a la página de proyectos después de la actualización
+    header("Location: ../pages/proyectos.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -173,7 +176,11 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>">Editar</button>
-                            <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>">Finalizar</button>
+                            <?php
+                            if ($proyecto["estado"] !== 'cierre') {
+                                echo '<button data-action="finalizar" data-id="' . $proyecto["id_proyecto"] . '">Finalizar</button>';
+                            }
+                            ?>
                         </td>
                     </tr>
                 <?php } ?>
