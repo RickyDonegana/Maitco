@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba1 | Maitco</title>
+    <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet"  href="https://fonts.googleapis.com/css?family=Roboto">		
+    <link rel="stylesheet" type="text/css" href="../css/prueba1.css">
+    <script type="text/javascript" src="../js/prueba1.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+    <header class="encabezado">
+        <nav class="menu-navegacion">
+            <div class="logo">
+                <img src="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" alt="Logo de la Empresa">
+            </div>
+            <ul class="pestanas">
+                <li><a href="../pages/inicio.php">Inicio</a></li>
+                <li><a href="../pages/proyectos.php">Proyectos</a></li>
+                <li><a href="../pages/tareas.html">Tareas</a></li>
+                <li><a href="../pages/configuracion.html">Configuración</a></li>
+            </ul>
+            <div class="icono-usuario">
+                <img src="../svg/usuario.svg" alt="Icono de Usuario">
+            </div>
+            <span class="nombre-usuario">
+                <?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?>
+            </span>
+        </nav>
+    </header>
+    
+    <main class="contenedor-principal">
+        <div id="gantt"></div>
+        <script type="text/javascript">
+            const obj = new Gantt([
+                ['Action 1', '2023/05/12', '2023/05/12', '#4287f5', 80],
+                ['Action 2', '2023/05/12', '2023/05/14', '#c1409b', 10],
+                ['Action 3', '2023/05/14', '2023/05/17', '#0b9971', 20],
+                ['Action 4', '2023/05/18', '2023/05/22', '#d26a52', 55],
+                ['Action 5', '2023/05/19', '2023/05/22', '#4287f5', 100],
+                ['Action 6', '2023/05/12', '2023/05/20', '#0b9971', 32],
+            ]);
+        </script>
+</body>
+
+</html>

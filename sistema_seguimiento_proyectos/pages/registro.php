@@ -1,5 +1,4 @@
 <?php
-
 require_once('../php/conn.php');
 require_once('../php/funcion_registro.php');
 ?>
@@ -50,7 +49,9 @@ require_once('../php/funcion_registro.php');
                 <a href="../pages/login.php" class="text-link">Iniciar sesión</a>
             </p>
             <?php if (isset($mensajeError)) : ?>
-                <p class="error-message"><?php echo $mensajeError; ?></p>
+                <p class="error-message">
+                    <?php echo $mensajeError; ?>
+                </p>
             <?php endif; ?>
         </div>
     </section>

@@ -25,24 +25,27 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <header class="header">
-        <nav class="menu">
+    <header class="encabezado">
+        <nav class="menu-navegacion">
             <div class="logo">
                 <img src="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" alt="Logo de la Empresa">
             </div>
-            <ul class="tabs">
+            <ul class="pestanas">
                 <li><a href="../pages/inicio.php">Inicio</a></li>
                 <li><a href="../pages/proyectos.php">Proyectos</a></li>
                 <li><a href="../pages/tareas.html">Tareas</a></li>
                 <li><a href="../pages/configuracion.html">Configuración</a></li>
             </ul>
-            <div class="user-icon">
+            <div class="icono-usuario">
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
             </div>
-            <span class="user-name"><?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?></span>
+            <span class="nombre-usuario">
+                <?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?>
+            </span>
         </nav>
     </header>
-    <main class="main-content">
+
+    <main class="contenedor-principal">
         <h1> Mis Proyectos</h1>
         <!-- Botón para mostrar/ocultar el formulario -->
         <button class="input_btn" id="btnNuevoProyecto">Agregar Nuevo Proyecto</button>

@@ -33,7 +33,9 @@ require_once('../php/funcion_login.php');
                         <input type="checkbox"> Recordar usuario</label>
                     </label>
                     <?php if (isset($mensajeError)) : ?>
-                        <p class="error-message"><?php echo $mensajeError; ?></p>
+                        <p class="error-message">
+                            <?php echo $mensajeError; ?>
+                        </p>
                     <?php endif; ?>
                     <div class="btn__container">
                         <button type="submit" class="input__btn">Entrar</button>

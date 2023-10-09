@@ -1,5 +1,4 @@
 <?php
-
 include('../php/conn.php');
 
 // Función para agregar un nuevo proyecto

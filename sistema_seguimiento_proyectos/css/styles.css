@@ -210,7 +210,7 @@ a {
 }
 
 /* Header Styles */
-.header {
+.encabezado {
   position: fixed;
   top: 0;
   left: 0;
@@ -220,7 +220,7 @@ a {
   z-index: 100;
 }
 
-.menu {
+.menu-navegacion {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -230,17 +230,17 @@ a {
   width: 50px;
 }
 
-.tabs {
+.pestanas {
   list-style: none;
   display: flex;
   margin-right: auto;
 }
 
-.tabs li {
+.pestanas li {
   margin-right: 1rem;
 }
 
-.tabs a {
+.pestanas a {
   text-decoration: none;
   color: var(--title-color);
   font-weight: var(--font-medium);
@@ -248,23 +248,30 @@ a {
   transition: var(--transition);
 }
 
-.tabs a:hover {
+.pestanas a:hover {
   color: var(--blue);
 }
 
-.menu-right {
+.menu-derecha {
   display: flex;
   align-items: center;
 }
 
-.user-icon img {
+.icono-usuario img {
   width: 15px;
   height: 15px;
   margin-right: 10px;
 }
 
+.nombre-usuario {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-left: 10px;
+}
+
 /* Main Content Styles */
-.main-content {
+.contenedor-principal {
   margin-top: 80px;
   padding: 2rem;
   display: flex;
@@ -274,32 +281,38 @@ a {
   gap: 20px;
 }
 
-.project-container {
+.contenedor-proyectos {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   width: 80%;
 }
 
-.project-box {
+.proyecto {
   background-color: var(--card-background);
   border-radius: var(--border-radius-cards);
   padding: 1rem;
   width: calc(33.33% - 1rem);
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
 }
 
-.project-title {
+.proyecto:hover {
+  background-color: var(--blue-hover);
+}
+
+.titulo-proyecto {
   font-size: var(--fs-1-15);
   font-weight: var(--font-medium);
   color: var(--title-color);
 }
 
-.project-description {
+.descripcion-proyecto {
   font-size: var(--fs-1);
   color: var(--text-color);
 }
 
-.project-dates {
+.fechas-proyecto {
   font-size: var(--fs-0-8);
   color: var(--text-color);
   margin-top: 1rem;
