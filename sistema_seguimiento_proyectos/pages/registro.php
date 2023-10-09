@@ -1,4 +1,5 @@
 <?php
+// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/funcion_registro.php');
 ?>
@@ -48,7 +49,7 @@ require_once('../php/funcion_registro.php');
                 ¿Ya tienes una cuenta?
                 <a href="../pages/login.php" class="text-link">Iniciar sesión</a>
             </p>
-            <?php if (isset($mensajeError)) : ?>
+            <?php if (!empty($mensajeError)) : ?>
                 <p class="error-message">
                     <?php echo $mensajeError; ?>
                 </p>

@@ -1,11 +1,10 @@
 <?php
+// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
 
-// Conexión a la base de datos
-$pdo = conectarBaseDeDatos();
-
 // Obtener la lista de proyectos
+$pdo = conectarBaseDeDatos();
 $stmtProyectos = $pdo->query("SELECT * FROM proyectos");
 $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -16,8 +15,8 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio | Maitco</title>
-    <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
+    <title>Tareas | Maitco</title>
+    <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="png">
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 </head>
@@ -38,23 +37,32 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
             </div>
             <span class="nombre-usuario">
-                <?= isset($nombreUsuario) ? $nombreUsuario : ""; ?>
+                <?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?>
             </span>
         </nav>
     </header>
 
     <main class="contenedor-principal">
+        <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
             <!-- Contenido principal con proyectos -->
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirAPrueba1()">
-                    <h3 class="titulo-proyecto"><?= $proyecto["nombre_proyecto"]; ?></h3>
-                    <p class="descripcion-proyecto"><?= $proyecto["descripcion"]; ?></p>
+                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()">
+                    <h3 class="titulo-proyecto">
+                        <?php echo $proyecto["nombre_proyecto"]; ?>
+                    </h3>
+                    <p class="descripcion-proyecto">
+                        <?php echo $proyecto["descripcion"]; ?>
+                    </p>
                     <p class="fechas-proyecto">
-                        Cliente: <?= $proyecto["cliente"]; ?><br>
-                        Desarrollador: <?= $proyecto["desarrollador"]; ?><br>
-                        Fecha de Inicio: <?= $proyecto["fecha_inicio"]; ?><br>
-                        Fecha Estimada de Finalización: <?= $proyecto["fecha_entrega_estimada"]; ?><br>
+                        Cliente:
+                        <?php echo $proyecto["cliente"]; ?><br>
+                        Desarrollador:
+                        <?php echo $proyecto["desarrollador"]; ?><br>
+                        Fecha de Inicio:
+                        <?php echo $proyecto["fecha_inicio"]; ?><br>
+                        Fecha Estimada de Finalización:
+                        <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
                     </p>
                 </div>
             <?php endforeach; ?>
@@ -62,8 +70,8 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
     </main>
 
     <script>
-        function redirigirAPrueba1() {
-            window.location.href = "../html/prueba1.html";
+        function redirigirATablaTareas() {
+            window.location.href = "../pages/tabla_tareas.php";
         }
     </script>
 </body>
