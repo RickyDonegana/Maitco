@@ -1,0 +1,480 @@
+/* ========== Google Fonts ========== */
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap");
+
+/* ========== Variables ========== */
+:root {
+  /* Colors */
+  --main-background: #efefef;
+  --card-background: #ffffff;
+  --title-color: #000000;
+  --sub-title-color: #454546;
+  --blue-text: #2196f3;
+  --text-color: #a7a7a7;
+  --text-white: #ffffff;
+  --blue: #0303b5;
+  --blue-hover: #3b8eed ;
+  --blue-ultra-light: #0cb7f2;
+
+  /* Fonts */
+  --font-heebo: "Heebo";
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semi-bold: 600;
+  --font-bold: 700;
+
+  /* Font Sizes */
+  --fs-2: 2rem;
+  --fs-1-5: 1.5rem;
+  --fs-1-15: 1.15rem;
+  --fs-1: 1rem;
+  --fs-0-8: 0.8rem;
+
+  /* Spacing */
+  --mb-025: 0.25rem;
+  --mb-05: 0.5rem;
+  --mb-075: 0.75rem;
+  --mb-1: 1rem;
+  --mb-125: 1.25rem;
+  --mb-15: 1.5rem;
+  --mb-2: 2rem;
+  --mb-25: 2.5rem;
+
+  /* Box Shadow */
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --box-shadow: 0px 4px 32px var(--shadow-color);
+
+  /* Transition */
+  --transition: color 0.4s, background-color 0.4s ease-in-out;
+
+  /* Border Radius */
+  --border-radius-cards: 0.75rem;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--main-background);
+  font-size: 14px;
+  font-family: var(--font-heebo);
+}
+
+/* Reusable CSS Classes */
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  color: var(--blue-hover);
+}
+
+.card, .card-nr {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-cards);
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: var(--box-shadow);
+}
+
+/* Login Styles */
+.section__form, .section__add {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.div__form {
+  width: 40%;
+  padding: var(--mb-25);
+}
+
+.form-group {
+  border: none;
+}
+
+.form__tittle {
+  align-items: center;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  background-color: black;
+}
+
+.img__form {
+  display: inline;
+  width: 50px;
+  margin-right: 5px;
+}
+
+.tittle__form {
+  font-size: var(--fs-1-5);
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  color: var(--text-white);
+}
+
+.form__subtitle {
+  font-size: var(--fs-1-15);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  color: var(--sub-title-color);
+  margin-top: var(--mb-25);
+}
+
+.form__paragraph {
+  font-size: var(--fs-0-8);
+  font-weight: var(--font-medium);
+  color: var(--text-color);
+  margin-bottom: var(--mb-15);
+}
+
+.input__box {
+  background: auto;
+}
+
+.input, .input__field {
+  width: 100%;
+  outline: none;
+  font-size: var(--fs-1-15);
+  font-weight: var(--font-regular);
+  color: var(--sub-title-color);
+  border-width: 0 0 2px 0;
+  border-color: var(--text-color);
+  margin-bottom: var(--mb-15);
+  transition: var(--transition);
+}
+
+.input:hover, .input__field:hover {
+  color: var(--title-color);
+  border-color: var(--blue);
+}
+
+.input:focus, .input__field:focus {
+  color: var(--title-color);
+  border-color: var(--blue-ultra-light);
+}
+
+.input-end {
+  margin-bottom: var(--mb-05);
+}
+
+.input__check {
+  font-size: var(--fs-1);
+  font-weight: var(--font-regular);
+  color: var(--text-color);
+  display: block;
+}
+
+.btn__container {
+  display: flex;
+  justify-content: flex-end;
+  margin: var(--mb-2) 0;
+}
+
+.input__btn {
+  padding: var(--mb-075);
+  width: 30%;
+  box-shadow: var(--box-shadow);
+  border: none;
+  background-color: var(--blue);
+  color: var(--text-white);
+  font-size: var(--fs-1);
+  font-family: var(--font-heebo);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.input__btn:hover {
+  background-color: var(--blue-hover);
+}
+
+.form__link {
+  align-items: center;
+  margin: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.text-link {
+  margin-left: 5px;
+  color: var(--blue);
+}
+
+/* Header Styles */
+.encabezado {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--card-background);
+  padding: 1rem;
+  z-index: 100;
+}
+
+.menu-navegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 50px;
+}
+
+.pestanas {
+  list-style: none;
+  display: flex;
+  margin-right: auto;
+}
+
+.pestanas li {
+  margin-right: 1rem;
+}
+
+.pestanas a {
+  text-decoration: none;
+  color: var(--title-color);
+  font-weight: var(--font-semi-bold);
+  font-size: var(--mb-1);
+  transition: var(--transition);
+}
+
+.pestanas a:hover {
+  color: var(--blue);
+}
+
+.menu-derecha {
+  display: flex;
+  align-items: center;
+}
+
+.icono-usuario img {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.nombre-usuario {
+  font-size: var(--fs-1);
+  color: var(--sub-title-color);
+  font-weight: var(--font-regular);
+  margin-left: 10px;
+}
+
+/* Main Content Styles */
+.contenedor-principal {
+  margin-top: 80px;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contenedor-proyectos {
+  display: flex;  
+  flex-wrap: wrap;
+  gap: 1rem;
+  width: 80%;
+}
+
+.proyecto {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-cards);
+  padding: 1rem;
+  width: calc(33.33% - 1rem);
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.proyecto:hover {
+  background-color: var(--text-color);
+}
+
+.titulo-proyecto {
+  font-size: var(--fs-1-15);
+  font-weight: var(--font-semi-bold);
+  color: var(--title-color);
+}
+
+.descripcion-proyecto {
+  font-size: var(--fs-1);
+  font-weight: var(--font-medium);
+  color: var(--title-color);
+}
+
+.fechas-proyecto {
+  font-size: var(--fs-0-8);
+  font-weight: var(--font-medium);
+  color: var(--sub-title-color);
+  margin-top: 1rem;
+}
+
+.titulo {
+  font-size: var(--fs-2);
+  font-weight: var(--font-semi-bold);
+  color: var(--title-color);
+}
+
+/* Estilos para el formulario de proyecto */
+.formulario-proyecto {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-cards);
+  padding: var(--mb-2);
+  width: 60%;
+  margin: 2rem auto;
+  box-shadow: var(--box-shadow);
+}
+
+.formulario-proyecto h2 {
+  font-size: var(--fs-1-5);
+  font-weight: var(--font-bold);
+  text-align: center;
+  margin-bottom: var(--mb-1);
+  color: var(--title-color);
+}
+
+.formulario-proyecto label {
+  display: block;
+  margin-bottom: var(--mb-05);
+  font-size: var(--fs-1);
+  font-weight: var(--font-medium);
+  color: var(--title-color);
+}
+
+.formulario-proyecto input[type="text"],
+.formulario-proyecto textarea,
+.formulario-proyecto input[type="date"] {
+  width: 100%;
+  padding: var(--mb-05);
+  margin-bottom: var(--mb-1);
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+  font-size: var(--fs-1);
+}
+
+.input:focus {
+  outline: 1px solid var(--blue);
+}
+
+.formulario-proyecto button[type="submit"] {
+  display: block;
+  background-color: var(--blue);
+  color: var(--text-white);
+  border: none;
+  border-radius: 4px;
+  padding: 15px 20px; /* Aumenta el tamaño del botón */
+  font-size: 18px; /* Aumenta el tamaño de la fuente */
+  margin-top: var(--mb-1);
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.formulario-proyecto button[type="submit"]:hover {
+  background-color: var(--blue-hover);
+}
+
+/* Estilos para el botón de agregar */
+.boton-agregar {
+  background-color: var(--blue);
+  color: var(--card-background);
+  border: none;
+  border-radius: 5px;
+  padding: var(--mb-1) var(--mb-1);
+  font-size: var(--fs-1);
+  font-weight: var(--font-semi-bold);
+  cursor: pointer;
+  margin-right: var(--mb-025);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.boton-agregar:hover {
+  background-color: var(--blue-hover);
+}
+
+/* Estilos para el botón de editar */
+.boton-editar {
+  background-color: transparent;
+  background-image: url('../svg/editar.svg'); 
+  background-repeat: no-repeat;
+  background-position: center ;
+  background-size: 50%;
+  color: var(--card-background);
+  border: none;
+  border-radius: 5px;
+  padding: var(--mb-1) var(--mb-1);
+  cursor: pointer;
+  margin-right: var(--mb-025);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.boton-editar:hover {
+  background-color: yellow;
+}
+
+/* Estilos para el botón de finalizar */
+.boton-finalizar {
+  background-color: transparent;
+  background-image: url('../svg/finalizar.svg'); 
+  background-repeat: no-repeat;
+  background-position: center ;
+  background-size: 50%;
+  color: var(--card-background);
+  border: none;
+  border-radius: 5px;
+  padding: var(--mb-1) var(--mb-1);
+  cursor: pointer;
+  margin-right: var(--mb-025);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.boton-finalizar:hover {
+  background-color: red;
+}
+
+/* Estilos para la tabla de proyectos */
+.tabla-proyectos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-proyectos th {
+  padding: 20px 10px;
+  text-align: center;
+  font-weight: var(--font-medium);
+  background-color: var(--title-color);
+  color: var(--card-background);
+  font-size: var(--mb-1);
+}
+
+.tabla-proyectos td {
+  padding: 1px;
+  text-align: center;
+  color: var(--title-color);
+  font-size: var(--mb-1);
+  font-weight: var(--font-regular);
+}
+
+tr:nth-child(even) {
+  background-color: #efefef;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--card-background);
+}
