@@ -20,10 +20,11 @@ CREATE TABLE IF NOT EXISTS usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(50) NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
-    rol_usuario ENUM('Cliente', 'Desarrollador de sitios') NOT NULL,
+    rol_id INT NOT NULL,
     correo_electronico VARCHAR(255) NOT NULL UNIQUE,
     registro_completo TINYINT(1) NOT NULL DEFAULT 0,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (rol_id) REFERENCES roles (id_rol)
 );
 
 -- Tabla de Proyectos
@@ -47,13 +48,29 @@ CREATE TABLE IF NOT EXISTS etapas_proyecto (
     FOREIGN KEY (id_proyecto) REFERENCES proyectos (id_proyecto)
 );
 
--- Tabla de Cambios en el Proyecto
-CREATE TABLE IF NOT EXISTS cambios_proyecto (
-    id_cambio INT AUTO_INCREMENT PRIMARY KEY,
-    id_etapa INT NOT NULL,
-    id_usuario INT NOT NULL,
-    fecha_cambio DATETIME NOT NULL,
-    descripcion_cambio TEXT NOT NULL,
-    FOREIGN KEY (id_etapa) REFERENCES etapas_proyecto (id_etapa),
-    FOREIGN KEY (id_usuario) REFERENCES usuarios (id_usuario)
+-- Tabla de Estados de Tareas
+CREATE TABLE IF NOT EXISTS estados_tarea (
+    id_estado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_estado VARCHAR(50) NOT NULL
+);
+
+-- Insertar estados iniciales de tareas
+INSERT INTO estados_tarea (nombre_estado) VALUES
+    ('Pendiente'),
+    ('En Progreso'),
+    ('Completada');
+
+-- Tabla de Tareas
+CREATE TABLE IF NOT EXISTS tareas (
+    id_tarea INT AUTO_INCREMENT PRIMARY KEY,
+    id_proyecto INT NOT NULL,
+    nombre_tarea VARCHAR(255) NOT NULL,
+    descripcion_tarea TEXT,
+    estado_id INT NOT NULL,
+    fecha_vencimiento DATE NOT NULL,
+    asignada_a INT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_proyecto) REFERENCES proyectos (id_proyecto),
+    FOREIGN KEY (estado_id) REFERENCES estados_tarea (id_estado),
+    FOREIGN KEY (asignada_a) REFERENCES usuarios (id_usuario)
 );

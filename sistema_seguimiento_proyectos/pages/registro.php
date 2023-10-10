@@ -1,61 +1,9 @@
 <?php
-// Función para conectar a la base de datos
-function conectarBaseDeDatos()
-{
-    $host = "localhost";
-    $usuario = "root";
-    $contrasena = "";
-    $base_de_datos = "ssp_db";
-
-    try {
-        return new PDO("mysql:host=$host;dbname=$base_de_datos", $usuario, $contrasena, [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
-        die("Error de conexión: " . $e->getMessage());
-    }
-}
-
-// Función para insertar un nuevo usuario
-function insertarUsuario($nombre_completo, $email, $contrasena, $user_role)
-{
-    $pdo = conectarBaseDeDatos();
-    // Hashea la contraseña antes de almacenarla en la base de datos
-    $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-    $stmt = $pdo->prepare("INSERT INTO usuarios (nombre_usuario, contrasena, correo_electronico, rol_usuario, registro_completo) VALUES (:nombre_usuario, :contrasena, :correo_electronico, :rol_usuario, 1)");
-    $stmt->bindParam(":nombre_usuario", $nombre_completo, PDO::PARAM_STR);
-    $stmt->bindParam(":contrasena", $hashContrasena, PDO::PARAM_STR);
-    $stmt->bindParam(":correo_electronico", $email, PDO::PARAM_STR);
-    $stmt->bindParam(":rol_usuario", $user_role, PDO::PARAM_STR);
-    return $stmt->execute();
-}
-
-// Verifica si se envió el formulario
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtiene los datos del formulario
-    $nombre_completo = $_POST["nombre_completo"];
-    $email = $_POST["email"];
-    $contrasena = $_POST["contrasena"];
-    $confirm_contrasena = $_POST["confirm_contrasena"];
-    $user_role = $_POST["user_role"];
-    // Verifica si las contraseñas coinciden
-    if ($contrasena !== $confirm_contrasena) {
-        $mensajeError = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
-    } else {
-        // Inserta el nuevo usuario en la base de datos
-        if (insertarUsuario($nombre_completo, $email, $contrasena, $user_role)) {
-            // Registro exitoso
-            session_start();
-            $_SESSION["registro_exitoso"] = true;
-            header("Location: ../pages/login.php"); // Redirige al formulario de inicio de sesión
-            exit; // Termina el script después de redirigir
-        } else {
-            // Error en el registro
-            $mensajeError = "Error en el registro. Por favor, inténtalo de nuevo.";
-        }
-    }
-}
+// Incluir los archivos necesarios
+require_once('../php/conn.php');
+require_once('../php/funcion_registro.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -101,8 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ¿Ya tienes una cuenta?
                 <a href="../pages/login.php" class="text-link">Iniciar sesión</a>
             </p>
-            <?php if (isset($mensajeError)) : ?>
-                <p class="error-message"><?php echo $mensajeError; ?></p>
+            <?php if (!empty($mensajeError)) : ?>
+                <p class="error-message">
+                    <?php echo $mensajeError; ?>
+                </p>
             <?php endif; ?>
         </div>
     </section>
