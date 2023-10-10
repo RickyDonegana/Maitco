@@ -1,7 +1,6 @@
 // Obtener elementos HTML relevantes
 const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
 const nuevoProyectoForm = document.getElementById('nuevoProyectoForm');
-const botonEditarProyecto = document.getElementById('btnEditarProyecto');
 const tablaProyectos = document.getElementById('tablaProyectos');
 const estadoForm = document.getElementById('estado_form');
 const idProyectoForm = document.getElementById('id_proyecto_form');
@@ -11,6 +10,7 @@ const clienteInput = document.getElementById('cliente');
 const desarrolladorInput = document.getElementById('desarrollador');
 const fechaInicioInput = document.getElementById('fecha_inicio');
 const fechaEntregaEstimadaInput = document.getElementById('fecha_entrega_estimada');
+const btnAgregarEditarProyecto = document.getElementById('btnAgregarEditarProyecto');
 
 // Variable para rastrear si el formulario está visible
 let formularioVisible = false;
@@ -26,9 +26,8 @@ function alternarFormularioYTabla() {
         // Si el formulario está oculto, mostrarlo y ocultar la tabla
         nuevoProyectoForm.style.display = 'block';
         tablaProyectos.style.display = 'none';
-        btnNuevoProyecto.textContent = 'Mostrar Proyectos'; // Cambia el texto del botón
+        btnNuevoProyecto.textContent = 'Mostrar Proyectos';
     }
-
     // Cambiar el estado del formularioVisible
     formularioVisible = !formularioVisible;
 }
@@ -44,10 +43,7 @@ btnNuevoProyecto.addEventListener('click', () => {
     fechaInicioInput.value = '';
     fechaEntregaEstimadaInput.value = '';
     estadoForm.value = 'inicio';
-
-    // Cambiar el texto del botón del formulario a "Agregar"
     btnAgregarEditarProyecto.innerText = 'Agregar';
-
     // Llama a la función para alternar la visibilidad del formulario y la tabla
     alternarFormularioYTabla();
 });
@@ -55,64 +51,77 @@ btnNuevoProyecto.addEventListener('click', () => {
 // Event listener para botones "Editar" en la tabla de proyectos
 tablaProyectos.addEventListener('click', (event) => {
     if (event.target.dataset.action === 'editar') {
-        // Mostrar el formulario para editar proyectos
-        formularioEdicion.style.display = 'block';
-        tablaProyectos.style.display = 'none';
+        // Obtener los datos del proyecto seleccionado
+        const id = event.target.dataset.id;
+        const nombre = event.target.dataset.nombre;
+        const descripcion = event.target.dataset.descripcion;
+        const cliente = event.target.dataset.cliente;
+        const desarrollador = event.target.dataset.desarrollador;
+        const fechaInicio = event.target.dataset.fechaInicio;
+        const fechaEntrega = event.target.dataset.fechaEntrega;
+        const estado = event.target.dataset.estado;
 
         // Llenar el formulario con los datos del proyecto seleccionado
-        idProyectoForm.value = event.target.dataset.id;
-        nombreProyectoInput.value = event.target.dataset.nombre;
-        descripcionInput.value = event.target.dataset.descripcion;
-        clienteInput.value = event.target.dataset.cliente;
-        desarrolladorInput.value = event.target.dataset.desarrollador;
-        fechaInicioInput.value = event.target.dataset.fechaInicio;
-        fechaEntregaEstimadaInput.value = event.target.dataset.fechaEntrega;
-        estadoForm.value = event.target.dataset.estado;
-        btnAgregarEditarProyecto.textContent = 'Editar Proyecto'; // Cambiar texto del botón
+        idProyectoForm.value = id;
+        nombreProyectoInput.value = nombre;
+        descripcionInput.value = descripcion;
+        clienteInput.value = cliente;
+        desarrolladorInput.value = desarrollador;
+        fechaInicioInput.value = fechaInicio;
+        fechaEntregaEstimadaInput.value = fechaEntrega;
+        estadoForm.value = estado;
+        btnAgregarEditarProyecto.textContent = 'Editar';
+
+        // Llama a la función para alternar la visibilidad del formulario y la tabla
+        alternarFormularioYTabla();
     } else if (event.target.dataset.action === 'finalizar') {
-        // Marcar el proyecto como finalizado en la interfaz de usuario (puedes personalizar esta parte)
         const idProyecto = event.target.dataset.id;
+        // Mostrar mensaje de advertencia antes de finalizar el proyecto
+        if (confirm("¿Estás seguro de que deseas finalizar este proyecto?")) {
+            finalizarProyecto(idProyecto);
+        }
+    }
+    else if (event.target.dataset.action === 'cambiarEstado') {
+        const idProyecto = event.target.dataset.id;
+        const nuevoEstado = event.target.dataset.nuevoEstado;
+        cambiarEstado(idProyecto, nuevoEstado);
     }
 });
 
 // Función para finalizar un proyecto
 function finalizarProyecto(idProyecto) {
-    // Mostrar un mensaje de advertencia antes de finalizar el proyecto
-    if (confirm("¿Estás seguro de que deseas finalizar este proyecto?")) {
-        // Realizar la solicitud AJAX para finalizar el proyecto
-        $.ajax({
-            type: "POST",
-            url: "../php/funcion_proyectos.php", // Reemplaza "ruta_correcta" con la ruta correcta de tu archivo PHP
-            data: { confirmar_finalizar_proyecto: true, id_proyecto: idProyecto }, // Agrega los datos necesarios
-            dataType: "json",
-            success: function (response) {
-                if (response.exito) {
-                    // Mostrar mensaje de éxito
-                    alert("Proyecto finalizado con éxito");
-                    location.reload(); // Recargar la página después de finalizar
-                } else {
-                    alert("Error al finalizar el proyecto");
-                }
-            },
-            error: function () {
+    // Realizar la solicitud AJAX para finalizar el proyecto (ajusta la URL y los datos)
+    $.ajax({
+        type: "POST",
+        url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
+        data: {
+            confirmar_finalizar_proyecto: true,
+            id_proyecto: idProyecto
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response.exito) {
+                // Mostrar mensaje de éxito
+                alert("Proyecto finalizado con éxito");
+                location.reload(); // Recargar la página después de finalizar
+            } else {
                 alert("Error al finalizar el proyecto");
             }
-        });
-    }
+        },
+        error: function () {
+            alert("Error al finalizar el proyecto");
+        }
+    });
 }
-
-tablaProyectos.addEventListener('click', (event) => {
-    if (event.target.dataset.action === 'finalizar') {
-        finalizarProyecto(event.target.dataset.id);
-    }
-});
 
 // Función para cambiar el estado de un proyecto
 function cambiarEstado(idProyecto, nuevoEstado) {
+    // Mostrar un mensaje de advertencia antes de cambiar el estado
     if (confirm(`¿Estás seguro de que deseas cambiar el estado del proyecto a "${nuevoEstado}"?`)) {
+        // Realizar la solicitud AJAX para cambiar el estado del proyecto (ajusta la URL y los datos)
         $.ajax({
             type: "POST",
-            url: "../php/funcion_proyectos.php",
+            url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
             data: {
                 nuevo_estado: true,
                 id_proyecto: idProyecto,

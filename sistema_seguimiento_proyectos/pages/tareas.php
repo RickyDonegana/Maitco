@@ -7,6 +7,22 @@ require_once('../php/usuario.php');
 $pdo = conectarBaseDeDatos();
 $stmtProyectos = $pdo->query("SELECT * FROM proyectos");
 $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
+
+// Obtener el estado de las tareas y contarlas
+$tareasRojo = 0;
+$tareasAmarillo = 0;
+$tareasVerde = 0;
+
+foreach ($tareas as $tarea) {
+    $estado = $tarea["estado_id"];
+    if ($estado === 'rojo') {
+        $tareasRojo++;
+    } elseif ($estado === 'amarillo') {
+        $tareasAmarillo++;
+    } elseif ($estado === 'verde') {
+        $tareasVerde++;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +61,6 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
     <main class="contenedor-principal">
         <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
-            <!-- Contenido principal con proyectos -->
             <?php foreach ($proyectos as $proyecto) : ?>
                 <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()">
                     <h3 class="titulo-proyecto">
@@ -55,14 +70,10 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
                         <?php echo $proyecto["descripcion"]; ?>
                     </p>
                     <p class="fechas-proyecto">
-                        Cliente:
-                        <?php echo $proyecto["cliente"]; ?><br>
-                        Desarrollador:
-                        <?php echo $proyecto["desarrollador"]; ?><br>
-                        Fecha de Inicio:
-                        <?php echo $proyecto["fecha_inicio"]; ?><br>
-                        Fecha Estimada de Finalización:
-                        <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
+                        Tareas en estado rojo: <?php echo $tareasRojo; ?><br>
+                        Tareas en estado amarillo: <?php echo $tareasAmarillo; ?><br>
+                        Tareas en estado verde: <?php echo $tareasVerde; ?><br>
+                        Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
                     </p>
                 </div>
             <?php endforeach; ?>
