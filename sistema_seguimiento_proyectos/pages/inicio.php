@@ -51,10 +51,10 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
                     <h3 class="titulo-proyecto"><?= $proyecto["nombre_proyecto"]; ?></h3>
                     <p class="descripcion-proyecto"><?= $proyecto["descripcion"]; ?></p>
                     <p class="fechas-proyecto">
-                        Cliente: <?= $proyecto["cliente"]; ?><br>
-                        Desarrollador: <?= $proyecto["desarrollador"]; ?><br>
-                        Fecha de Inicio: <?= $proyecto["fecha_inicio"]; ?><br>
-                        Fecha Estimada de Finalización: <?= $proyecto["fecha_entrega_estimada"]; ?><br>
+                        <strong>Cliente: </strong><?= $proyecto["cliente"]; ?><br>
+                        <strong>Desarrollador: </strong><?= $proyecto["desarrollador"]; ?><br>
+                        <strong>Fecha de Inicio: </strong><?= $proyecto["fecha_inicio"]; ?><br>
+                        <strong>Fecha Estimada de Finalización: </strong><?= $proyecto["fecha_entrega_estimada"]; ?><br>
                     </p>
                 </div>
             <?php endforeach; ?>

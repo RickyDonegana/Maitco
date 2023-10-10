@@ -2,6 +2,7 @@
 // Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/funcion_proyectos.php');
+require_once('../php/usuario.php');
 
 // Establecer la conexión a la base de datos
 $pdo = conectarBaseDeDatos();
@@ -40,7 +41,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
             </div>
             <span class="nombre-usuario">
-                <?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?>
+                <?= isset($nombreUsuario) ? $nombreUsuario : ""; ?>
             </span>
         </nav>
     </header>
@@ -109,7 +110,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
                 <label for="descripcion" class="label">Descripción:</label>
-                <textarea class="input" id="descripcion" name="descripcion" rows="2" required></textarea>
+                <input type="text" class="input" id="descripcion" name="descripcion" rows="2" required></input>
                 <label for="cliente" class="label">Cliente:</label>
                 <input type="text" class="input" id="cliente" name="cliente" required>
                 <label for="desarrollador" class="label">Desarrollador:</label>
