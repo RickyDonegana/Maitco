@@ -52,7 +52,7 @@ function finalizarProyecto($id)
     $pdo = conectarBaseDeDatos();
     try {
         // Actualizar el estado del proyecto a "cierre"
-        $sql = "UPDATE proyectos SET estado = 'cierre' WHERE id_proyecto = :id";
+        $sql = "UPDATE proyectos SET estado = 'finalizado' WHERE id_proyecto = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();

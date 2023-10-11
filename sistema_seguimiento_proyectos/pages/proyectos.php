@@ -68,7 +68,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </thead>
             <tbody>
                 <?php foreach ($proyectos as $proyecto) : ?>
-                    <tr id="filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>">
+                    <tr id="filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                         <td><?php echo $proyecto["id_proyecto"]; ?></td>
                         <td><?php echo $proyecto["nombre_proyecto"]; ?></td>
                         <td><?php echo $proyecto["descripcion"]; ?></td>
@@ -85,6 +85,7 @@ $proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
                                     <option value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
                                     <option value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
+                                    <option value="finalizado" hidden <?php echo ($proyecto["estado"] == 'finalizado') ? 'selected' : ''; ?>>Cierre</option>
                                 </select>
                             </form>
                         </td>
