@@ -1,20 +1,10 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
-
-$pdo = conectarBaseDeDatos();
-
+require_once('../php/funcion_proyectos.php');
 require_once('../php/funcion_tareas.php');
-
-// Consultar proyectos existentes
-$stmt = $pdo->prepare("SELECT * FROM proyectos");
-$stmt->execute();
-$proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Consultar tareas existentes
-$stmt = $pdo->prepare("SELECT * FROM tareas");
-$stmt->execute();
-$tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+require_once('');
+$pdo = conectarBaseDeDatos();
 ?>
 
 <!DOCTYPE html>

@@ -1,13 +1,8 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
-
-// Conexión a la base de datos
+require_once('../php/funcion_proyectos.php');
 $pdo = conectarBaseDeDatos();
-
-// Obtener la lista de proyectos
-$stmtProyectos = $pdo->query("SELECT * FROM proyectos");
-$proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +42,7 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
         <section class="contenedor-proyectos">
             <!-- Contenido principal con proyectos -->
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirAPrueba1()">
+                <div class="proyecto proyecto-enlace" onclick="redirigirAPrueba1()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                     <h3 class="titulo-proyecto"><?= $proyecto["nombre_proyecto"]; ?></h3>
                     <p class="descripcion-proyecto"><?= $proyecto["descripcion"]; ?></p>
                     <p class="fechas-proyecto">

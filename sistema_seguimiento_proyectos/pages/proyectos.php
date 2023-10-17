@@ -1,16 +1,8 @@
 <?php
-// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/funcion_proyectos.php');
 require_once('../php/usuario.php');
-
-// Establecer la conexión a la base de datos
 $pdo = conectarBaseDeDatos();
-
-// Consultar proyectos existentes
-$stmt = $pdo->prepare("SELECT * FROM proyectos");
-$stmt->execute();
-$proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

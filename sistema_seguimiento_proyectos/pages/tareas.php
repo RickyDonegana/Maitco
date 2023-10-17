@@ -1,13 +1,9 @@
 <?php
-// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
+require_once('../php/funcion_proyectos.php');
 require_once('../php/funcion_tareas.php');
-
-// Obtener la lista de proyectos
 $pdo = conectarBaseDeDatos();
-$stmtProyectos = $pdo->query("SELECT * FROM proyectos");
-$proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +43,7 @@ $proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
         <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()">
+                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                     <h3 class="titulo-proyecto">
                         <?php echo $proyecto["nombre_proyecto"]; ?>
                     </h3>

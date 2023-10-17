@@ -1,7 +1,7 @@
 <?php
-// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/funcion_registro.php');
+$pdo = conectarBaseDeDatos();
 ?>
 
 <!DOCTYPE html>

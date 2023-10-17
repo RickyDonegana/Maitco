@@ -378,8 +378,8 @@ a:hover {
   color: var(--text-white);
   border: none;
   border-radius: 4px;
-  padding: 15px 20px; /* Aumenta el tamaño del botón */
-  font-size: 18px; /* Aumenta el tamaño de la fuente */
+  padding: 15px 20px;
+  font-size: 18px;
   margin-top: var(--mb-1);
   cursor: pointer;
   transition: background-color 0.4s ease-in-out;
@@ -464,6 +464,38 @@ a:hover {
 }
 
 .tabla-proyectos td {
+  padding: 1px;
+  text-align: center;
+  color: var(--title-color);
+  font-size: var(--mb-1);
+  font-weight: var(--font-regular);
+}
+
+tr:nth-child(even) {
+  background-color: #efefef;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--card-background);
+}
+
+/* Estilos para la tabla de tareas */
+.tabla-tareas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-tareas th {
+  padding: 20px 10px;
+  text-align: center;
+  font-weight: var(--font-medium);
+  background-color: var(--title-color);
+  color: var(--card-background);
+  font-size: var(--mb-1);
+}
+
+.tabla-tareas td {
   padding: 1px;
   text-align: center;
   color: var(--title-color);

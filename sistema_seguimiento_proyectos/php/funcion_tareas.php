@@ -17,3 +17,8 @@ foreach ($tareas as $tarea) {
         $tareasVerde++;
     }
 }
+
+// Consultar tareas existentes
+$stmt = $pdo->prepare("SELECT * FROM tareas");
+$stmt->execute();
+$tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);

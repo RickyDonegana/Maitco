@@ -122,3 +122,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         editarProyecto($id, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado);
     }
 }
+
+// Consultar proyectos existentes
+$pdo = conectarBaseDeDatos();
+$stmt = $pdo->prepare("SELECT * FROM proyectos");
+$stmt->execute();
+$proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);
