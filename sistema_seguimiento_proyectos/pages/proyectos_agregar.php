@@ -11,7 +11,7 @@ $pdo = conectarBaseDeDatos();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos | Maitco</title>
+    <title>Agregar Proyecto | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
@@ -40,7 +40,7 @@ $pdo = conectarBaseDeDatos();
 
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
-        <a href="../pages/proyectos.php" class="boton-agregar">Mostrar Tabla</a>
+        <a href="../pages/proyectos.php" class="boton-agregarEditar">Mostrar Tabla</a>
         <div id="agregarProyectoForm" class="formulario-proyecto">
             <h2 class="titulo" id="formTitle">Agregar Proyecto</h2>
             <form method="POST">

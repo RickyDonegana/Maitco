@@ -38,7 +38,7 @@ $pdo = conectarBaseDeDatos();
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
-        <a href="../pages/proyectos_agregar.php" class="boton-agregar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
+        <a href="../pages/proyectos_agregar.php" class="boton-agregarEditar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
         <table id="tablaProyectos" class="tabla-proyectos">
             <thead>
                 <tr>
@@ -66,7 +66,7 @@ $pdo = conectarBaseDeDatos();
                         <td>
                             <form method="POST" class="select-container">
                                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto["id_proyecto"]; ?>">
-                                <select name="nuevo_estado" class="select" onchange="cambiarEstado(<?php echo $proyecto['id_proyecto']; ?>, this.value)">
+                                <select name="nuevo_estado" class="select" onchange="cambiarEstadoProyecto(<?php echo $proyecto['id_proyecto']; ?>, this.value)" data-id="<?php echo $proyecto['id_proyecto']; ?>">
                                     <option value="inicio" <?php echo ($proyecto["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
                                     <option value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
                                     <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>

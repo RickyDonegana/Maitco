@@ -40,10 +40,10 @@ $pdo = conectarBaseDeDatos();
 
     <main class="contenedor-principal">
         <h1 class="titulo">Editar Proyecto</h1>
-        <a href="../pages/proyectos.php" class="boton-agregar">Mostrar Tabla</a>
+        <a href="../pages/proyectos.php" class="boton-agregarEditar">Mostrar Tabla</a>
         <div id="editarProyectoForm" class="formulario-proyecto">
             <h2 class="titulo" id="formTitle">Editar Proyecto</h2>
-            <form method="POST">
+            <form method="POST" id="proyectoForm">
                 <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
                 <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>

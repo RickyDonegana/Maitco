@@ -1,18 +1,20 @@
 // Obtener elementos HTML relevantes
-const idProyectoForm = document.getElementById('id_proyecto_form');
-const nombreProyectoInput = document.getElementById('nombre_proyecto');
-const descripcionInput = document.getElementById('descripcion');
-const clienteInput = document.getElementById('cliente');
-const desarrolladorInput = document.getElementById('desarrollador');
-const fechaInicioInput = document.getElementById('fecha_inicio');
-const fechaEntregaEstimadaInput = document.getElementById('fecha_entrega_estimada');
-const estadoForm = document.getElementById('estado_form');
-const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
-const agregarProyectoForm = document.getElementById('agregarProyectoForm');
-const editarProyectoForm = document.getElementById('editarProyectoForm');
-const tablaProyectos = document.getElementById('tablaProyectos');
-const btnAgregar = document.getElementById('btnAgregar');
-const btnEditar = document.getElementById('btnEditar');
+const elements = {
+    idProyectoForm: document.getElementById('id_proyecto_form'),
+    nombreProyectoInput: document.getElementById('nombre_proyecto'),
+    descripcionInput: document.getElementById('descripcion'),
+    clienteInput: document.getElementById('cliente'),
+    desarrolladorInput: document.getElementById('desarrollador'),
+    fechaInicioInput: document.getElementById('fecha_inicio'),
+    fechaEntregaEstimadaInput: document.getElementById('fecha_entrega_estimada'),
+    estadoForm: document.getElementById('estado_form'),
+    btnNuevoProyecto: document.getElementById('btnNuevoProyecto'),
+    agregarProyectoForm: document.getElementById('agregarProyectoForm'),
+    editarProyectoForm: document.getElementById('editarProyectoForm'),
+    tablaProyectos: document.getElementById('tablaProyectos'),
+    btnAgregar: document.getElementById('btnAgregar'),
+    btnEditar: document.getElementById('btnEditar')
+};
 
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
@@ -51,72 +53,138 @@ tablaProyectos.addEventListener('click', (event) => {
         fechaEntregaEstimadaInput.value = fechaEntrega;
         estadoForm.value = estado;
         btnEditar.textContent = 'Guardar cambios';
+
+        // Agregar un evento al formulario para manejar la edición
+        agregarProyectoForm.onsubmit = function (e) {
+            e.preventDefault();
+            editarProyecto();
+        };
     }
-    else if (event.target.dataset.action === 'finalizar') {
+});
+
+// Función para editar un proyecto
+function editarProyecto() {
+    // Obtener los valores del formulario
+    const id = idProyectoForm.value;
+    const nombre = nombreProyectoInput.value;
+    const descripcion = descripcionInput.value;
+    const cliente = clienteInput.value;
+    const desarrollador = desarrolladorInput.value;
+    const fechaInicio = fechaInicioInput.value;
+    const fechaEntrega = fechaEntregaEstimadaInput.value;
+    const estado = estadoForm.value;
+
+    // Realizar la solicitud AJAX para editar el proyecto (ajusta la URL y los datos)
+    $.ajax({
+        type: "POST",
+        url: "../php/funcion_proyectos.php",
+        data: {
+            editar_proyecto: true,
+            id_proyecto: id,
+            nombre_proyecto: nombre,
+            descripcion: descripcion,
+            cliente: cliente,
+            desarrollador: desarrollador,
+            fecha_inicio: fechaInicio,
+            fecha_entrega_estimada: fechaEntrega,
+            estado: estado
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response.exito) {
+                alert("Proyecto editado con éxito");
+                location.reload();
+            } else {
+                alert("Error al editar el proyecto");
+            }
+        },
+        error: function () {
+            alert("Error al editar el proyecto");
+        }
+    });
+}
+
+// Event listener para botones "Finalizar" en la tabla de proyectos
+tablaProyectos.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'finalizar') {
         const idProyecto = event.target.dataset.id;
-        // Mostrar mensaje de advertencia antes de finalizar el proyecto
-        if (confirm("¿Estás seguro de que deseas finalizar este proyecto?")) {
+
+        const confirmMessage = "¿Estás seguro de que deseas finalizar este proyecto?";
+        if (confirm(confirmMessage)) {
             finalizarProyecto(idProyecto);
         }
-    }
-    else if (event.target.dataset.action === 'cambiarEstado') {
-        const idProyecto = event.target.dataset.id;
-        const nuevoEstado = event.target.dataset.nuevoEstado;
-        cambiarEstado(idProyecto, nuevoEstado);
     }
 });
 
 // Función para finalizar un proyecto
 function finalizarProyecto(idProyecto) {
-    // Realizar la solicitud AJAX para finalizar el proyecto (ajusta la URL y los datos)
-    $.ajax({
-        type: "POST",
-        url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
-        data: {
-            confirmar_finalizar_proyecto: true,
-            id_proyecto: idProyecto
-        },
-        dataType: "json",
-        success: function (response) {
-            if (response.exito) {
-                // Mostrar mensaje de éxito
-                alert("Proyecto finalizado con éxito");
-                location.reload(); // Recargar la página después de finalizar
-            } else {
-                alert("Error al finalizar el proyecto");
-            }
-        },
-        error: function () {
-            alert("Error al finalizar el proyecto");
+    const requestData = {
+        confirmar_finalizar_proyecto: true,
+        id_proyecto: idProyecto
+    };
+
+    const successMessage = "Proyecto finalizado con éxito";
+    const errorMessage = "Error al finalizar el proyecto";
+
+    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
+        // Recargar la página después de finalizar
+        location.reload();
+    });
+}
+
+// Event listener para botones "Cambiar Estado" en la tabla de proyectos
+tablaProyectos.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'cambiarEstado') {
+        const idProyecto = event.target.dataset.id;
+        const nuevoEstado = event.target.dataset.nuevoEstado;
+
+        const confirmMessage = `¿Estás seguro de que deseas cambiar el estado del proyecto a "${nuevoEstado}"?`;
+        if (confirm(confirmMessage)) {
+            cambiarEstadoProyecto(idProyecto, nuevoEstado);
+        }
+        
+    }
+});
+
+// Función para cambiar el estado de un proyecto
+function cambiarEstadoProyecto(idProyecto, nuevoEstado) {
+    const requestData = {
+        nuevo_estado: true,
+        id_proyecto: idProyecto,
+        nuevo_estado: nuevoEstado
+    };
+
+    const successMessage = "Estado del proyecto actualizado con éxito";
+    const errorMessage = "Error al actualizar el estado del proyecto";
+
+    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
+        // Actualizar el valor seleccionado en el <select>
+        const selectElement = document.querySelector(`select[name="nuevo_estado"][data-id="${idProyecto}"]`);
+        if (selectElement) {
+            selectElement.value = nuevoEstado;
         }
     });
 }
 
-// Función para cambiar el estado de un proyecto
-function cambiarEstado(idProyecto, nuevoEstado) {
-    // Mostrar un mensaje de advertencia antes de cambiar el estado
-    if (confirm(`¿Estás seguro de que deseas cambiar el estado del proyecto a "${nuevoEstado}"?`)) {
-        // Realizar la solicitud AJAX para cambiar el estado del proyecto (ajusta la URL y los datos)
-        $.ajax({
-            type: "POST",
-            url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
-            data: {
-                nuevo_estado: true,
-                id_proyecto: idProyecto,
-                nuevo_estado: nuevoEstado
-            },
-            dataType: "json",
-            success: function (response) {
-                if (response.exito) {
-                    alert("Estado del proyecto actualizado con éxito.");
-                    // No es necesario recargar la página; el estado se actualiza en el select.
-                } else {
-                    alert("Error al actualizar el estado del proyecto.");
+// Función genérica para enviar solicitudes AJAX
+function sendAjaxRequest(data, successMessage, errorMessage, successCallback) {
+    $.ajax({
+        type: "POST",
+        url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
+        data,
+        dataType: "json",
+        success: function (response) {
+            if (response.exito) {
+                alert(successMessage);
+                if (successCallback) {
+                    successCallback();
                 }
-            },
-            error: function () {
-                alert("Error al actualizar el estado del proyecto.");
+            } else {
+                alert(errorMessage);
             }
-        });
-    }
+        },
+        error: function () {
+            alert(errorMessage);
+        }
+    });
 }
