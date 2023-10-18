@@ -41,15 +41,14 @@ $pdo = conectarBaseDeDatos();
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
         <a href="../pages/proyectos.php" class="boton-agregar">Mostrar Tabla</a>
-        <div id="nuevoProyectoForm" class="formulario-proyecto">
-            <h2 class="titulo" id="formTitle">Nuevo Proyecto</h2>
+        <div id="agregarProyectoForm" class="formulario-proyecto">
+            <h2 class="titulo" id="formTitle">Agregar Proyecto</h2>
             <form method="POST">
-                <!-- Agrega un campo oculto para almacenar el ID del proyecto en caso de edición -->
                 <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
                 <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
                 <label for="descripcion" class="label">Descripción:</label>
-                <input type="text" class="input" id="descripcion" name="descripcion" rows="2" required></input>
+                <textarea class="input" id="descripcion" name="descripcion" required></textarea>
                 <label for="cliente" class="label">Cliente:</label>
                 <input type="text" class="input" id="cliente" name="cliente" required>
                 <label for="desarrollador" class="label">Desarrollador:</label>
@@ -66,7 +65,7 @@ $pdo = conectarBaseDeDatos();
                     <option value="supervision">Supervisión</option>
                     <option value="cierre">Cierre</option>
                 </select>
-                <button type="submit" class="boton-principal boton-agregar" id="btnAgregar" name="agregar_proyecto">Agregar</button>
+                <button type="submit" class="boton-agregarEditar" id="btnAgregar" name="agregar_proyecto">Agregar</button>
             </form>
         </div>
     </main>

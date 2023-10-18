@@ -1,8 +1,4 @@
 // Obtener elementos HTML relevantes
-const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
-const nuevoProyectoForm = document.getElementById('nuevoProyectoForm');
-const tablaProyectos = document.getElementById('tablaProyectos');
-const estadoForm = document.getElementById('estado_form');
 const idProyectoForm = document.getElementById('id_proyecto_form');
 const nombreProyectoInput = document.getElementById('nombre_proyecto');
 const descripcionInput = document.getElementById('descripcion');
@@ -10,6 +6,11 @@ const clienteInput = document.getElementById('cliente');
 const desarrolladorInput = document.getElementById('desarrollador');
 const fechaInicioInput = document.getElementById('fecha_inicio');
 const fechaEntregaEstimadaInput = document.getElementById('fecha_entrega_estimada');
+const estadoForm = document.getElementById('estado_form');
+const btnNuevoProyecto = document.getElementById('btnNuevoProyecto');
+const agregarProyectoForm = document.getElementById('agregarProyectoForm');
+const editarProyectoForm = document.getElementById('editarProyectoForm');
+const tablaProyectos = document.getElementById('tablaProyectos');
 const btnAgregar = document.getElementById('btnAgregar');
 const btnEditar = document.getElementById('btnEditar');
 
@@ -49,9 +50,9 @@ tablaProyectos.addEventListener('click', (event) => {
         fechaInicioInput.value = fechaInicio;
         fechaEntregaEstimadaInput.value = fechaEntrega;
         estadoForm.value = estado;
-        btnEditar.textContent = 'Editar';
-
-    } else if (event.target.dataset.action === 'finalizar') {
+        btnEditar.textContent = 'Guardar cambios';
+    }
+    else if (event.target.dataset.action === 'finalizar') {
         const idProyecto = event.target.dataset.id;
         // Mostrar mensaje de advertencia antes de finalizar el proyecto
         if (confirm("¿Estás seguro de que deseas finalizar este proyecto?")) {

@@ -11,7 +11,7 @@ $pdo = conectarBaseDeDatos();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyectos | Maitco</title>
+    <title>Editar Proyecto | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
@@ -39,16 +39,16 @@ $pdo = conectarBaseDeDatos();
     </header>
 
     <main class="contenedor-principal">
-        <h1 class="titulo">Mis Proyectos</h1>
+        <h1 class="titulo">Editar Proyecto</h1>
         <a href="../pages/proyectos.php" class="boton-agregar">Mostrar Tabla</a>
-        <div id="nuevoProyectoForm" class="formulario-proyecto">
-            <h2 class="titulo" id="formTitle">Nuevo Proyecto</h2>
+        <div id="editarProyectoForm" class="formulario-proyecto">
+            <h2 class="titulo" id="formTitle">Editar Proyecto</h2>
             <form method="POST">
                 <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
                 <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
                 <label for="descripcion" class="label">Descripción:</label>
-                <input type="text" class="input" id="descripcion" name="descripcion" rows="2" required></input>
+                <textarea class="input" id="descripcion" name="descripcion" required></textarea>
                 <label for="cliente" class="label">Cliente:</label>
                 <input type="text" class="input" id="cliente" name="cliente" required>
                 <label for="desarrollador" class="label">Desarrollador:</label>
@@ -65,7 +65,7 @@ $pdo = conectarBaseDeDatos();
                     <option value="supervision">Supervisión</option>
                     <option value="cierre">Cierre</option>
                 </select>
-                <button type="submit" class="boton-principal boton-agregar" id="btnEditar" name="editar_proyecto">Editar</button>
+                <button type="submit" class="boton-agregarEditar" id="btnEditar" name="editar_proyecto">Editar</button>
             </form>
         </div>
     </main>
