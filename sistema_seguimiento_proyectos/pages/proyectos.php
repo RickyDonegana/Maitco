@@ -96,7 +96,7 @@ $pdo = conectarBaseDeDatos();
         </table>
         <!-- Formulario para agregar o editar proyectos (inicialmente oculto) -->
         <div id="nuevoProyectoForm" class="formulario-proyecto" style="display: none;">
-            <h2 class="titulo">Nuevo Proyecto</h2>
+            <h2 class="titulo" id="formTitle">Nuevo Proyecto</h2>
             <form method="POST">
                 <!-- Agrega un campo oculto para almacenar el ID del proyecto en caso de edición -->
                 <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
@@ -120,7 +120,7 @@ $pdo = conectarBaseDeDatos();
                     <option value="supervision">Supervisión</option>
                     <option value="cierre">Cierre</option>
                 </select>
-                <!-- Botón para agregar o editar proyectos -->
+                <!-- Botón para agregar o editar -->
                 <button type="submit" class="boton-principal boton-agregar" id="btnAgregarEditarProyecto" name="agregar_proyecto">Agregar</button>
             </form>
         </div>
@@ -128,5 +128,18 @@ $pdo = conectarBaseDeDatos();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/script.js"></script>
 </body>
+
+
+<!-- hacer que al momento de darle al boton de editar se ejecute lla funcion de update
+
+
+ejemplo en el codigo del pañol boton en orders/pedidos
+
+ <a href="form_editOrders.php?edit=<//?php echo $row['id_pedido']; ?>" class="btn__table btn__table-yellow"><i class="ri-pencil-fill"></i></a>
+
+
+
+ codigo de php 
+-->
 
 </html>
