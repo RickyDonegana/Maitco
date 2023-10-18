@@ -4,7 +4,6 @@ require_once('../php/funcion_proyectos.php');
 require_once('../php/usuario.php');
 $pdo = conectarBaseDeDatos();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,14 +36,10 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
-        <!-- Botón para mostrar/ocultar el formulario -->
-        <button class="boton-agregar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</button>
-        <!-- Tabla para mostrar los proyectos -->
+        <a href="../pages/proyectos_agregar.php" class="boton-agregar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
         <table id="tablaProyectos" class="tabla-proyectos">
-            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
                     <th>ID</th>
@@ -83,9 +78,7 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
-                            <button data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>" class="boton-editar">
-                                <img src="../svg/editar.svg" alt="Editar">
-                            </button>
+                            <a href="../pages/proyectos_editar.php" data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-finalizar">
                                 <img src="../svg/finalizar.svg" alt="Finalizar">
                             </button>
@@ -94,52 +87,9 @@ $pdo = conectarBaseDeDatos();
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <!-- Formulario para agregar o editar proyectos (inicialmente oculto) -->
-        <div id="nuevoProyectoForm" class="formulario-proyecto" style="display: none;">
-            <h2 class="titulo" id="formTitle">Nuevo Proyecto</h2>
-            <form method="POST">
-                <!-- Agrega un campo oculto para almacenar el ID del proyecto en caso de edición -->
-                <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
-                <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
-                <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
-                <label for="descripcion" class="label">Descripción:</label>
-                <input type="text" class="input" id="descripcion" name="descripcion" rows="2" required></input>
-                <label for="cliente" class="label">Cliente:</label>
-                <input type="text" class="input" id="cliente" name="cliente" required>
-                <label for="desarrollador" class="label">Desarrollador:</label>
-                <input type="text" class="input" id="desarrollador" name="desarrollador" required>
-                <label for="fecha_inicio" class="label">Fecha de Inicio:</label>
-                <input type="date" class="input" id="fecha_inicio" name="fecha_inicio" required>
-                <label for="fecha_entrega_estimada" class="label">Fecha de Finalización Estimada:</label>
-                <input type="date" class="input" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required>
-                <label for="estado" class="label">Estado:</label>
-                <select name="estado" class="select" id="estado_form" required>
-                    <option value="inicio">Inicio</option>
-                    <option value="planificacion">Planificación</option>
-                    <option value="ejecucion">Ejecución</option>
-                    <option value="supervision">Supervisión</option>
-                    <option value="cierre">Cierre</option>
-                </select>
-                <!-- Botón para agregar o editar -->
-                <button type="submit" class="boton-principal boton-agregar" id="btnAgregarEditarProyecto" name="agregar_proyecto">Agregar</button>
-            </form>
-        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/script.js"></script>
 </body>
-
-
-<!-- hacer que al momento de darle al boton de editar se ejecute lla funcion de update
-
-
-ejemplo en el codigo del pañol boton en orders/pedidos
-
- <a href="form_editOrders.php?edit=<//?php echo $row['id_pedido']; ?>" class="btn__table btn__table-yellow"><i class="ri-pencil-fill"></i></a>
-
-
-
- codigo de php 
--->
 
 </html>

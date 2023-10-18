@@ -10,27 +10,8 @@ const clienteInput = document.getElementById('cliente');
 const desarrolladorInput = document.getElementById('desarrollador');
 const fechaInicioInput = document.getElementById('fecha_inicio');
 const fechaEntregaEstimadaInput = document.getElementById('fecha_entrega_estimada');
-const btnAgregarEditarProyecto = document.getElementById('btnAgregarEditarProyecto');
-
-// Variable para rastrear si el formulario está visible
-let formularioVisible = false;
-
-// Función para alternar la visibilidad del formulario y la tabla
-function alternarFormularioYTabla() {
-    if (formularioVisible) {
-        // Si el formulario está visible, ocultarlo y mostrar la tabla
-        nuevoProyectoForm.style.display = 'none';
-        tablaProyectos.style.display = 'table';
-        btnNuevoProyecto.textContent = 'Agregar Nuevo Proyecto';
-    } else {
-        // Si el formulario está oculto, mostrarlo y ocultar la tabla
-        nuevoProyectoForm.style.display = 'block';
-        tablaProyectos.style.display = 'none';
-        btnNuevoProyecto.textContent = 'Mostrar Proyectos';
-    }
-    // Cambiar el estado del formularioVisible
-    formularioVisible = !formularioVisible;
-}
+const btnAgregar = document.getElementById('btnAgregar');
+const btnEditar = document.getElementById('btnEditar');
 
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
@@ -43,9 +24,7 @@ btnNuevoProyecto.addEventListener('click', () => {
     fechaInicioInput.value = '';
     fechaEntregaEstimadaInput.value = '';
     estadoForm.value = 'inicio';
-    btnAgregarEditarProyecto.innerText = 'Agregar';
-    // Llama a la función para alternar la visibilidad del formulario y la tabla
-    alternarFormularioYTabla();
+    btnAgregar.innerText = 'Agregar';
 });
 
 // Event listener para botones "Editar" en la tabla de proyectos
@@ -70,10 +49,8 @@ tablaProyectos.addEventListener('click', (event) => {
         fechaInicioInput.value = fechaInicio;
         fechaEntregaEstimadaInput.value = fechaEntrega;
         estadoForm.value = estado;
-        btnAgregarEditarProyecto.textContent = 'Editar';
+        btnEditar.textContent = 'Editar';
 
-        // Llama a la función para alternar la visibilidad del formulario y la tabla
-        alternarFormularioYTabla();
     } else if (event.target.dataset.action === 'finalizar') {
         const idProyecto = event.target.dataset.id;
         // Mostrar mensaje de advertencia antes de finalizar el proyecto
