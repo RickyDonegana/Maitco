@@ -84,42 +84,13 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <button data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" data-nombre="<?php echo $tarea["nombre_tarea"]; ?>" data-descripcion="<?php echo $tarea["descripcion_tarea"]; ?>" data-cliente="<?php echo $tarea["nombre_proyecto"]; ?>" data-desarrollador="<?php echo $tarea["nombre_usuario"]; ?>" data-fechaInicio="<?php echo $tarea["fecha_vencimiento"]; ?>" data-fechaEntrega="<?php echo $tarea["estado_id"]; ?>" data-estado="<?php echo $tarea["estado_id"]; ?>" class="boton-principal boton-editar">Editar</button>
-                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-principal boton-finalizar">Finalizar</button>
+                            <button data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</button>
+                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">Finalizar</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-
-        <!-- Formulario para agregar o editar tareas (inicialmente oculto) -->
-        <div id="nuevaTareaForm" class="formulario-tarea" style="display: none;">
-            <h2 class="titulo">Nueva Tarea</h2>
-            <form method="POST">
-                <!-- Agrega un campo oculto para almacenar el ID de la tarea en caso de edición -->
-                <input type="hidden" class="input" id="id_tarea_form" name="id_tarea">
-                <label for="nombre_tarea" class="label">Nombre de la Tarea:</label>
-                <input type="text" class="input" id="nombre_tarea" name="nombre_tarea" required>
-                <label for="descripcion_tarea" class="label">Descripción:</label>
-                <textarea class="input" id="descripcion_tarea" name="descripcion_tarea" rows="2" required></textarea>
-                <label for="id_proyecto" class="label">Proyecto:</label>
-                <select name="id_proyecto" class="select" id="id_proyecto_form" required>
-                    <!-- Opciones de proyectos aquí -->
-                </select>
-                <label for="id_usuario" class="label">Asignada a:</label>
-                <select name="id_usuario" class="select" id="id_usuario_form" required>
-                    <!-- Opciones de usuarios aquí -->
-                </select>
-                <label for="fecha_vencimiento" class="label">Fecha de Vencimiento:</label>
-                <input type="date" class="input" id="fecha_vencimiento" name="fecha_vencimiento" required>
-                <label for="estado_id" class="label">Estado:</label>
-                <select name="estado_id" class="select" id="estado_id_form" required>
-                    <!-- Opciones de estados aquí -->
-                </select>
-                <!-- Botón para agregar o editar tareas -->
-                <button type="submit" class="boton-principal boton-agregar" id="btnAgregarEditarTarea" name="agregar_tarea">Agregar</button>
-            </form>
-        </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/script.js"></script>

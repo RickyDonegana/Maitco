@@ -38,7 +38,7 @@ $pdo = conectarBaseDeDatos();
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
-        <a href="../pages/proyectos_agregar.php" class="boton-agregarEditar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
+        <a href="../pages/agregar_proyecto.php" class="boton-agregarEditar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
         <table id="tablaProyectos" class="tabla-proyectos">
             <thead>
                 <tr>
@@ -78,7 +78,7 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
-                            <a href="../pages/proyectos_editar.php" data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>" class="boton-editar"></a>
+                            <a href="../pages/editar_proyecto.php" data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-finalizar">
                                 <img src="../svg/finalizar.svg" alt="Finalizar">
                             </button>
