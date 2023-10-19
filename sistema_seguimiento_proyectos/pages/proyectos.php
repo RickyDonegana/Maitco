@@ -66,13 +66,13 @@ $pdo = conectarBaseDeDatos();
                         <td>
                             <form method="POST" class="select-container">
                                 <input type="hidden" name="id_proyecto" value="<?php echo $proyecto["id_proyecto"]; ?>">
-                                <select name="nuevo_estado" class="select" onchange="cambiarEstadoProyecto(<?php echo $proyecto['id_proyecto']; ?>, this.value)" data-id="<?php echo $proyecto['id_proyecto']; ?>">
+                                <select data-action="cambiarEstado" class="select" data-id="<?php echo $proyecto['id_proyecto']; ?>" data-estado-actual="<?php echo $proyecto['estado']; ?>">
                                     <option value="inicio" <?php echo ($proyecto["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
                                     <option value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
                                     <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
                                     <option value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
                                     <option value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
-                                    <option value="finalizado" hidden <?php echo ($proyecto["estado"] == 'finalizado') ? 'selected' : ''; ?>>Cierre</option>
+                                    <option value="finalizado" hidden <?php echo ($proyecto["estado"] == 'finalizado') ? 'selected' : ''; ?>>Finalizado</option>
                                 </select>
                             </form>
                         </td>

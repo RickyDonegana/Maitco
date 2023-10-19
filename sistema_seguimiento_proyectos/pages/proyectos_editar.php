@@ -3,6 +3,10 @@ require_once('../php/conn.php');
 require_once('../php/funcion_proyectos.php');
 require_once('../php/usuario.php');
 $pdo = conectarBaseDeDatos();
+
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +69,7 @@ $pdo = conectarBaseDeDatos();
                     <option value="supervision">Supervisión</option>
                     <option value="cierre">Cierre</option>
                 </select>
-                <button type="submit" class="boton-agregarEditar" id="btnEditar" name="editar_proyecto">Editar</button>
+                <button type="submit" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-nombre="<?php echo $proyecto["nombre_proyecto"]; ?>" data-descripcion="<?php echo $proyecto["descripcion"]; ?>" data-cliente="<?php echo $proyecto["cliente"]; ?>" data-desarrollador="<?php echo $proyecto["desarrollador"]; ?>" data-fechaInicio="<?php echo $proyecto["fecha_inicio"]; ?>" data-fechaEntrega="<?php echo $proyecto["fecha_entrega_estimada"]; ?>" data-estado="<?php echo $proyecto["estado"]; ?>" class="boton-agregarEditar" id="btnEditar" name="editar_proyecto">Editar</button>
             </form>
         </div>
     </main>

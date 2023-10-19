@@ -18,7 +18,6 @@ const elements = {
 
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
-    // Limpiar los campos del formulario
     idProyectoForm.value = '';
     nombreProyectoInput.value = '';
     descripcionInput.value = '';
@@ -33,7 +32,6 @@ btnNuevoProyecto.addEventListener('click', () => {
 // Event listener para botones "Editar" en la tabla de proyectos
 tablaProyectos.addEventListener('click', (event) => {
     if (event.target.dataset.action === 'editar') {
-        // Obtener los datos del proyecto seleccionado
         const id = event.target.dataset.id;
         const nombre = event.target.dataset.nombre;
         const descripcion = event.target.dataset.descripcion;
@@ -42,19 +40,15 @@ tablaProyectos.addEventListener('click', (event) => {
         const fechaInicio = event.target.dataset.fechaInicio;
         const fechaEntrega = event.target.dataset.fechaEntrega;
         const estado = event.target.dataset.estado;
-
-        // Llenar el formulario con los datos del proyecto seleccionado
-        idProyectoForm.value = id;
-        nombreProyectoInput.value = nombre;
-        descripcionInput.value = descripcion;
-        clienteInput.value = cliente;
-        desarrolladorInput.value = desarrollador;
-        fechaInicioInput.value = fechaInicio;
-        fechaEntregaEstimadaInput.value = fechaEntrega;
-        estadoForm.value = estado;
-        btnEditar.textContent = 'Guardar cambios';
-
-        // Agregar un evento al formulario para manejar la edición
+        document.getElementById('id_proyecto_form').value = id;
+        document.getElementById('nombre_proyecto').value = nombre;
+        document.getElementById('descripcion').value = descripcion;
+        document.getElementById('cliente').value = cliente;
+        document.getElementById('desarrollador').value = desarrollador;
+        document.getElementById('fecha_inicio').value = fechaInicio;
+        document.getElementById('fecha_entrega_estimada').value = fechaEntrega;
+        document.getElementById('estado_form').value = estado;
+        document.getElementById('btnEditar').textContent = 'Guardar cambios';
         agregarProyectoForm.onsubmit = function (e) {
             e.preventDefault();
             editarProyecto();
@@ -108,7 +102,6 @@ function editarProyecto() {
 tablaProyectos.addEventListener('click', (event) => {
     if (event.target.dataset.action === 'finalizar') {
         const idProyecto = event.target.dataset.id;
-
         const confirmMessage = "¿Estás seguro de que deseas finalizar este proyecto?";
         if (confirm(confirmMessage)) {
             finalizarProyecto(idProyecto);
@@ -122,27 +115,26 @@ function finalizarProyecto(idProyecto) {
         confirmar_finalizar_proyecto: true,
         id_proyecto: idProyecto
     };
-
     const successMessage = "Proyecto finalizado con éxito";
     const errorMessage = "Error al finalizar el proyecto";
-
     sendAjaxRequest(requestData, successMessage, errorMessage, () => {
-        // Recargar la página después de finalizar
         location.reload();
     });
 }
 
 // Event listener para botones "Cambiar Estado" en la tabla de proyectos
-tablaProyectos.addEventListener('click', (event) => {
+tablaProyectos.addEventListener('change', (event) => {
     if (event.target.dataset.action === 'cambiarEstado') {
-        const idProyecto = event.target.dataset.id;
-        const nuevoEstado = event.target.dataset.nuevoEstado;
-
+        const selectElement = event.target;
+        const idProyecto = selectElement.dataset.id;
+        const nuevoEstado = selectElement.value;
+        const estadoActual = selectElement.dataset.estadoActual;
         const confirmMessage = `¿Estás seguro de que deseas cambiar el estado del proyecto a "${nuevoEstado}"?`;
         if (confirm(confirmMessage)) {
             cambiarEstadoProyecto(idProyecto, nuevoEstado);
+        } else {
+            selectElement.value = estadoActual;
         }
-        
     }
 });
 
@@ -153,15 +145,12 @@ function cambiarEstadoProyecto(idProyecto, nuevoEstado) {
         id_proyecto: idProyecto,
         nuevo_estado: nuevoEstado
     };
-
-    const successMessage = "Estado del proyecto actualizado con éxito";
+    const successMessage = `Estado del proyecto actualizado con éxito (${nuevoEstado})`;
     const errorMessage = "Error al actualizar el estado del proyecto";
-
     sendAjaxRequest(requestData, successMessage, errorMessage, () => {
-        // Actualizar el valor seleccionado en el <select>
-        const selectElement = document.querySelector(`select[name="nuevo_estado"][data-id="${idProyecto}"]`);
+        const selectElement = document.querySelector(`select[data-action="cambiarEstado"][data-id="${idProyecto}"]`);
         if (selectElement) {
-            selectElement.value = nuevoEstado;
+            selectElement.dataset.estadoActual = nuevoEstado;
         }
     });
 }
@@ -170,7 +159,7 @@ function cambiarEstadoProyecto(idProyecto, nuevoEstado) {
 function sendAjaxRequest(data, successMessage, errorMessage, successCallback) {
     $.ajax({
         type: "POST",
-        url: "../php/funcion_proyectos.php", // Reemplaza con la URL correcta
+        url: "../php/funcion_proyectos.php",
         data,
         dataType: "json",
         success: function (response) {
