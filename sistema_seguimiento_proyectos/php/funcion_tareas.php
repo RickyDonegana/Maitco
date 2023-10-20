@@ -7,7 +7,7 @@ $tareasRojo = 0;
 $tareasAmarillo = 0;
 $tareasVerde = 0;
 
-foreach ($tareas as $tarea) {
+/*foreach ($tareas as $tarea) {
     $estado = $tarea["estado_id"];
     if ($estado === 'rojo') {
         $tareasRojo++;
@@ -16,7 +16,7 @@ foreach ($tareas as $tarea) {
     } elseif ($estado === 'verde') {
         $tareasVerde++;
     }
-}
+}*/
 
 // Consultar tareas existentes
 $stmt = $pdo->prepare("SELECT * FROM tareas");

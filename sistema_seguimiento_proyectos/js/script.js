@@ -13,8 +13,22 @@ const elements = {
     editarProyectoForm: document.getElementById('editarProyectoForm'),
     tablaProyectos: document.getElementById('tablaProyectos'),
     btnAgregar: document.getElementById('btnAgregar'),
-    btnEditar: document.getElementById('btnEditar')
+    btnEditar: document.getElementById('btnEditar'),
+    btnAgregarTarea: document.getElementById('btnAgregarTarea')
 };
+
+// Agregar evento para el botón "Agregar Nueva Tarea"
+btnAgregarTarea.addEventListener('click', () => {
+    idTareaForm.value = '';
+    nombreTarea.value = '';
+    descripcionTarea.value = '';
+    idProyectoForm.value = '';
+    idUsuarioForm.value = '';
+    fechaVencimiento.value = '';
+    estadoIdForm.value = ''; // Establece el campo de estado en blanco
+    btnAgregarEditarTarea.innerText = 'Agregar';
+});
+
 
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
