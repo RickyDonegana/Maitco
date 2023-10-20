@@ -55,6 +55,7 @@ $pdo = conectarBaseDeDatos();
                         Tareas en estado amarillo: <?php echo $tareasAmarillo; ?><br>
                         Tareas en estado verde: <?php echo $tareasVerde; ?><br>
                         Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
+                        ID: <?php echo $proyecto["id_proyecto"]; ?> style="display:none;"<br>
                     </p>
                 </div>
             <?php endforeach; ?>

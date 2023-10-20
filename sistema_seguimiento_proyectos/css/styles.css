@@ -512,3 +512,62 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
   background-color: var(--card-background);
 }
+
+/* Estilos para el formulario de proyecto */
+.formulario-tarea {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius-cards);
+  padding: var(--mb-2);
+  width: 60%;
+  margin: 2rem auto;
+  box-shadow: var(--box-shadow);
+}
+
+.formulario-tarea h2 {
+  font-size: var(--fs-1-5);
+  font-weight: var(--font-bold);
+  text-align: center;
+  margin-bottom: var(--mb-1);
+  color: var(--title-color);
+}
+
+.formulario-tarea label {
+  display: block;
+  margin-bottom: var(--mb-05);
+  font-size: var(--fs-1);
+  font-weight: var(--font-medium);
+  color: var(--title-color);
+}
+
+.formulario-tarea input[type="text"],
+.formulario-tarea input[type="date"],
+.formulario-tarea textarea, 
+.formulario-tarea select {
+  width: 100%;
+  padding: var(--mb-05);
+  margin-bottom: var(--mb-1);
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+  font-size: var(--fs-1);
+}
+
+.input:focus {
+  outline: 1px solid var(--blue);
+}
+
+.formulario-tarea button[type="submit"] {
+  display: block;
+  background-color: var(--blue);
+  color: var(--text-white);
+  border: none;
+  border-radius: 4px;
+  padding: 15px 20px;
+  font-size: 18px;
+  margin-top: var(--mb-1);
+  cursor: pointer;
+  transition: background-color 0.4s ease-in-out;
+}
+
+.formulario-tarea button[type="submit"]:hover {
+  background-color: var(--blue-hover);
+}

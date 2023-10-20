@@ -1,9 +1,7 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
-require_once('../php/funcion_proyectos.php');
-require_once('../php/funcion_tareas.php');
-require_once('');
+require_once('../php/tareas/agregar_tarea.php');
 $pdo = conectarBaseDeDatos();
 ?>
 
@@ -39,11 +37,8 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-
-        <!-- Botón para mostrar/ocultar el formulario -->
         <a href="../pages/tabla_tareas.php" class="boton-agregarEditar" id="btnAgregarTarea">Mostrar Tabla</a>
         <div id="nuevaTareaForm" class="formulario-tarea">
             <h2 class="titulo">Nueva Tarea</h2>
@@ -54,10 +49,27 @@ $pdo = conectarBaseDeDatos();
                 <label for="descripcion_tarea" class="label">Descripción:</label>
                 <textarea class="input" id="descripcion_tarea" name="descripcion_tarea" rows="2" required></textarea>
                 <label for="id_proyecto" class="label">Proyecto:</label>
-                <select name="id_proyecto" class="select" id="id_proyecto_form" required>
+                <select name="id_proyecto" class="label" id="id_proyecto_form" required>
+                    <?php foreach ($proyectos as $proyecto) : ?>
+                        <option value="<?php echo $proyecto['id_proyecto']; ?>">
+                            <?php echo $proyecto['nombre_proyecto']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
                 <label for="id_usuario" class="label">Asignada a:</label>
-                <select name="id_usuario" class="select" id="id_usuario_form" required>
+                <select name="id_usuario" class="label" id="id_usuario_form" required>
+                    <?php
+                    $sql = "SELECT id_usuario, nombre_usuario FROM usuarios WHERE rol_id = (SELECT id_rol FROM roles WHERE nombre_rol = 'Desarrollador de sitios')";
+                    $stmt = $pdo->prepare($sql);
+                    $stmt->execute();
+                    $usuariosDesarrolladores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($usuariosDesarrolladores as $usuario) :
+                    ?>
+                        <option value="<?php echo $usuario['id_usuario']; ?>">
+                            <?php echo $usuario['nombre_usuario']; ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
                 <label for="fecha_vencimiento" class="label">Fecha de Vencimiento:</label>
                 <input type="date" class="input" id="fecha_vencimiento" name="fecha_vencimiento" required>

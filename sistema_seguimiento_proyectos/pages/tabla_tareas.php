@@ -1,9 +1,7 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
-require_once('../php/funcion_proyectos.php');
-require_once('../php/funcion_tareas.php');
-require_once('');
+require_once('../php/tareas/funcion_tablaTareas.php');
 $pdo = conectarBaseDeDatos();
 ?>
 
@@ -39,16 +37,10 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-
-        <!-- Botón para mostrar/ocultar el formulario -->
-        <button class="boton-principal boton-agregar" id="btnAgregarTarea">Agregar Nueva Tarea</button>
-
-        <!-- Tabla para mostrar las tareas -->
+        <a href="../pages/agregar_tareas.php" class="boton-agregarEditar">Agregar Nueva Tarea</a>
         <table id="tablaTareas" class="tabla-tareas">
-            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
                     <th>ID Tarea</th>
@@ -61,7 +53,6 @@ $pdo = conectarBaseDeDatos();
                     <th>Acciones</th>
                 </tr>
             </thead>
-
             <tbody>
                 <?php foreach ($tareas as $tarea) : ?>
                     <tr>
@@ -75,16 +66,16 @@ $pdo = conectarBaseDeDatos();
                         <td>
                             <form method="POST" class="select-container">
                                 <input type="hidden" name="id_tarea" value="<?php echo $tarea["id_tarea"]; ?>">
-                                <select name="nuevo_estado" class="select" onchange="cambiarEstado(<?php echo $proyecto['id_proyecto']; ?>, this.value)">
-                                    <option value="inicio" <?php echo ($tarea["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
-                                    <option value="planificacion" <?php echo ($tarea["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
-                                    <option value="ejecucion" <?php echo ($tarea["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
+                                <select name="nuevo_estado" class="select" onchange="cambiarEstado(<?php echo $tarea['id_tarea']; ?>, this.value)">
+                                    <?php foreach ($estados as $estado) : ?>
+                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea["estado_id"] == $estado['id_estado']) ? 'selected' : ''; ?>><?php echo $estado['nombre_estado']; ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </form>
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <button data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</button>
+                            <a href="../pages/editar_tareas.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</a>
                             <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">Finalizar</button>
                         </td>
                     </tr>
