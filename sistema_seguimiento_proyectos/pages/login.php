@@ -1,6 +1,7 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/funcion_login.php');
+$pdo = conectarBaseDeDatos();
 ?>
 
 <!DOCTYPE html>

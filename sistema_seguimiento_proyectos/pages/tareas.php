@@ -1,28 +1,9 @@
 <?php
-// Incluir los archivos necesarios
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
-
-// Obtener la lista de proyectos
+require_once('../php/funcion_proyectos.php');
+require_once('../php/funcion_tareas.php');
 $pdo = conectarBaseDeDatos();
-$stmtProyectos = $pdo->query("SELECT * FROM proyectos");
-$proyectos = $stmtProyectos->fetchAll(PDO::FETCH_ASSOC);
-
-// Obtener el estado de las tareas y contarlas
-$tareasRojo = 0;
-$tareasAmarillo = 0;
-$tareasVerde = 0;
-
-foreach ($tareas as $tarea) {
-    $estado = $tarea["estado_id"];
-    if ($estado === 'rojo') {
-        $tareasRojo++;
-    } elseif ($estado === 'amarillo') {
-        $tareasAmarillo++;
-    } elseif ($estado === 'verde') {
-        $tareasVerde++;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +43,7 @@ foreach ($tareas as $tarea) {
         <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()">
+                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                     <h3 class="titulo-proyecto">
                         <?php echo $proyecto["nombre_proyecto"]; ?>
                     </h3>
@@ -74,6 +55,7 @@ foreach ($tareas as $tarea) {
                         Tareas en estado amarillo: <?php echo $tareasAmarillo; ?><br>
                         Tareas en estado verde: <?php echo $tareasVerde; ?><br>
                         Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
+                        ID: <?php echo $proyecto["id_proyecto"]; ?> style="display:none;"<br>
                     </p>
                 </div>
             <?php endforeach; ?>
