@@ -27,6 +27,21 @@ CREATE TABLE IF NOT EXISTS usuarios (
     FOREIGN KEY (rol_id) REFERENCES roles (id_rol)
 );
 
+-- Tabla de Estados de Proyectos
+CREATE TABLE IF NOT EXISTS estados_proyectos (
+    id_estado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_estado VARCHAR(50) NOT NULL
+);
+
+-- Insertar estados iniciales de proyectos
+INSERT INTO estados_proyectos (nombre_estado) VALUES
+    ('Inicio'),
+    ('Planificación'),
+    ('Ejecución');
+    ('Supervisión'),
+    ('Cierre'),
+    ('Finalizado');
+
 -- Tabla de Proyectos
 CREATE TABLE IF NOT EXISTS proyectos (
     id_proyecto INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,15 +52,7 @@ CREATE TABLE IF NOT EXISTS proyectos (
     fecha_inicio DATE NOT NULL,
     fecha_entrega_estimada DATE NOT NULL,
     estado VARCHAR(50) NOT NULL
-);
-
--- Tabla de Etapas del Proyecto
-CREATE TABLE IF NOT EXISTS etapas_proyecto (
-    id_etapa INT AUTO_INCREMENT PRIMARY KEY,
-    id_proyecto INT NOT NULL,
-    nombre_etapa VARCHAR(255) NOT NULL,
-    color VARCHAR(20) NOT NULL,
-    FOREIGN KEY (id_proyecto) REFERENCES proyectos (id_proyecto)
+    FOREIGN KEY (estado) REFERENCES estados_proyectos (id_estado),
 );
 
 -- Tabla de Estados de Tareas

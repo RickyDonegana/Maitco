@@ -1,12 +1,10 @@
 <?php
 include('../php/conn.php');
-
-// Función para finalizar un proyecto
 function finalizarProyecto($id)
 {
     $pdo = conectarBaseDeDatos();
     try {
-        $sql = "UPDATE proyectos SET estado = 'finalizado' WHERE id_proyecto = :id";
+        $sql = "UPDATE proyectos SET estado = 'Finalizado' WHERE id_proyecto = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -14,8 +12,6 @@ function finalizarProyecto($id)
         echo "Error al finalizar el proyecto: " . $e->getMessage();
     }
 }
-
-// Función para cambiar el estado de un proyecto
 function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
 {
     $pdo = conectarBaseDeDatos();
@@ -30,7 +26,6 @@ function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
         echo json_encode(["exito" => false, "mensaje" => "Error al cambiar el estado del proyecto: " . $e->getMessage()]);
     }
 }
-
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["nuevo_estado"]) && isset($_POST["id_proyecto"])) {
         $idProyecto = $_POST["id_proyecto"];
@@ -48,8 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 }
-
-// Consultar proyectos existentes
 $pdo = conectarBaseDeDatos();
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();

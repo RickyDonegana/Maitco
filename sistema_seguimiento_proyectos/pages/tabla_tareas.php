@@ -39,7 +39,7 @@ $pdo = conectarBaseDeDatos();
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-        <a href="../pages/agregar_tareas.php" class="boton-agregarEditar">Agregar Nueva Tarea</a>
+        <a href="../pages/agregar_tarea.php" class="boton-agregarEditar">Agregar Nueva Tarea</a>
         <table id="tablaTareas" class="tabla-tareas">
             <thead>
                 <tr>
@@ -75,7 +75,7 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <a href="../pages/editar_tareas.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</a>
+                            <a href="../pages/editar_tarea.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</a>
                             <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">Finalizar</button>
                         </td>
                     </tr>
