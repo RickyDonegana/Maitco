@@ -49,6 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// Verificar si se ha hecho clic en el botón de editar
+if (isset($_GET['editar_proyecto'])) {
+    $proyecto_id = $_GET['editar_proyecto'];
+    header("Location: editar_proyecto.php?id=$proyecto_id");
+    exit;
+}
+
 // Consultar proyectos existentes
 $pdo = conectarBaseDeDatos();
 $stmt = $pdo->prepare("SELECT * FROM proyectos");

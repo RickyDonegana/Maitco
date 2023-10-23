@@ -77,7 +77,7 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
-                            <a href="../pages/editar_proyecto.php" data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
+                            <a href="../pages/editar_proyecto.php?id=<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-finalizar">
                                 <img src="../svg/finalizar.svg" alt="Finalizar">
                             </button>
