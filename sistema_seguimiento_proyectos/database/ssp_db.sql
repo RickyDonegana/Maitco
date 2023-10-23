@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS estados_proyectos (
 INSERT INTO estados_proyectos (nombre_estado) VALUES
     ('Inicio'),
     ('Planificación'),
-    ('Ejecución');
+    ('Ejecución'),
     ('Supervisión'),
     ('Cierre'),
     ('Finalizado');
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS proyectos (
     desarrollador VARCHAR(100),
     fecha_inicio DATE NOT NULL,
     fecha_entrega_estimada DATE NOT NULL,
-    estado VARCHAR(50) NOT NULL
-    FOREIGN KEY (estado) REFERENCES estados_proyectos (id_estado),
+    estado INT NOT NULL,
+    FOREIGN KEY (estado) REFERENCES estados_proyectos (id_estado)
 );
 
 -- Tabla de Estados de Tareas
