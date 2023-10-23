@@ -1,11 +1,12 @@
 <?php
 include('../php/conn.php');
 
+// Función para finalizar un proyecto
 function finalizarProyecto($id)
 {
     $pdo = conectarBaseDeDatos();
     try {
-        $sql = "UPDATE proyectos SET estado = (SELECT id_estado FROM estados_proyectos WHERE nombre_estado = 'Finalizado') WHERE id_proyecto = :id";
+        $sql = "UPDATE proyectos SET estado = 'finalizado' WHERE id_proyecto = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
@@ -14,27 +15,27 @@ function finalizarProyecto($id)
     }
 }
 
+// Función para cambiar el estado de un proyecto
 function cambiarEstadoProyecto($idProyecto, $nuevoEstado)
 {
     $pdo = conectarBaseDeDatos();
     try {
-        $sql = "UPDATE proyectos SET estado = (SELECT id_estado FROM estados_proyectos WHERE nombre_estado = :nuevoEstado) WHERE id_proyecto = :idProyecto";
+        $sql = "UPDATE proyectos SET estado = :nuevoEstado WHERE id_proyecto = :idProyecto";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":idProyecto", $idProyecto, PDO::PARAM_INT);
         $stmt->bindParam(":nuevoEstado", $nuevoEstado, PDO::PARAM_STR);
+        $stmt->bindParam(":idProyecto", $idProyecto, PDO::PARAM_INT);
         $stmt->execute();
+        echo json_encode(["exito" => true]);
     } catch (PDOException $e) {
-        echo "Error al actualizar el estado del proyecto: " . $e->getMessage();
+        echo json_encode(["exito" => false, "mensaje" => "Error al cambiar el estado del proyecto: " . $e->getMessage()]);
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["id_proyecto"]) && isset($_POST["nuevo_estado"])) {
+    if (isset($_POST["nuevo_estado"]) && isset($_POST["id_proyecto"])) {
         $idProyecto = $_POST["id_proyecto"];
         $nuevoEstado = $_POST["nuevo_estado"];
         cambiarEstadoProyecto($idProyecto, $nuevoEstado);
-        echo json_encode(["exito" => true]);
-        exit;
     }
     if (isset($_POST["finalizar_proyecto"])) {
         $idProyecto = $_POST["id_proyecto"];
@@ -48,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
+// Consultar proyectos existentes
 $pdo = conectarBaseDeDatos();
 $stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();

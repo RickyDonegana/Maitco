@@ -49,7 +49,6 @@ if (isset($_GET['editar_proyecto'])) {
     $idProyecto = $_GET['editar_proyecto'];
     $update = true;
     $proyecto = obtenerProyecto($conexion, $idProyecto);
-
     if ($proyecto) {
         $idProyecto = $proyecto['id_proyecto'];
         $nombreProyecto = $proyecto['nombre_proyecto'];

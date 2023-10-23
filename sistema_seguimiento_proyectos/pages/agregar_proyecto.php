@@ -49,7 +49,7 @@ $pdo = conectarBaseDeDatos();
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
                 <label for="descripcion" class="label">Descripción:</label>
                 <textarea class="input" id="descripcion" name="descripcion" required></textarea>
-                <label for="cliente" class "label">Cliente:</label>
+                <label for="cliente" class="label">Cliente:</label>
                 <input type="text" class="input" id="cliente" name="cliente" required>
                 <label for="desarrollador" class="label">Desarrollador:</label>
                 <input type="text" class="input" id="desarrollador" name="desarrollador" required>
@@ -60,17 +60,11 @@ $pdo = conectarBaseDeDatos();
                 <label for="estado" class="label">Estado:</label>
                 <select name="estado" class="select" id="estado_form" required>
                     <option value="" disabled selected>Selecciona un estado</option>
-                    <?php
-                    $sql = "SELECT id_estado, nombre_estado FROM estados_proyectos";
-                    $stmt = $pdo->prepare($sql);
-                    $stmt->execute();
-                    $estadosProyecto = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($estadosProyecto as $estado) :
-                    ?>
-                        <option value="<?php echo $estado['id_estado']; ?>">
-                            <?php echo $estado['nombre_estado']; ?>
-                        </option>
-                    <?php endforeach; ?>
+                    <option value="inicio">Inicio</option>
+                    <option value="planificacion">Planificación</option>
+                    <option value="ejecucion">Ejecución</option>
+                    <option value="supervision">Supervisión</option>
+                    <option value="cierre">Cierre</option>
                 </select>
                 <button type="submit" class="boton-agregarEditar" id="btnAgregar" name="agregar_proyecto">Agregar</button>
             </form>

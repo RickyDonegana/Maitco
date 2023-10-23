@@ -27,8 +27,8 @@ const elements = {
     fechaVencimiento.value = '';
     estadoIdForm.value = ''; // Establece el campo de estado en blanco
     btnAgregarEditarTarea.innerText = 'Agregar';
-});
-*/
+});*/
+
 // Agregar evento para el botón "Agregar Nuevo Proyecto"
 btnNuevoProyecto.addEventListener('click', () => {
     idProyectoForm.value = '';
@@ -42,34 +42,99 @@ btnNuevoProyecto.addEventListener('click', () => {
     btnAgregar.innerText = 'Agregar';
 });
 
-// Agregar un evento de escucha al formulario
-/*const editarProyectoForm = document.getElementById('editarProyectoForm');
-
-proyectoForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const idProyecto = document.getElementById('id_proyecto_form').value;
-    const nombreProyecto = document.getElementById('nombre_proyecto').value;
-    const descripcion = document.getElementById('descripcion').value;
-    const cliente = document.getElementById('cliente').value;
-    const desarrollador = document.getElementById('desarrollador').value;
-    const fechaInicio = document.getElementById('fecha_inicio').value;
-    const fechaEntregaEstimada = document.getElementById('fecha_entrega_estimada').value;
-    const estado = document.getElementById('estado_form').value;
-
-    const requestData = {
-        id_proyecto: idProyecto,
-        nombre_proyecto: nombreProyecto,
-        descripcion: descripcion,
-        cliente: cliente,
-        desarrollador: desarrollador,
-        fecha_inicio: fechaInicio,
-        fecha_entrega_estimada: fechaEntregaEstimada,
-        estado: estado
-    };
-    sendAjaxRequest(requestData);
+// Event listener para botones "Editar" en la tabla de proyectos
+tablaProyectos.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'editar') {
+        const id = event.target.dataset.id;
+        const nombre = event.target.dataset.nombre;
+        const descripcion = event.target.dataset.descripcion;
+        const cliente = event.target.dataset.cliente;
+        const desarrollador = event.target.dataset.desarrollador;
+        const fechaInicio = event.target.dataset.fechaInicio;
+        const fechaEntrega = event.target.dataset.fechaEntrega;
+        const estado = event.target.dataset.estado;
+        document.getElementById('id_proyecto_form').value = id;
+        document.getElementById('nombre_proyecto').value = nombre;
+        document.getElementById('descripcion').value = descripcion;
+        document.getElementById('cliente').value = cliente;
+        document.getElementById('desarrollador').value = desarrollador;
+        document.getElementById('fecha_inicio').value = fechaInicio;
+        document.getElementById('fecha_entrega_estimada').value = fechaEntrega;
+        document.getElementById('estado_form').value = estado;
+        document.getElementById('btnEditar').textContent = 'Guardar cambios';
+        agregarProyectoForm.onsubmit = function (e) {
+            e.preventDefault();
+            editarProyecto();
+        };
+    }
 });
-*/
+
+// Función para editar un proyecto
+function editarProyecto() {
+    // Obtener los valores del formulario
+    const id = idProyectoForm.value;
+    const nombre = nombreProyectoInput.value;
+    const descripcion = descripcionInput.value;
+    const cliente = clienteInput.value;
+    const desarrollador = desarrolladorInput.value;
+    const fechaInicio = fechaInicioInput.value;
+    const fechaEntrega = fechaEntregaEstimadaInput.value;
+    const estado = estadoForm.value;
+
+    // Realizar la solicitud AJAX para editar el proyecto (ajusta la URL y los datos)
+    $.ajax({
+        type: "POST",
+        url: "../php/funcion_proyectos.php",
+        data: {
+            editar_proyecto: true,
+            id_proyecto: id,
+            nombre_proyecto: nombre,
+            descripcion: descripcion,
+            cliente: cliente,
+            desarrollador: desarrollador,
+            fecha_inicio: fechaInicio,
+            fecha_entrega_estimada: fechaEntrega,
+            estado: estado
+        },
+        dataType: "json",
+        success: function (response) {
+            if (response.exito) {
+                alert("Proyecto editado con éxito");
+                location.reload();
+            } else {
+                alert("Error al editar el proyecto");
+            }
+        },
+        error: function () {
+            alert("Error al editar el proyecto");
+        }
+    });
+}
+
+// Event listener para botones "Finalizar" en la tabla de proyectos
+tablaProyectos.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'finalizar') {
+        const idProyecto = event.target.dataset.id;
+        const confirmMessage = "¿Estás seguro de que deseas finalizar este proyecto?";
+        if (confirm(confirmMessage)) {
+            finalizarProyecto(idProyecto);
+        }
+    }
+});
+
+// Función para finalizar un proyecto
+function finalizarProyecto(idProyecto) {
+    const requestData = {
+        confirmar_finalizar_proyecto: true,
+        id_proyecto: idProyecto
+    };
+    const successMessage = "Proyecto finalizado con éxito";
+    const errorMessage = "Error al finalizar el proyecto";
+    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
+        location.reload();
+    });
+}
+
 // Event listener para botones "Cambiar Estado" en la tabla de proyectos
 tablaProyectos.addEventListener('change', (event) => {
     if (event.target.dataset.action === 'cambiarEstado') {
@@ -103,36 +168,11 @@ function cambiarEstadoProyecto(idProyecto, nuevoEstado) {
     });
 }
 
-// Event listener para botones "Finalizar" en la tabla de proyectos
-tablaProyectos.addEventListener('click', (event) => {
-    if (event.target.dataset.action === 'finalizar') {
-        const idProyecto = event.target.dataset.id;
-        const confirmMessage = "¿Estás seguro de que deseas finalizar este proyecto?";
-        if (confirm(confirmMessage)) {
-            finalizarProyecto(idProyecto);
-        }
-    }
-});
-
-// Función para finalizar un proyecto
-function finalizarProyecto(idProyecto) {
-    const requestData = {
-        confirmar_finalizar_proyecto: true,
-        id_proyecto: idProyecto
-    };
-    const successMessage = "Proyecto finalizado con éxito";
-    const errorMessage = "Error al finalizar el proyecto";
-    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
-        location.reload();
-    });
-}
-
 // Función genérica para enviar solicitudes AJAX
 function sendAjaxRequest(data, successMessage, errorMessage, successCallback) {
     $.ajax({
         type: "POST",
         url: "../php/funcion_proyectos.php",
-        url: "../php/proyectos/editar_proyecto.php",
         data,
         dataType: "json",
         success: function (response) {
