@@ -75,8 +75,10 @@ $pdo = conectarBaseDeDatos();
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <a href="../pages/editar_tarea.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar">Editar</a>
-                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">Finalizar</button>
+                            <a href="../pages/editar_tarea.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
+                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">
+                                <img src="../svg/finalizar.svg" alt="Finalizar">
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
