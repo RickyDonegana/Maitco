@@ -68,11 +68,69 @@ function cambiarEstadoProyecto(idProyecto, nuevoEstado) {
     });
 }
 
+// Event listener para botones "Finalizar" en la tabla de tareas
+tablaTareas.addEventListener('click', (event) => {
+    if (event.target.dataset.action === 'finalizar') {
+        const idTarea = event.target.dataset.id;
+        const confirmMessage = "¿Estás seguro de que deseas finalizar esta tarea?";
+        if (confirm(confirmMessage)) {
+            finalizarTarea(idTarea);
+        }
+    }
+});
+
+// Función para finalizar una tarea
+function finalizarTarea(idTarea) {
+    const requestData = {
+        finalizar_tarea: true,
+        id_tarea: idTarea
+    };
+    const successMessage = "Tarea finalizada con éxito";
+    const errorMessage = "Error al finalizar la tarea";
+    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
+        location.reload();
+    });
+}
+
+// Event listener para botones "Cambiar Estado" en la tabla de tareas
+tablaTareas.addEventListener('change', (event) => {
+    if (event.target.dataset.action === 'cambiarEstado') {
+        const selectElement = event.target;
+        const idTarea = selectElement.dataset.id;
+        const nuevoEstado = selectElement.value;
+        const estadoActual = selectElement.dataset.estadoActual;
+        const confirmMessage = `¿Estás seguro de que deseas cambiar el estado de la tarea a "${nuevoEstado}"?`;
+        if (confirm(confirmMessage)) {
+            cambiarEstadoTarea(idTarea, nuevoEstado);
+        } else {
+            selectElement.value = estadoActual;
+        }
+    }
+});
+
+// Función para cambiar el estado de una tarea
+function cambiarEstadoTarea(idTarea, nuevoEstado) {
+    const requestData = {
+        cambiar_estado: true,
+        id_tarea: idTarea,
+        nuevo_estado: nuevoEstado
+    };
+    const successMessage = `Estado de la tarea actualizado con éxito (${nuevoEstado})`;
+    const errorMessage = "Error al actualizar el estado de la tarea";
+    sendAjaxRequest(requestData, successMessage, errorMessage, () => {
+        const selectElement = document.querySelector(`select[data-action="cambiarEstado"][data-id="${idTarea}"]`);
+        if (selectElement) {
+            selectElement.dataset.estadoActual = nuevoEstado;
+        }
+    });
+}
+
 // Función genérica para enviar solicitudes AJAX
 function sendAjaxRequest(data, successMessage, errorMessage, successCallback) {
     $.ajax({
         type: "POST",
         url: "../php/funcion_proyectos.php",
+        url: "../php/tareas/funcion_tablaTareas.php",
         data,
         dataType: "json",
         success: function (response) {

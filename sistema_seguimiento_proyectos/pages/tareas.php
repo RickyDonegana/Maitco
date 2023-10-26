@@ -42,7 +42,7 @@ $pdo = conectarBaseDeDatos();
         <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
+                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas(<?php echo $proyecto['id_proyecto']; ?>)">
                     <h3 class="titulo-proyecto">
                         <?php echo $proyecto["nombre_proyecto"]; ?>
                     </h3>
@@ -50,19 +50,19 @@ $pdo = conectarBaseDeDatos();
                         <?php echo $proyecto["descripcion"]; ?>
                     </p>
                     <p class="fechas-proyecto">
-                        Tareas en estado rojo: <?php echo $tareasRojo; ?><br>
-                        Tareas en estado amarillo: <?php echo $tareasAmarillo; ?><br>
-                        Tareas en estado verde: <?php echo $tareasVerde; ?><br>
+                        Tareas Pendientes: <?php echo contarTareasPorEstado($proyecto['id_proyecto'], 'Pendiente'); ?><br>
+                        Tareas en Progreso: <?php echo contarTareasPorEstado($proyecto['id_proyecto'], 'En Progreso'); ?><br>
+                        Tareas Completadas: <?php echo contarTareasPorEstado($proyecto['id_proyecto'], 'Completada'); ?><br>
                         Fecha Estimada de Finalización: <?php echo $proyecto["fecha_entrega_estimada"]; ?><br>
-                        ID: <?php echo $proyecto["id_proyecto"]; ?> style="display:none;"<br>
+                        <input type="hidden" name="id_proyecto" value="<?php echo $proyecto['id_proyecto']; ?>">
                     </p>
                 </div>
             <?php endforeach; ?>
         </section>
     </main>
     <script>
-        function redirigirATablaTareas() {
-            window.location.href = "../pages/tabla_tareas.php";
+        function redirigirATablaTareas(idProyecto) {
+            window.location.href = "../pages/tabla_tareas.php?proyecto_id=" + idProyecto;
         }
     </script>
 </body>

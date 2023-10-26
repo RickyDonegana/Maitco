@@ -1,24 +1,20 @@
 <?php
-// Incluir los archivos necesarios
 require_once('../php/conn.php');
 
-// Obtener el estado de las tareas y contarlas
-$tareasRojo = 0;
-$tareasAmarillo = 0;
-$tareasVerde = 0;
+// Función para contar tareas por estado en un proyecto específico
+function contarTareasPorEstado($proyectoId, $estado)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM tareas WHERE id_proyecto = :proyectoId AND estado_id = (SELECT id_estado FROM estados_tarea WHERE nombre_estado = :estado)");
+    $stmt->bindParam(":proyectoId", $proyectoId, PDO::PARAM_INT);
+    $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $result['count'];
+}
 
-/*foreach ($tareas as $tarea) {
-    $estado = $tarea["estado_id"];
-    if ($estado === 'rojo') {
-        $tareasRojo++;
-    } elseif ($estado === 'amarillo') {
-        $tareasAmarillo++;
-    } elseif ($estado === 'verde') {
-        $tareasVerde++;
-    }
-}*/
-
-// Consultar tareas existentes
-$stmt = $pdo->prepare("SELECT * FROM tareas");
+// Obtener la lista de proyectos
+$pdo = conectarBaseDeDatos();
+$stmt = $pdo->prepare("SELECT * FROM proyectos");
 $stmt->execute();
-$tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$proyectos = $stmt->fetchAll(PDO::FETCH_ASSOC);

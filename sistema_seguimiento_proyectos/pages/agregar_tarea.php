@@ -3,6 +3,18 @@ require_once('../php/conn.php');
 require_once('../php/usuario.php');
 require_once('../php/tareas/agregar_tarea.php');
 $pdo = conectarBaseDeDatos();
+
+if (isset($_GET['id_proyecto'])) {
+    $id_proyecto = $_GET['id_proyecto'];
+    // Realizar una consulta para obtener el nombre del proyecto según $id_proyecto
+    $stmt = $pdo->prepare("SELECT nombre_proyecto FROM proyectos WHERE id_proyecto = :id_proyecto");
+    $stmt->bindParam(":id_proyecto", $id_proyecto, PDO::PARAM_INT);
+    $stmt->execute();
+    $proyecto = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($proyecto) {
+        $nombreProyecto = $proyecto['nombre_proyecto'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,15 +48,14 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-        <a href="../pages/tabla_tareas.php" class="boton-agregarEditar" id="btnAgregarTarea">Mostrar Tabla</a>
+        <a href="../pages/tabla_tareas.php?id_proyecto=<?php echo $id_proyecto; ?>" class="boton-agregarEditar" id="btnAgregarTarea">Mostrar Tabla</a>
         <div id="nuevaTareaForm" class="formulario-tarea">
             <h2 class="titulo">Nueva Tarea</h2>
             <form method="POST">
                 <input type="hidden" class="input" id="id_tarea_form" name="id_tarea">
-                <input type="hidden" class="input" id="proyecto_id" name="proyecto_id" value="<?php echo $proyecto_id; ?>">
+                <input type="hidden" class="input" id="id_proyecto" name="id_proyecto" value="<?php echo $id_proyecto; ?>">
                 <label for="nombre_proyecto" class="label">Proyecto:</label>
                 <?php if (!empty($nombreProyecto)) : ?>
                     <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" value="<?php echo $nombreProyecto; ?>" readonly>

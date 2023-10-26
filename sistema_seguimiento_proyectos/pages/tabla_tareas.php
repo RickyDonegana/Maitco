@@ -1,6 +1,7 @@
 <?php
 require_once('../php/conn.php');
 require_once('../php/usuario.php');
+require_once('../php/funcion_tareas.php');
 require_once('../php/tareas/funcion_tablaTareas.php');
 $pdo = conectarBaseDeDatos();
 ?>
@@ -39,7 +40,7 @@ $pdo = conectarBaseDeDatos();
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-        <a href="../pages/agregar_tarea.php" class="boton-agregarEditar">Agregar Nueva Tarea</a>
+        <a href="../pages/agregar_tarea.php?id_proyecto=<?php echo $proyecto_id; ?>" class="boton-agregarEditar">Agregar Nueva Tarea</a>
         <table id="tablaTareas" class="tabla-tareas">
             <thead>
                 <tr>
