@@ -49,7 +49,9 @@ CREATE TABLE IF NOT EXISTS estados_tarea (
 INSERT INTO estados_tarea (nombre_estado) VALUES
     ('Pendiente'),
     ('En Progreso'),
-    ('Completada');
+    ('Completada'),
+    ('Finalizada');
+
 
 -- Tabla de Tareas
 CREATE TABLE IF NOT EXISTS tareas (

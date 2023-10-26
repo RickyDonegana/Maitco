@@ -6,12 +6,13 @@ function finalizarTarea($id)
 {
     $pdo = conectarBaseDeDatos();
     try {
-        $sql = "UPDATE tareas SET estado_id = 3 WHERE id_tarea = :id"; // Suponiendo que 3 es el ID del estado "Completada"
+        $sql = "UPDATE tareas SET estado_id = 4 WHERE id_tarea = :id";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
+        echo json_encode(["exito" => true]);
     } catch (PDOException $e) {
-        echo "Error al finalizar la tarea: " . $e->getMessage();
+        echo json_encode(["exito" => false, "mensaje" => "Error al finalizar la tarea: " . $e->getMessage()]);
     }
 }
 
@@ -39,14 +40,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     if (isset($_POST["finalizar_tarea"])) {
         $idTarea = $_POST["id_tarea"];
-        echo json_encode(["confirmacion" => true, "id_tarea" => $idTarea]);
-        exit;
-    } elseif (isset($_POST["confirmar_finalizar_tarea"])) {
-        $idTarea = $_POST["id_tarea"];
         finalizarTarea($idTarea);
-        echo json_encode(["exito" => true]);
-        exit;
     }
+    exit;
+}
+
+if (isset($_GET['proyecto_id'])) {
+    $proyecto_id = $_GET['proyecto_id'];
+
+    $stmt = $pdo->prepare("SELECT * FROM tareas WHERE id_proyecto = :proyecto_id");
+    $stmt->bindParam(":proyecto_id", $proyecto_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    // Manejar el caso en el que no se ha seleccionado un proyecto
 }
 
 // Consultar tareas existentes
