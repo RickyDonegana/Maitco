@@ -61,8 +61,8 @@ $pdo = conectarBaseDeDatos();
         </section>
     </main>
     <script>
-        function redirigirATablaTareas(idProyecto) {
-            window.location.href = "../pages/tabla_tareas.php?proyecto_id=" + idProyecto;
+        function redirigirATablaTareas(proyectoId) {
+            window.location.href = "../pages/tabla_tareas.php?id_proyecto=" + proyectoId;
         }
     </script>
 </body>

@@ -45,11 +45,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     exit;
 }
 
-if (isset($_GET['proyecto_id'])) {
-    $proyecto_id = $_GET['proyecto_id'];
+if (isset($_GET['id_proyecto'])) {
+    $idProyecto = $_GET['id_proyecto'];
 
-    $stmt = $pdo->prepare("SELECT * FROM tareas WHERE id_proyecto = :proyecto_id");
-    $stmt->bindParam(":proyecto_id", $proyecto_id, PDO::PARAM_INT);
+    $stmt = $pdo->prepare("SELECT * FROM tareas WHERE id_proyecto = :id_proyecto");
+    $stmt->bindParam(":id_proyecto", $idProyecto, PDO::PARAM_INT);
     $stmt->execute();
     $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
