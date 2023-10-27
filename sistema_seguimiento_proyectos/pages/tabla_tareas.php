@@ -5,9 +5,6 @@ require_once('../php/funcion_tareas.php');
 require_once('../php/tareas/funcion_tablaTareas.php');
 $pdo = conectarBaseDeDatos();
 
-$nombreProyecto = isset($_GET['nombre_proyecto']) ? urldecode($_GET['nombre_proyecto']) : "";
-$nombreUsuario = isset($_GET['nombre_usuario']) ? urldecode($_GET['nombre_usuario']) : "";
-
 if (isset($_GET['id_proyecto'])) {
     $idProyecto = $_GET['id_proyecto'];
 
@@ -17,9 +14,9 @@ if (isset($_GET['id_proyecto'])) {
     $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
     // Manejar el caso en el que no se ha seleccionado un proyecto
-    $tareas = array(); // Puedes establecer $tareas como un array vacío o mostrar un mensaje de que no se ha seleccionado ningún proyecto.
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -54,9 +51,7 @@ if (isset($_GET['id_proyecto'])) {
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Tareas</h1>
-        <a href="../pages/agregar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>&nombre_proyecto=<?php echo urlencode($nombreProyecto); ?>&nombre_usuario=<?php echo urlencode($nombreUsuario); ?>"
-            class="boton-agregarEditar">Agregar Nueva Tarea</a>
-
+        <a href="../pages/agregar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>" class="boton-agregarEditar">Agregar Nueva Tarea</a>
         <table id="tablaTareas" class="tabla-tareas">
             <thead>
                 <tr>
@@ -76,13 +71,13 @@ if (isset($_GET['id_proyecto'])) {
                         <td><?php echo $tarea["id_tarea"]; ?></td>
                         <td><?php echo $tarea["nombre_tarea"]; ?></td>
                         <td><?php echo $tarea["descripcion_tarea"]; ?></td>
-                        <td><?php echo isset($tarea["nombre_proyecto"]) ? $tarea["nombre_proyecto"] : ""; ?></td>
-                        <td><?php echo isset($tarea["nombre_usuario"]) ? $tarea["nombre_usuario"] : ""; ?></td>
+                        <td><?php echo $nombreProyecto; ?></td>
+                        <td><?php echo $nombreUsuario; ?></td>
                         <td><?php echo $tarea["fecha_vencimiento"]; ?></td>
                         <td>
                             <form method="POST" class="select-container">
                                 <input type="hidden" name="id_tarea" value="<?php echo $tarea["id_tarea"]; ?>">
-                                <select name="estado_id" class="select" id="estado_id" required>
+                                <select name="estado_id" class="select" required onchange="cambiarEstadoTarea(this);">
                                     <?php
                                     $sql = "SELECT id_estado, nombre_estado FROM estados_tarea WHERE nombre_estado != 'Finalizada'";
                                     $stmt = $pdo->prepare($sql);
@@ -90,7 +85,7 @@ if (isset($_GET['id_proyecto'])) {
                                     $estadosTarea = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     foreach ($estadosTarea as $estado) :
                                     ?>
-                                        <option value="<?php echo $estado['id_estado']; ?>">
+                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea['estado_id'] == $estado['id_estado']) ? 'selected' : ''; ?>>
                                             <?php echo $estado['nombre_estado']; ?>
                                         </option>
                                     <?php endforeach; ?>

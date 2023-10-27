@@ -40,4 +40,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $idProyecto = $pdo->lastInsertId();
 $carpetaProyecto = "../proyectos/proyecto_" . $idProyecto; // Ruta a la carpeta del proyecto
 mkdir($carpetaProyecto);
-

@@ -1,6 +1,8 @@
 <?php
 include('../php/conn.php');
 
+$nombreProyecto = "";
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["nombre_tarea"]) && isset($_POST["descripcion_tarea"]) && isset($_POST["id_usuario"]) && isset($_POST["fecha_vencimiento"]) && isset($_POST["estado_id"]) && isset($_POST["id_proyecto"])) {
         $nombreTarea = $_POST["nombre_tarea"];
@@ -40,4 +42,3 @@ function agregarTarea($nombreTarea, $descripcionTarea, $idUsuario, $fechaVencimi
         echo "Error al agregar la tarea: " . $e->getMessage();
     }
 }
-?>
