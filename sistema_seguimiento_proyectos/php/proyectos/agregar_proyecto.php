@@ -35,8 +35,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 }
-
-// Después de agregar el proyecto, crea una carpeta para él
-$idProyecto = $pdo->lastInsertId();
-$carpetaProyecto = "../proyectos/proyecto_" . $idProyecto; // Ruta a la carpeta del proyecto
-mkdir($carpetaProyecto);
