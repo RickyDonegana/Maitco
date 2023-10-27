@@ -46,16 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 if (isset($_GET['id_proyecto'])) {
-    $idProyecto = $_GET['id_proyecto'];
-
-    $stmt = $pdo->prepare("SELECT t.*, p.nombre_proyecto FROM tareas t JOIN proyectos p ON t.id_proyecto = p.id_proyecto WHERE t.id_proyecto = :id_proyecto");
-    $stmt->bindParam(":id_proyecto", $idProyecto, PDO::PARAM_INT);
+    $id_proyecto = $_GET['id_proyecto'];
+    // Realizar una consulta para obtener el nombre del proyecto según $id_proyecto
+    $stmt = $pdo->prepare("SELECT nombre_proyecto FROM proyectos WHERE id_proyecto = :id_proyecto");
+    $stmt->bindParam(":id_proyecto", $id_proyecto, PDO::PARAM_INT);
     $stmt->execute();
-    $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} else {
-    // Manejar el caso en el que no se ha seleccionado un proyecto
+    $proyecto = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($proyecto) {
+        $nombreProyecto = $proyecto['nombre_proyecto'];
+    }
 }
-
 
 // Consultar tareas existentes
 $pdo = conectarBaseDeDatos();

@@ -60,15 +60,23 @@ $pdo = conectarBaseDeDatos();
                         <td><?php echo $tarea["id_tarea"]; ?></td>
                         <td><?php echo $tarea["nombre_tarea"]; ?></td>
                         <td><?php echo $tarea["descripcion_tarea"]; ?></td>
-                        <td><?php echo $tarea["nombre_proyecto"]; ?></td>
-                        <td><?php echo $tarea["nombre_usuario"]; ?></td>
+                        <td><?php echo $nombreProyecto; ?></td>
+                        <td><?php echo $nombreUsuario; ?></td>
                         <td><?php echo $tarea["fecha_vencimiento"]; ?></td>
                         <td>
                             <form method="POST" class="select-container">
                                 <input type="hidden" name="id_tarea" value="<?php echo $tarea["id_tarea"]; ?>">
-                                <select name="nuevo_estado" class="select" onchange="cambiarEstado(<?php echo $tarea['id_tarea']; ?>, this.value)">
-                                    <?php foreach ($estados as $estado) : ?>
-                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea["estado_id"] == $estado['id_estado']) ? 'selected' : ''; ?>><?php echo $estado['nombre_estado']; ?></option>
+                                <select name="estado_id" class="select" required onchange="cambiarEstadoTarea(this);">
+                                    <?php
+                                    $sql = "SELECT id_estado, nombre_estado FROM estados_tarea WHERE nombre_estado != 'Finalizada'";
+                                    $stmt = $pdo->prepare($sql);
+                                    $stmt->execute();
+                                    $estadosTarea = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach ($estadosTarea as $estado) :
+                                    ?>
+                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea['estado_id'] == $estado['id_estado']) ? 'selected' : ''; ?>>
+                                            <?php echo $estado['nombre_estado']; ?>
+                                        </option>
                                     <?php endforeach; ?>
                                 </select>
                             </form>
