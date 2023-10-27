@@ -39,15 +39,6 @@ CREATE TABLE IF NOT EXISTS proyectos (
     estado VARCHAR(50) NOT NULL
 );
 
--- Tabla de Etapas del Proyecto
-CREATE TABLE IF NOT EXISTS etapas_proyecto (
-    id_etapa INT AUTO_INCREMENT PRIMARY KEY,
-    id_proyecto INT NOT NULL,
-    nombre_etapa VARCHAR(255) NOT NULL,
-    color VARCHAR(20) NOT NULL,
-    FOREIGN KEY (id_proyecto) REFERENCES proyectos (id_proyecto)
-);
-
 -- Tabla de Estados de Tareas
 CREATE TABLE IF NOT EXISTS estados_tarea (
     id_estado INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +49,9 @@ CREATE TABLE IF NOT EXISTS estados_tarea (
 INSERT INTO estados_tarea (nombre_estado) VALUES
     ('Pendiente'),
     ('En Progreso'),
-    ('Completada');
+    ('Completada'),
+    ('Finalizada');
+
 
 -- Tabla de Tareas
 CREATE TABLE IF NOT EXISTS tareas (

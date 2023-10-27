@@ -27,7 +27,7 @@ $pdo = conectarBaseDeDatos();
                 <li><a href="../pages/inicio.php">Inicio</a></li>
                 <li><a href="../pages/proyectos.php">Proyectos</a></li>
                 <li><a href="../pages/tareas.php">Tareas</a></li>
-                <li><a href="../pages/configuracion.html">Configuración</a></li>
+                <li><a href="../php/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="icono-usuario">
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
@@ -37,10 +37,8 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <section class="contenedor-proyectos">
-            <!-- Contenido principal con proyectos -->
             <?php foreach ($proyectos as $proyecto) : ?>
                 <div class="proyecto proyecto-enlace" onclick="redirigirAPrueba1()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                     <h3 class="titulo-proyecto"><?= $proyecto["nombre_proyecto"]; ?></h3>
@@ -55,7 +53,6 @@ $pdo = conectarBaseDeDatos();
             <?php endforeach; ?>
         </section>
     </main>
-
     <script>
         function redirigirAPrueba1() {
             window.location.href = "../html/prueba1.html";

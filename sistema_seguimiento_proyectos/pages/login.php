@@ -17,7 +17,6 @@ $pdo = conectarBaseDeDatos();
 </head>
 
 <body>
-    <!-- login -->
     <section class="section__form">
         <div class="div__form card-nr">
             <div class="form__tittle">

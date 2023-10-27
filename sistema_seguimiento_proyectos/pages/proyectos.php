@@ -26,7 +26,7 @@ $pdo = conectarBaseDeDatos();
                 <li><a href="../pages/inicio.php">Inicio</a></li>
                 <li><a href="../pages/proyectos.php">Proyectos</a></li>
                 <li><a href="../pages/tareas.php">Tareas</a></li>
-                <li><a href="../pages/configuracion.html">Configuración</a></li>
+                <li><a href="../php/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="icono-usuario">
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
@@ -38,7 +38,7 @@ $pdo = conectarBaseDeDatos();
     </header>
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
-        <a href="../pages/agregar_proyecto.php" class="boton-agregarEditar" id="btnNuevoProyecto">Agregar Nuevo Proyecto</a>
+        <a href="../pages/agregar_proyecto.php" class="boton-agregarEditar">Agregar Nuevo Proyecto</a>
         <table id="tablaProyectos" class="tabla-proyectos">
             <thead>
                 <tr>
@@ -55,7 +55,7 @@ $pdo = conectarBaseDeDatos();
             </thead>
             <tbody>
                 <?php foreach ($proyectos as $proyecto) : ?>
-                    <tr id="filaProyecto_<?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
+                    <tr <?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
                         <td><?php echo $proyecto["id_proyecto"]; ?></td>
                         <td><?php echo $proyecto["nombre_proyecto"]; ?></td>
                         <td><?php echo $proyecto["descripcion"]; ?></td>
@@ -72,13 +72,12 @@ $pdo = conectarBaseDeDatos();
                                     <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
                                     <option value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
                                     <option value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
-                                    <option value="finalizado" hidden <?php echo ($proyecto["estado"] == 'finalizado') ? 'selected' : ''; ?>>Finalizado</option>
                                 </select>
                             </form>
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
-                            <a href="../pages/editar_proyecto.php" data-action="editar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
+                            <a href="../pages/editar_proyecto.php?id=<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-finalizar">
                                 <img src="../svg/finalizar.svg" alt="Finalizar">
                             </button>

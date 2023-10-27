@@ -1,5 +1,5 @@
 <?php
-// Función para verificar las credenciales del usuario
+
 function verificarCredenciales($email, $contrasena)
 {
     $pdo = conectarBaseDeDatos();
@@ -15,15 +15,11 @@ function verificarCredenciales($email, $contrasena)
     return false;
 }
 
-// Verifica si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtiene los datos del formulario
     $email = $_POST["email"];
     $contrasena = $_POST["contrasena"];
-    // Verifica las credenciales del usuario
     $usuario = verificarCredenciales($email, $contrasena);
     if ($usuario) {
-        // Inicio de sesión exitoso
         session_start();
         $_SESSION["id_usuario"] = $usuario["id_usuario"];
         $_SESSION["nombre_usuario"] = $usuario["nombre_usuario"];
@@ -31,7 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../pages/inicio.php");
         exit;
     } else {
-        // Error de inicio de sesión
         $mensajeError = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
     }
 }

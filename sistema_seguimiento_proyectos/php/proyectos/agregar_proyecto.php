@@ -14,7 +14,7 @@ function agregarProyecto($nombre, $descripcion, $cliente, $desarrollador, $fecha
         $stmt->bindParam(":desarrollador", $desarrollador, PDO::PARAM_STR);
         $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
         $stmt->bindParam(":fechaEntrega", $fechaEntrega, PDO::PARAM_STR);
-        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_INT);
         $stmt->execute();
     } catch (PDOException $e) {
         echo "Error al agregar el proyecto: " . $e->getMessage();
@@ -35,3 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
     }
 }
+
+// Después de agregar el proyecto, crea una carpeta para él
+$idProyecto = $pdo->lastInsertId();
+$carpetaProyecto = "../proyectos/proyecto_" . $idProyecto; // Ruta a la carpeta del proyecto
+mkdir($carpetaProyecto);
+

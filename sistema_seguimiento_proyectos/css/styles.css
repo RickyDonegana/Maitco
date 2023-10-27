@@ -359,7 +359,8 @@ a:hover {
 
 .formulario-proyecto input[type="text"],
 .formulario-proyecto textarea,
-.formulario-proyecto input[type="date"] {
+.formulario-proyecto input[type="date"],
+.formulario-proyecto select {
   width: 100%;
   padding: var(--mb-05);
   margin-bottom: var(--mb-1);

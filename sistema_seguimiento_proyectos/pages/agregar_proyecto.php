@@ -28,7 +28,6 @@ $pdo = conectarBaseDeDatos();
                 <li><a href="../pages/inicio.php">Inicio</a></li>
                 <li><a href="../pages/proyectos.php">Proyectos</a></li>
                 <li><a href="../pages/tareas.php">Tareas</a></li>
-                <li><a href="../pages/configuracion.html">Configuración</a></li>
             </ul>
             <div class="icono-usuario">
                 <img src="../svg/usuario.svg" alt="Icono de Usuario">
@@ -42,31 +41,31 @@ $pdo = conectarBaseDeDatos();
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
         <a href="../pages/proyectos.php" class="boton-agregarEditar">Mostrar Tabla</a>
-        <div id="agregarProyectoForm" class="formulario-proyecto">
-            <h2 class="titulo" id="formTitle">Agregar Proyecto</h2>
+        <div class="formulario-proyecto">
+            <h2 class="titulo">Agregar Proyecto</h2>
             <form method="POST">
-                <input type="hidden" class="input" id="id_proyecto_form" name="id_proyecto">
-                <label for="nombre_proyecto" class="label">Nombre del Proyecto:</label>
-                <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
-                <label for="descripcion" class="label">Descripción:</label>
-                <textarea class="input" id="descripcion" name="descripcion" required></textarea>
-                <label for="cliente" class="label">Cliente:</label>
-                <input type="text" class="input" id="cliente" name="cliente" required>
-                <label for="desarrollador" class="label">Desarrollador:</label>
-                <input type="text" class="input" id="desarrollador" name="desarrollador" required>
-                <label for="fecha_inicio" class="label">Fecha de Inicio:</label>
-                <input type="date" class="input" id="fecha_inicio" name="fecha_inicio" required>
-                <label for="fecha_entrega_estimada" class="label">Fecha de Finalización Estimada:</label>
-                <input type="date" class="input" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required>
-                <label for="estado" class="label">Estado:</label>
-                <select name="estado" class="select" id="estado_form" required>
+                <label for="nombre_proyecto">Nombre del Proyecto:</label>
+                <input type="text" id="nombre_proyecto" name="nombre_proyecto" required>
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+                <label for="cliente">Cliente:</label>
+                <input type="text" id="cliente" name="cliente" required>
+                <label for="desarrollador">Desarrollador:</label>
+                <input type="text" id="desarrollador" name="desarrollador" required>
+                <label for="fecha_inicio">Fecha de Inicio:</label>
+                <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+                <label for="fecha_entrega_estimada">Fecha de Finalización Estimada:</label>
+                <input type="date" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required>
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado_form" required>
+                    <option value="" disabled selected>Selecciona un estado</option>
                     <option value="inicio">Inicio</option>
                     <option value="planificacion">Planificación</option>
                     <option value="ejecucion">Ejecución</option>
                     <option value="supervision">Supervisión</option>
                     <option value="cierre">Cierre</option>
                 </select>
-                <button type="submit" class="boton-agregarEditar" id="btnAgregar" name="agregar_proyecto">Agregar</button>
+                <button type="submit" class="boton-agregarEditar" name="agregar_proyecto">Agregar</button>
             </form>
         </div>
     </main>
