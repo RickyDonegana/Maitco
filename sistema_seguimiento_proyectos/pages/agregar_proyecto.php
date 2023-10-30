@@ -36,7 +36,6 @@ $pdo = conectarBaseDeDatos();
             </span>
         </nav>
     </header>
-
     <main class="contenedor-principal">
         <h1 class="titulo">Mis Proyectos</h1>
         <a href="../pages/proyectos.php" class="boton-agregarEditar">Mostrar Tabla</a>

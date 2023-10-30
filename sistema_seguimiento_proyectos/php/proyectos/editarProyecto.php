@@ -1,6 +1,5 @@
 <?php
 require_once('../php/conn.php');
-require_once('../php/proyectos/tablaProyectos.php');
 $pdo = conectarBaseDeDatos();
 
 // Verificar si se ha enviado un ID de proyecto

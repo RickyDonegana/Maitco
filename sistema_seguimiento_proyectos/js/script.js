@@ -71,7 +71,7 @@ function sendAjaxRequest(data, successMessage, errorMessage, successCallback) {
     $.ajax({
         type: "POST",
         url: "../php/proyectos/tablaProyectos.php",
-        url: "../php/tareas/funcion_tablaTareas.php",
+        url: "../php/tareas/tablaTareas.php",
         data,
         dataType: "json",
         success: function (response) {

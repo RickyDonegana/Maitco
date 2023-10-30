@@ -1,6 +1,5 @@
 <?php
 require_once('../php/conn.php');
-require_once('../php/usuario.php');
 $pdo = conectarBaseDeDatos();
 
 // Verifica si se ha enviado el formulario de edición
@@ -18,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["editar_tarea"])) {
     $stmt->bindParam(":fecha_vencimiento", $fechaVencimiento, PDO::PARAM_STR);
     $stmt->bindParam(":estado_id", $estadoId, PDO::PARAM_INT);
     $stmt->bindParam(":id_tarea", $idTarea, PDO::PARAM_INT);
-    
+
     if ($stmt->execute()) {
         // Redirecciona a la página de tareas o muestra un mensaje de éxito
         header("Location: ../pages/tareas.php");
@@ -46,4 +45,3 @@ if (!$tarea) {
     echo "Tarea no encontrada.";
     exit;
 }
-?>

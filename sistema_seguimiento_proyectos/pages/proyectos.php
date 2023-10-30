@@ -4,6 +4,7 @@ require_once('../php/inicioSesion/acceso.php');
 require_once('../php/proyectos/tablaProyectos.php');
 $pdo = conectarBaseDeDatos();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
