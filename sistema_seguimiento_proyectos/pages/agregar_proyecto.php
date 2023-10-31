@@ -40,7 +40,7 @@ $pdo = conectarBaseDeDatos();
         <h1 class="titulo">Mis Proyectos</h1>
         <a href="../pages/proyectos.php" class="boton-agregarEditar">Mostrar Tabla</a>
         <div class="formulario-proyecto">
-            <h2 class="titulo">Agregar Proyecto</h2>
+            <h2 class="titulo">Agregar Nuevo Proyecto</h2>
             <form method="POST">
                 <label for="nombre_proyecto">Nombre del Proyecto:</label>
                 <input type="text" class="input" id="nombre_proyecto" name="nombre_proyecto" required>
@@ -57,11 +57,11 @@ $pdo = conectarBaseDeDatos();
                 <label for="estado">Estado:</label>
                 <select class="input" name="estado" id="estado_form" required>
                     <option value="" disabled selected>Selecciona un estado</option>
-                    <option value="inicio">Inicio</option>
-                    <option value="planificacion">Planificación</option>
-                    <option value="ejecucion">Ejecución</option>
-                    <option value="supervision">Supervisión</option>
-                    <option value="cierre">Cierre</option>
+                    <option value="Inicio">Inicio</option>
+                    <option value="Planificacion">Planificación</option>
+                    <option value="Ejecucion">Ejecución</option>
+                    <option value="Supervision">Supervisión</option>
+                    <option value="Cierre">Cierre</option>
                 </select>
                 <button type="submit" class="boton-agregarEditar" name="agregar_proyecto">Agregar</button>
             </form>

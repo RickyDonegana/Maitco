@@ -64,23 +64,12 @@ $pdo = conectarBaseDeDatos();
                         <td><?php echo $proyecto["desarrollador"]; ?></td>
                         <td><?php echo $proyecto["fecha_inicio"]; ?></td>
                         <td><?php echo $proyecto["fecha_entrega_estimada"]; ?></td>
-                        <td>
-                            <form method="POST" class="select-container">
-                                <input type="hidden" name="id_proyecto" value="<?php echo $proyecto["id_proyecto"]; ?>">
-                                <select data-action="cambiarEstado" data-id="<?php echo $proyecto['id_proyecto']; ?>" data-estado-actual="<?php echo $proyecto['estado']; ?>" data-tipo="proyecto">
-                                    <option value="inicio" <?php echo ($proyecto["estado"] == 'inicio') ? 'selected' : ''; ?>>Inicio</option>
-                                    <option value="planificacion" <?php echo ($proyecto["estado"] == 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
-                                    <option value="ejecucion" <?php echo ($proyecto["estado"] == 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
-                                    <option value="supervision" <?php echo ($proyecto["estado"] == 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
-                                    <option value="cierre" <?php echo ($proyecto["estado"] == 'cierre') ? 'selected' : ''; ?>>Cierre</option>
-                                </select>
-                            </form>
-                        </td>
+                        <td><?php echo $proyecto["estado"]; ?></td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <a href="../pages/editar_proyecto.php?id=<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" class="boton-finalizar">
-                                <img src="../svg/finalizar.svg" alt="Finalizar">
+                                <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                             </button>
                         </td>
                     <?php endforeach; ?>

@@ -56,12 +56,12 @@ $pdo = conectarBaseDeDatos();
                 <label for="fecha_entrega_estimada" class="label">Fecha de Finalización Estimada:</label>
                 <input type="date" class="input" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required value="<?php echo $proyecto['fecha_entrega_estimada']; ?>">
                 <label for="estado" class="label">Estado:</label>
-                <select name="estado" class="select" id="estado_form" required>
-                    <option value="inicio" <?php echo ($proyecto['estado'] === 'inicio') ? 'selected' : ''; ?>>Inicio</option>
-                    <option value="planificacion" <?php echo ($proyecto['estado'] === 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
-                    <option value="ejecucion" <?php echo ($proyecto['estado'] === 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
-                    <option value="supervision" <?php echo ($proyecto['estado'] === 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
-                    <option value="cierre" <?php echo ($proyecto['estado'] === 'cierre') ? 'selected' : ''; ?>>Cierre</option>
+                <select name="estado" class="input" id="estado_form" required>
+                    <option value="Inicio" <?php echo ($proyecto['estado'] === 'Inicio') ? 'selected' : ''; ?>>Inicio</option>
+                    <option value="Planificacion" <?php echo ($proyecto['estado'] === 'Planificacion') ? 'selected' : ''; ?>>Planificación</option>
+                    <option value="Ejecucion" <?php echo ($proyecto['estado'] === 'Ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
+                    <option value="Supervision" <?php echo ($proyecto['estado'] === 'Supervision') ? 'selected' : ''; ?>>Supervisión</option>
+                    <option value="Cierre" <?php echo ($proyecto['estado'] === 'Cierre') ? 'selected' : ''; ?>>Cierre</option>
                 </select>
                 <button type="submit" class="boton-agregarEditar" name="update">Editar</button>
             </form>

@@ -74,28 +74,20 @@ if (isset($_GET['id_proyecto'])) {
                         <td><?php echo $nombreUsuario; ?></td>
                         <td><?php echo $tarea["fecha_vencimiento"]; ?></td>
                         <td>
-                            <form method="POST" class="select-container">
-                                <input type="hidden" name="id_tarea" value="<?php echo $tarea["id_tarea"]; ?>">
-                                <select name="estado_id" class="select" required data-tipo="tarea">
-                                    <?php
-                                    $sql = "SELECT id_estado, nombre_estado FROM estados_tarea WHERE nombre_estado != 'Finalizada'";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-                                    $estadosTarea = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($estadosTarea as $estado) :
-                                    ?>
-                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea['estado_id'] == $estado['id_estado']) ? 'selected' : ''; ?>>
-                                            <?php echo $estado['nombre_estado']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </form>
+                            <?php
+                            $sql = "SELECT nombre_estado FROM estados_tarea WHERE id_estado = :estado_id";
+                            $stmt = $pdo->prepare($sql);
+                            $stmt->bindValue(":estado_id", $tarea['estado_id'], PDO::PARAM_INT);
+                            $stmt->execute();
+                            $estadoTarea = $stmt->fetch(PDO::FETCH_ASSOC);
+                            echo $estadoTarea['nombre_estado'];
+                            ?>
                         </td>
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <a href="../pages/editar_tarea.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
+                            <a href="../pages/editar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>&id_tarea=<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
                             <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" data-tipo="tarea" class="boton-finalizar">
-                                <img src="../svg/finalizar.svg" alt="Finalizar">
+                                <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                             </button>
                         </td>
                         </td>
