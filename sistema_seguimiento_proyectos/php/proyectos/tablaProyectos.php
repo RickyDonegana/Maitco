@@ -31,7 +31,7 @@ function finalizarProyecto($id)
         $stmt->execute();
         echo json_encode(["exito" => true]);
     } catch (PDOException $e) {
-        echo json_encode(["exito" => false, "mensaje" => "Error al finalizar el proyecto: " . $e->getMessage()]);
+        throw new Exception("Error al finalizar el proyecto: " . $e->getMessage());
     }
 }
 
