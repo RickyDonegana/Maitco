@@ -1,8 +1,7 @@
 <?php
 require_once('../php/conn.php');
-require_once('../php/funcion_proyectos.php');
-require_once('../php/proyectos/editar_proyecto.php');
-require_once('../php/usuario.php');
+require_once('../php/inicioSesion/acceso.php');
+require_once('../php/proyectos/editarProyecto.php');
 $pdo = conectarBaseDeDatos();
 ?>
 
@@ -14,7 +13,7 @@ $pdo = conectarBaseDeDatos();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Proyecto | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
@@ -30,7 +29,7 @@ $pdo = conectarBaseDeDatos();
                 <li><a href="../pages/tareas.php">Tareas</a></li>
             </ul>
             <div class="icono-usuario">
-                <img src="../svg/usuario.svg" alt="Icono de Usuario">
+                <img src="../assets/svg/usuario.svg" alt="Icono de Usuario">
             </div>
             <span class="nombre-usuario">
                 <?= isset($nombreUsuario) ? $nombreUsuario : ""; ?>
@@ -57,19 +56,19 @@ $pdo = conectarBaseDeDatos();
                 <label for="fecha_entrega_estimada" class="label">Fecha de Finalización Estimada:</label>
                 <input type="date" class="input" id="fecha_entrega_estimada" name="fecha_entrega_estimada" required value="<?php echo $proyecto['fecha_entrega_estimada']; ?>">
                 <label for="estado" class="label">Estado:</label>
-                <select name="estado" class="select" id="estado_form" required>
-                    <option value="inicio" <?php echo ($proyecto['estado'] === 'inicio') ? 'selected' : ''; ?>>Inicio</option>
-                    <option value="planificacion" <?php echo ($proyecto['estado'] === 'planificacion') ? 'selected' : ''; ?>>Planificación</option>
-                    <option value="ejecucion" <?php echo ($proyecto['estado'] === 'ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
-                    <option value="supervision" <?php echo ($proyecto['estado'] === 'supervision') ? 'selected' : ''; ?>>Supervisión</option>
-                    <option value="cierre" <?php echo ($proyecto['estado'] === 'cierre') ? 'selected' : ''; ?>>Cierre</option>
+                <select name="estado" class="input" id="estado_form" required>
+                    <option value="Inicio" <?php echo ($proyecto['estado'] === 'Inicio') ? 'selected' : ''; ?>>Inicio</option>
+                    <option value="Planificacion" <?php echo ($proyecto['estado'] === 'Planificacion') ? 'selected' : ''; ?>>Planificación</option>
+                    <option value="Ejecucion" <?php echo ($proyecto['estado'] === 'Ejecucion') ? 'selected' : ''; ?>>Ejecución</option>
+                    <option value="Supervision" <?php echo ($proyecto['estado'] === 'Supervision') ? 'selected' : ''; ?>>Supervisión</option>
+                    <option value="Cierre" <?php echo ($proyecto['estado'] === 'Cierre') ? 'selected' : ''; ?>>Cierre</option>
                 </select>
                 <button type="submit" class="boton-agregarEditar" name="update">Editar</button>
             </form>
         </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 
 </html>

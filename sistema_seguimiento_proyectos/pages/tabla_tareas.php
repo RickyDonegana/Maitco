@@ -1,8 +1,8 @@
 <?php
 require_once('../php/conn.php');
-require_once('../php/usuario.php');
-require_once('../php/funcion_tareas.php');
-require_once('../php/tareas/funcion_tablaTareas.php');
+require_once('../php/inicioSesion/acceso.php');
+require_once('../php/tareas/_tareas.php');
+require_once('../php/tareas/tablaTareas.php');
 $pdo = conectarBaseDeDatos();
 
 if (isset($_GET['id_proyecto'])) {
@@ -13,7 +13,6 @@ if (isset($_GET['id_proyecto'])) {
     $stmt->execute();
     $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } else {
-    // Manejar el caso en el que no se ha seleccionado un proyecto
 }
 ?>
 
@@ -25,7 +24,7 @@ if (isset($_GET['id_proyecto'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tabla Tareas | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="png">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
@@ -42,7 +41,7 @@ if (isset($_GET['id_proyecto'])) {
                 <li><a href="../php/logout.php">Cerrar Sesión</a></li>
             </ul>
             <div class="icono-usuario">
-                <img src="../svg/usuario.svg" alt="Icono de Usuario">
+                <img src="../assets/svg/usuario.svg" alt="Icono de Usuario">
             </div>
             <span class="nombre-usuario">
                 <?php echo isset($nombreUsuario) ? $nombreUsuario : ""; ?>
@@ -50,62 +49,65 @@ if (isset($_GET['id_proyecto'])) {
         </nav>
     </header>
     <main class="contenedor-principal">
-        <h1 class="titulo">Mis Tareas</h1>
+    <h1 class="titulo">Mis Tareas</h1>
+    
+    <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
+        <!-- Mostrar el botón para agregar nueva tarea solo para Desarrolladores -->
         <a href="../pages/agregar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>" class="boton-agregarEditar">Agregar Nueva Tarea</a>
-        <table id="tablaTareas" class="tabla-tareas">
-            <thead>
-                <tr>
-                    <th>ID Tarea</th>
-                    <th>Nombre Tarea</th>
-                    <th>Descripción</th>
-                    <th>Proyecto</th>
-                    <th>Asignada a</th>
-                    <th>Fecha de Vencimiento</th>
-                    <th>Estado</th>
+    <?php endif; ?>
+    
+    <table id="tablaProyectosTareas" class="tabla-tareas">
+        <thead>
+            <tr>
+                <th>ID Tarea</th>
+                <th>Nombre Tarea</th>
+                <th>Descripción</th>
+                <th>Proyecto</th>
+                <th>Asignada a</th>
+                <th>Fecha de Vencimiento</th>
+                <th>Estado</th>
+                <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
+                    <!-- Mostrar el encabezado de Acciones solo para Desarrolladores -->
                     <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($tareas as $tarea) : ?>
-                    <tr>
-                        <td><?php echo $tarea["id_tarea"]; ?></td>
-                        <td><?php echo $tarea["nombre_tarea"]; ?></td>
-                        <td><?php echo $tarea["descripcion_tarea"]; ?></td>
-                        <td><?php echo $nombreProyecto; ?></td>
-                        <td><?php echo $nombreUsuario; ?></td>
-                        <td><?php echo $tarea["fecha_vencimiento"]; ?></td>
-                        <td>
-                            <form method="POST" class="select-container">
-                                <input type="hidden" name="id_tarea" value="<?php echo $tarea["id_tarea"]; ?>">
-                                <select name="estado_id" class="select" required onchange="cambiarEstadoTarea(this);">
-                                    <?php
-                                    $sql = "SELECT id_estado, nombre_estado FROM estados_tarea WHERE nombre_estado != 'Finalizada'";
-                                    $stmt = $pdo->prepare($sql);
-                                    $stmt->execute();
-                                    $estadosTarea = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                    foreach ($estadosTarea as $estado) :
-                                    ?>
-                                        <option value="<?php echo $estado['id_estado']; ?>" <?php echo ($tarea['estado_id'] == $estado['id_estado']) ? 'selected' : ''; ?>>
-                                            <?php echo $estado['nombre_estado']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </form>
-                        </td>
+                <?php endif; ?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($tareas as $tarea) : ?>
+                <tr>
+                    <td><?php echo $tarea["id_tarea"]; ?></td>
+                    <td><?php echo $tarea["nombre_tarea"]; ?></td>
+                    <td><?php echo $tarea["descripcion_tarea"]; ?></td>
+                    <td><?php echo $nombreProyecto; ?></td>
+                    <td><?php echo $nombreUsuario; ?></td>
+                    <td><?php echo $tarea["fecha_vencimiento"]; ?></td>
+                    <td>
+                        <?php
+                        $sql = "SELECT nombre_estado FROM estados_tarea WHERE id_estado = :estado_id";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindValue(":estado_id", $tarea['estado_id'], PDO::PARAM_INT);
+                        $stmt->execute();
+                        $estadoTarea = $stmt->fetch(PDO::FETCH_ASSOC);
+                        echo $estadoTarea['nombre_estado'];
+                        ?>
+                    </td>
+                    <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
+                        <!-- Mostrar botones de acciones solo para Desarrolladores -->
                         <td>
                             <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
-                            <a href="../pages/editar_tarea.php" data-action="editar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
-                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" class="boton-finalizar">
-                                <img src="../svg/finalizar.svg" alt="Finalizar">
+                            <a href="../pages/editar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>&id_tarea=<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
+                            <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" data-tipo="tarea" class="boton-finalizar">
+                                <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                             </button>
                         </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </main>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
 </body>
 
 </html>

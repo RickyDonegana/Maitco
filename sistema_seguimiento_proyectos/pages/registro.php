@@ -1,6 +1,6 @@
 <?php
 require_once('../php/conn.php');
-require_once('../php/funcion_registro.php');
+require_once('../php/inicioSesion/_registro.php');
 $pdo = conectarBaseDeDatos();
 ?>
 
@@ -12,7 +12,8 @@ $pdo = conectarBaseDeDatos();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro | Maitco</title>
     <link rel="shortcut icon" href="https://maitco.com/wp-content/uploads/2017/07/LOGO-CHICO-2.png" type="image/png">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
 <body>
