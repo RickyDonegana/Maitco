@@ -60,7 +60,7 @@ $pdo = conectarBaseDeDatos();
             </thead>
             <tbody>
                 <?php foreach ($tareas as $tarea) : ?>
-                    <tr>
+                    <tr data-id="<?php echo $tarea["id_tarea"]; ?>" <?php if ($tarea['estado_id'] == 4) { ?> style="display:none;" <?php } ?>>
                         <td><?php echo $tarea["id_tarea"]; ?></td>
                         <td><?php echo $tarea["nombre_tarea"]; ?></td>
                         <td><?php echo $tarea["descripcion_tarea"]; ?></td>
@@ -81,7 +81,7 @@ $pdo = conectarBaseDeDatos();
                             <td>
                                 <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
                                 <a href="../pages/editar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>&id_tarea=<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
-                                <button data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>" data-tipo="tarea" class="boton-finalizar">
+                                <button class="boton-finalizar-tarea" data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>">
                                     <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                                 </button>
                             </td>

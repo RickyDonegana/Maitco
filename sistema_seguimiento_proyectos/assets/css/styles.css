@@ -391,7 +391,8 @@ a:hover {
 }
 
 /* Estilos para el botón de finalizar */
-.boton-finalizar {
+.boton-finalizar-proyecto,
+.boton-finalizar-tarea {
   background-color: transparent;
   background-image: url('../svg/finalizar.svg'); 
   background-repeat: no-repeat;
@@ -406,7 +407,8 @@ a:hover {
   transition: background-color 0.4s ease-in-out;
 }
 
-.boton-finalizar:hover {
+.boton-finalizar-proyecto,
+.boton-finalizar-tarea:hover {
   background-color: red;
 }
 

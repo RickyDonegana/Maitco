@@ -2,10 +2,32 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["finalizar_tarea"])) {
-    $idTarea = $_POST["id_tarea"];
-    finalizarTarea($pdo, $idTarea);
-    exit;
+// Agregar la función para finalizar tareas
+function finalizarTarea($pdo, $id)
+{
+    try {
+        $sql = "UPDATE tareas SET estado_id = 4 WHERE id_tarea = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->execute();
+        echo json_encode(["exito" => true]);
+    } catch (PDOException $e) {
+        echo json_encode(["error" => "Error al finalizar la tarea: " . $e->getMessage()]);
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["id_tarea"]) && isset($_POST["accion"])) {
+        $idTarea = $_POST["id_tarea"];
+        $accion = $_POST["accion"];
+        if ($accion === "finalizar") {
+            finalizarTarea($pdo, $idTarea);
+        } else {
+            echo json_encode(["error" => "Acción no válida"]);
+        }
+    } else {
+        echo json_encode(["error" => "Datos de solicitud incorrectos"]);
+    }
 }
 
 if (isset($_GET['id_proyecto'])) {
@@ -20,19 +42,5 @@ if (isset($_GET['id_proyecto'])) {
     $proyecto = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($proyecto) {
         $nombreProyecto = $proyecto['nombre_proyecto'];
-    }
-}
-
-// Función para finalizar una tarea
-function finalizarTarea($pdo, $id)
-{
-    try {
-        $sql = "UPDATE tareas SET estado_id = 4 WHERE id_tarea = :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        echo json_encode(["exito" => true]);
-    } catch (PDOException $e) {
-        echo json_encode(["exito" => false, "mensaje" => "Error al finalizar la tarea: " . $e->getMessage()]);
     }
 }

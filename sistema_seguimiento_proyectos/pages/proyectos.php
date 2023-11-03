@@ -73,7 +73,7 @@ $pdo = conectarBaseDeDatos();
                             <input type="hidden" data-id="<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
                                 <a href="../pages/editar_proyecto.php?id=<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
-                                <button class="boton-finalizar" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-action="finalizar">
+                                <button class="boton-finalizar-proyecto" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-action="finalizar">
                                     <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                                 </button>
                             <?php endif; ?>
