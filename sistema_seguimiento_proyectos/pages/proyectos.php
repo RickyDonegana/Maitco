@@ -60,7 +60,7 @@ $pdo = conectarBaseDeDatos();
             </thead>
             <tbody>
                 <?php foreach ($proyectos as $proyecto) : ?>
-                    <tr <?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto['estado'] == 'Finalizado') { ?> style="display:none;" <?php } ?>>
+                    <tr data-id="<?php echo $proyecto["id_proyecto"]; ?>" <?php if ($proyecto['estado'] == 'Finalizado') { ?> style="display:none;" <?php } ?>>
                         <td><?php echo $proyecto["id_proyecto"]; ?></td>
                         <td><?php echo $proyecto["nombre_proyecto"]; ?></td>
                         <td><?php echo $proyecto["descripcion"]; ?></td>
@@ -73,7 +73,7 @@ $pdo = conectarBaseDeDatos();
                             <input type="hidden" data-id="<?php echo $proyecto["id_proyecto"]; ?>" value="<?php echo $proyecto["estado"]; ?>">
                             <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
                                 <a href="../pages/editar_proyecto.php?id=<?php echo $proyecto["id_proyecto"]; ?>" class="boton-editar"></a>
-                                <button class="boton-finalizar-proyecto" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-action="finalizar">
+                                <button class="boton-finalizar-proyecto" data-id="<?php echo $proyecto["id_proyecto"]; ?>" data-action="finalizar" data-url="../php/proyectos/tablaProyectos.php">
                                     <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                                 </button>
                             <?php endif; ?>

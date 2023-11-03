@@ -15,7 +15,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Obtener el nombre de usuario del usuario actual
 $nombreUsuario = obtenerNombreUsuarioActual();
 function obtenerNombreUsuarioActual()
 {
@@ -36,7 +35,6 @@ function obtenerNombreUsuarioActual()
     return null;
 }
 
-// Función para obtener el rol del usuario actual
 function obtenerRolUsuarioActual()
 {
     $pdo = conectarBaseDeDatos();

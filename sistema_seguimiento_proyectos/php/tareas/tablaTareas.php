@@ -2,7 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-// Agregar la función para finalizar tareas
 function finalizarTarea($pdo, $id)
 {
     try {
@@ -17,16 +16,11 @@ function finalizarTarea($pdo, $id)
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["id_tarea"]) && isset($_POST["accion"])) {
+    if (isset($_POST["id_tarea"]) && isset($_POST["accion"]) && $_POST["accion"] === "finalizar") {
         $idTarea = $_POST["id_tarea"];
-        $accion = $_POST["accion"];
-        if ($accion === "finalizar") {
-            finalizarTarea($pdo, $idTarea);
-        } else {
-            echo json_encode(["error" => "Acción no válida"]);
-        }
+        finalizarTarea($pdo, $idTarea);
     } else {
-        echo json_encode(["error" => "Datos de solicitud incorrectos"]);
+        echo json_encode(["error" => "Acción no válida"]);
     }
 }
 

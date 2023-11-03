@@ -2,18 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-/**
- * Agregar un nuevo proyecto.
- *
- * @param PDO $pdo Conexión a la base de datos.
- * @param string $nombre Nombre del proyecto.
- * @param string $descripcion Descripción del proyecto.
- * @param string $cliente Cliente del proyecto.
- * @param string $desarrollador Desarrollador del proyecto.
- * @param string $fechaInicio Fecha de inicio del proyecto.
- * @param string $fechaEntrega Fecha estimada de entrega del proyecto.
- * @param int $estado Estado del proyecto.
- */
 function agregarProyecto($pdo, $nombre, $descripcion, $cliente, $desarrollador, $fechaInicio, $fechaEntrega, $estado)
 {
     try {

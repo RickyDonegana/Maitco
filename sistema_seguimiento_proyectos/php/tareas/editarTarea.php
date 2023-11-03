@@ -41,13 +41,11 @@ if (isset($_GET['id_proyecto']) && isset($_GET['id_tarea'])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update'])) {
-    // Recuperar y validar datos de entrada
     $nombre_tarea = $_POST['nombre_tarea'];
     $descripcion_tarea = $_POST['descripcion_tarea'];
     $estado_id = $_POST['estado_id'];
     $fecha_vencimiento = $_POST['fecha_vencimiento'];
     $asignada_a = $_POST['asignada_a'];
-    // Realizar la actualización de la tarea
     $sql = "UPDATE tareas SET nombre_tarea = :nombre_tarea, descripcion_tarea = :descripcion_tarea, estado_id = :estado_id, fecha_vencimiento = :fecha_vencimiento, asignada_a = :asignada_a WHERE id_proyecto = :id_proyecto AND id_tarea = :id_tarea";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':nombre_tarea', $nombre_tarea, PDO::PARAM_STR);

@@ -2,11 +2,9 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-// Función para insertar un nuevo usuario en la base de datos
 function insertarUsuario($pdo, $nombre_completo, $email, $contrasena, $user_role)
 {
     $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
-    // Consultar el ID del rol
     $stmt = $pdo->prepare("SELECT id_rol FROM roles WHERE nombre_rol = :nombre_rol");
     $stmt->bindParam(":nombre_rol", $user_role, PDO::PARAM_STR);
     $stmt->execute();
@@ -30,12 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contrasena = $_POST["contrasena"];
     $confirm_contrasena = $_POST["confirm_contrasena"];
     $user_role = $_POST["user_role"];
-
-    // Validar si las contraseñas coinciden
     if ($contrasena !== $confirm_contrasena) {
         $mensajeError = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
     } else {
-        // Insertar el usuario pasando la conexión a la base de datos
         if (insertarUsuario($pdo, $nombre_completo, $email, $contrasena, $user_role)) {
             session_start();
             $_SESSION["registro_exitoso"] = true;

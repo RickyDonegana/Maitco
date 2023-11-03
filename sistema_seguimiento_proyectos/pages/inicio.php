@@ -40,7 +40,7 @@ $pdo = conectarBaseDeDatos();
     <main class="contenedor-principal">
         <section class="contenedor-proyectos">
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto" onclick="redirigirAPrueba1()" <?php if ($proyecto['estado'] == 'finalizado') { ?> style="display:none;" <?php } ?>>
+                <div class="proyecto" onclick="redirigirAPrueba1()" <?php if ($proyecto['estado'] == 'Finalizado') { ?> style="display:none;" <?php } ?>>
                     <h3 class="titulo-proyecto"><?= $proyecto["nombre_proyecto"]; ?></h3>
                     <p class="descripcion-proyecto"><?= $proyecto["descripcion"]; ?></p>
                     <p class="fechas-proyecto">

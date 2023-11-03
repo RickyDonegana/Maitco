@@ -3,17 +3,6 @@ require_once('../php/conn.php');
 require_once('../php/inicioSesion/acceso.php');
 require_once('../php/tareas/agregarTarea.php');
 $pdo = conectarBaseDeDatos();
-
-if (isset($_GET['id_proyecto'])) {
-    $id_proyecto = $_GET['id_proyecto'];
-    $stmt = $pdo->prepare("SELECT nombre_proyecto FROM proyectos WHERE id_proyecto = :id_proyecto");
-    $stmt->bindParam(":id_proyecto", $id_proyecto, PDO::PARAM_INT);
-    $stmt->execute();
-    $proyecto = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($proyecto) {
-        $nombreProyecto = $proyecto['nombre_proyecto'];
-    }
-}
 ?>
 
 <!DOCTYPE html>

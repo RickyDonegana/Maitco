@@ -77,11 +77,11 @@ $pdo = conectarBaseDeDatos();
                             echo $estadoTarea['nombre_estado'];
                             ?>
                         </td>
-                        <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios') : ?>
+                        <?php if ($_SESSION['rol_usuario'] == 'Desarrollador de sitios' && $tarea['estado_id'] != 4) : ?>
                             <td>
                                 <input type="hidden" id="estado_<?php echo $tarea["id_tarea"]; ?>" value="<?php echo $tarea["estado_id"]; ?>">
                                 <a href="../pages/editar_tarea.php?id_proyecto=<?php echo $idProyecto; ?>&id_tarea=<?php echo $tarea["id_tarea"]; ?>" class="boton-editar"></a>
-                                <button class="boton-finalizar-tarea" data-action="finalizar" data-id="<?php echo $tarea["id_tarea"]; ?>">
+                                <button class="boton-finalizar-tarea" data-id="<?php echo $tarea["id_tarea"]; ?>" data-action="finalizar" data-url="../php/tareas/tablaTareas.php">
                                     <img src="../assets/svg/finalizar.svg" alt="Finalizar">
                                 </button>
                             </td>

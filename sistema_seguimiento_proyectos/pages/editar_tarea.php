@@ -65,8 +65,10 @@ $pdo = conectarBaseDeDatos();
                 <select name="estado_id" class="input" required>
                     <?php
                     foreach ($estados as $estado) {
-                        $selected = ($estado['id_estado'] == $tarea['estado_id']) ? 'selected' : '';
-                        echo "<option value='{$estado['id_estado']}' $selected>{$estado['nombre_estado']}</option>";
+                        if ($estado['nombre_estado'] !== 'Finalizada') {
+                            $selected = ($estado['id_estado'] == $tarea['estado_id']) ? 'selected' : '';
+                            echo "<option value='{$estado['id_estado']}' $selected>{$estado['nombre_estado']}</option>";
+                        }
                     }
                     ?>
                 </select>

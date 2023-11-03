@@ -2,7 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-// Función para verificar las credenciales del usuario
 function verificarCredenciales($pdo, $email, $contrasena)
 {
     $stmt = $pdo->prepare("SELECT id_usuario, nombre_usuario, rol_id, contrasena FROM usuarios WHERE correo_electronico = :email");
@@ -26,7 +25,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["id_usuario"] = $usuario["id_usuario"];
         $_SESSION["nombre_usuario"] = $usuario["nombre_usuario"];
         $_SESSION["rol_usuario"] = $usuario["rol_id"];
-        // Redirigir al usuario a la página de inicio o a una página apropiada
         header("Location: ../pages/inicio.php");
         exit;
     } else {

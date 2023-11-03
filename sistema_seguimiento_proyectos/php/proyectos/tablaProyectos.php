@@ -2,11 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-/**
- * Finalizar un proyecto.
- *
- * @param int $id ID del proyecto a finalizar.
- */
 function finalizarProyecto($pdo, $id)
 {
     try {
@@ -21,20 +16,14 @@ function finalizarProyecto($pdo, $id)
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["id_proyecto"]) && isset($_POST["accion"])) {
+    if (isset($_POST["id_proyecto"]) && isset($_POST["accion"]) && $_POST["accion"] === "finalizar") {
         $idProyecto = $_POST["id_proyecto"];
-        $accion = $_POST["accion"];
-        if ($accion === "finalizar") {
-            finalizarProyecto($pdo, $idProyecto);
-        } else {
-            echo json_encode(["error" => "Acción no válida"]);
-        }
+        finalizarProyecto($pdo, $idProyecto);
     } else {
-        echo json_encode(["error" => "Datos de solicitud incorrectos"]);
+        echo json_encode(["error" => "Acción no válida"]);
     }
 }
 
-// Consultar proyectos existentes
 $proyectos = [];
 try {
     $stmt = $pdo->prepare("SELECT * FROM proyectos");

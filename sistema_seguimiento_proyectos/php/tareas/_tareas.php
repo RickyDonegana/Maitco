@@ -2,13 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-/**
- * Cuenta tareas por estado en un proyecto específico.
- *
- * @param int $proyectoId ID del proyecto.
- * @param string $estado Estado de la tarea.
- * @return int Cantidad de tareas en ese estado.
- */
 function contarTareasPorEstado($proyectoId, $estado)
 {
     global $pdo;
@@ -24,11 +17,6 @@ function contarTareasPorEstado($proyectoId, $estado)
     }
 }
 
-/**
- * Obtener la lista de proyectos.
- *
- * @return array Lista de proyectos.
- */
 function obtenerListaDeProyectos()
 {
     global $pdo;
@@ -41,6 +29,5 @@ function obtenerListaDeProyectos()
     }
 }
 
-// Obtener la lista de proyectos
 $pdo = conectarBaseDeDatos();
 $proyectos = obtenerListaDeProyectos();

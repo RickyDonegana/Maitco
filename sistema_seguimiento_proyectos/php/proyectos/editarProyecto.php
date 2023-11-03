@@ -2,13 +2,6 @@
 require_once('../php/conn.php');
 $pdo = conectarBaseDeDatos();
 
-/**
- * Obtiene los datos de un proyecto por su ID.
- *
- * @param PDO $pdo Conexión a la base de datos.
- * @param int $proyectoId ID del proyecto.
- * @return array|false Datos del proyecto o false si no se encuentra.
- */
 function obtenerProyectoPorId($pdo, $proyectoId)
 {
     $query = "SELECT * FROM proyectos WHERE id_proyecto = :proyecto_id";

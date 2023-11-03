@@ -42,7 +42,7 @@ $pdo = conectarBaseDeDatos();
         <h1 class="titulo">Tareas</h1>
         <section class="contenedor-proyectos">
             <?php foreach ($proyectos as $proyecto) : ?>
-                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas(<?php echo $proyecto['id_proyecto']; ?>)">
+                <div class="proyecto proyecto-enlace" onclick="redirigirATablaTareas(<?php echo $proyecto['id_proyecto']; ?>)" <?php if ($proyecto['estado'] == 'Finalizado') { ?> style="display: none;" <?php } ?>>
                     <h3 class="titulo-proyecto">
                         <?php echo $proyecto["nombre_proyecto"]; ?>
                     </h3>
