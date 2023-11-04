@@ -1,15 +1,15 @@
 $(document).ready(function () {
-    $(".boton-finalizar-tarea, .boton-finalizar-proyecto").on("click", function () {
+    $(".boton-finalizar-proyecto, .boton-finalizar-tarea").on("click", function () {
         const $button = $(this);
         const id = $button.data("id");
         const action = $button.data("action");
         const url = $button.data("url");
 
-        const confirmMessage = action === "finalizar" ? "¿Está seguro de que desea finalizar la tarea?" : "¿Está seguro de que desea finalizar el proyecto?";
-        const successMessage = action === "finalizar" ? "La tarea ha sido finalizada con éxito." : "El proyecto ha sido finalizado con éxito.";
+        const confirmMessage = action === "finalizar" ? "¿Está seguro de que desea finalizar el proyecto?" : "¿Está seguro de que desea finalizar la tarea?";
+        const successMessage = action === "finalizar" ? "El proyecto ha sido finalizado con éxito." : "La tarea ha sido finalizada con éxito.";
 
         if (confirm(confirmMessage)) {
-            const data = action === "finalizar" ? { id_tarea: id, accion: action } : { id_proyecto: id, accion: action };
+            const data = action === "finalizar" ? { id_proyecto: id, accion: action } : { id_tarea: id, accion: action };
 
             $.post(url, data, "json")
                 .done(function (data) {
@@ -18,7 +18,7 @@ $(document).ready(function () {
                         alert(successMessage);
                         location.reload();
                     } else {
-                        alert("Error al finalizar " + (action === "finalizar" ? "la tarea" : "el proyecto") + ": " + data.error);
+                        alert("Error al finalizar " + (action === "finalizar" ? "el proyecto" : "la tarea") + ": " + data.error);
                     }
                 })
                 .fail(function (error) {
