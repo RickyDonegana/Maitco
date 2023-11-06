@@ -168,7 +168,7 @@ a:hover {
 }
 
 .input-end {
-  margin-bottom: var(--mb-05);
+  margin-bottom: var(--mb-15);
 }
 
 .input__check {
@@ -176,16 +176,17 @@ a:hover {
   font-weight: var(--font-regular);
   color: var(--text-color);
   display: block;
+  margin-bottom: var(--mb-15);
 }
 
 .btn__container {
   display: flex;
   justify-content: flex-end;
-  margin: var(--mb-2) 0;
 }
 
 .input__btn {
   padding: var(--mb-075);
+  margin-bottom: var(--mb-15);
   width: 30%;
   box-shadow: var(--box-shadow);
   border: none;
@@ -203,15 +204,22 @@ a:hover {
 
 .form__link {
   align-items: center;
-  margin: auto;
   text-align: center;
   display: flex;
   justify-content: center;
 }
 
 .text-link {
-  margin-left: 5px;
+  padding: var(--mb-025);
   color: var(--blue);
+}
+
+.error-message{
+  font-size: var(--fs-1);
+  font-weight: var(--font-regular);
+  color: red;
+  display: block;
+  margin-bottom: var(--mb-15);
 }
 
 /* Header Styles */

@@ -1,9 +1,13 @@
 <?php
 require_once('../php/conn.php');
-$pdo = conectarBaseDeDatos();
 
-function insertarUsuario($pdo, $nombre_completo, $email, $contrasena, $user_role)
+function esContraseñaSegura($contrasena) {
+    return preg_match('/^(?=.*[a-záéíóúüñ])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*\d).{8,}$/', $contrasena);
+}
+
+function insertarUsuario($nombre_completo, $email, $contrasena, $user_role)
 {
+    $pdo = conectarBaseDeDatos();
     $hashContrasena = password_hash($contrasena, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("SELECT id_rol FROM roles WHERE nombre_rol = :nombre_rol");
     $stmt->bindParam(":nombre_rol", $user_role, PDO::PARAM_STR);
@@ -30,8 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_role = $_POST["user_role"];
     if ($contrasena !== $confirm_contrasena) {
         $mensajeError = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+    } elseif (!esContraseñaSegura($contrasena)) {
+        $mensajeError = "La contraseña debe cumplir con los siguientes requisitos: 
+        al menos una letra mayúscula, una letra minúscula, un número y un mínimo de 8 caracteres.";
     } else {
-        if (insertarUsuario($pdo, $nombre_completo, $email, $contrasena, $user_role)) {
+        if (insertarUsuario($nombre_completo, $email, $contrasena, $user_role)) {
             session_start();
             $_SESSION["registro_exitoso"] = true;
             header("Location: ../pages/login.php");

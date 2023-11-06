@@ -40,6 +40,11 @@ $pdo = conectarBaseDeDatos();
                     <label class="input__check">
                         <input type="checkbox" required="required"> Acepto las <a href="#">Condiciones de uso</a> y <a href="#">la política de privacidad</a>
                     </label>
+                    <?php if (!empty($mensajeError)) : ?>
+                        <p class="error-message">
+                            <?php echo $mensajeError; ?>
+                        </p>
+                    <?php endif; ?>
                     <div class="btn__container">
                         <button type="submit" class="input__btn">Registrarse</button>
                     </div>
@@ -49,11 +54,6 @@ $pdo = conectarBaseDeDatos();
                 ¿Ya tienes una cuenta?
                 <a href="../pages/login.php" class="text-link">Iniciar sesión</a>
             </p>
-            <?php if (!empty($mensajeError)) : ?>
-                <p class="error-message">
-                    <?php echo $mensajeError; ?>
-                </p>
-            <?php endif; ?>
         </div>
     </section>
 </body>
