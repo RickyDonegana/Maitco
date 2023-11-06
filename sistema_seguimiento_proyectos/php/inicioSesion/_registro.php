@@ -1,5 +1,10 @@
 <?php
 
+function esContraseñaSegura($contrasena) {
+    // Verifica si la contraseña cumple con los requisitos de complejidad.
+    return preg_match('/^(?=.*[a-záéíóúüñ])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*\d).{8,}$/', $contrasena);
+}
+
 function insertarUsuario($nombre_completo, $email, $contrasena, $user_role)
 {
     $pdo = conectarBaseDeDatos();
@@ -29,6 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_role = $_POST["user_role"];
     if ($contrasena !== $confirm_contrasena) {
         $mensajeError = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
+    } elseif (!esContraseñaSegura($contrasena)) {
+        $mensajeError = "La contraseña debe cumplir con los siguientes requisitos: 
+        al menos una letra mayúscula, una letra minúscula, un número y un mínimo de 8 caracteres.";
     } else {
         if (insertarUsuario($nombre_completo, $email, $contrasena, $user_role)) {
             session_start();
@@ -40,3 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+    elseif (!esContraseñaSegura($contrasena)) {
+        $mensajeError = "La contraseña debe cumplir con los siguientes requisitos: 
+        al menos una letra mayúscula, una letra minúscula, un número y un mínimo de 8 caracteres.";
+    }
+

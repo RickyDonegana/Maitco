@@ -1,6 +1,11 @@
 <?php
 include('../php/conn.php');
 
+function esContraseñaSegura($contrasena) {
+    // Verifica si la contraseña cumple con los requisitos de complejidad.
+    return preg_match('/^(?=.*[a-záéíóúüñ])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*\d).{8,}$/', $contrasena);
+}
+
 function verificarCredenciales($email, $contrasena)
 {
     $pdo = conectarBaseDeDatos();
@@ -20,13 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $contrasena = $_POST["contrasena"];
     $usuario = verificarCredenciales($email, $contrasena);
+
     if ($usuario) {
-        session_start();
-        $_SESSION["id_usuario"] = $usuario["id_usuario"];
-        $_SESSION["nombre_usuario"] = $usuario["nombre_usuario"];
-        $_SESSION["rol_usuario"] = $usuario["rol_id"];
-        header("Location: ../pages/inicio.php");
-        exit;
+        if (!esContraseñaSegura($contrasena)) {
+            $mensajeError = "La contraseña debe cumplir con los siguientes requisitos: 
+            al menos una letra mayúscula, una letra minúscula, un número y un mínimo de 8 caracteres.";
+        } else {
+            session_start();
+            $_SESSION["id_usuario"] = $usuario["id_usuario"];
+            $_SESSION["nombre_usuario"] = $usuario["nombre_usuario"];
+            $_SESSION["rol_usuario"] = $usuario["rol_id"];
+            header("Location: ../pages/inicio.php");
+            exit;
+        }
     } else {
         $mensajeError = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
     }
