@@ -1,30 +1,25 @@
 $(document).ready(function () {
-    $(".boton-finalizar-proyecto, .boton-finalizar-tarea").on("click", function () {
-        const $button = $(this);
-        const id = $button.data("id");
-        const action = $button.data("action");
-        const url = $button.data("url");
-
-        const confirmMessage = action === "finalizar" ? "¿Está seguro de que desea finalizar el proyecto?" : "¿Está seguro de que desea finalizar la tarea?";
-        const successMessage = action === "finalizar" ? "El proyecto ha sido finalizado con éxito." : "La tarea ha sido finalizada con éxito.";
-
-        if (confirm(confirmMessage)) {
-            const data = action === "finalizar" ? { id_proyecto: id, accion: action } : { id_tarea: id, accion: action };
-
-            $.post(url, data, "json")
-                .done(function (data) {
-                    console.log('Respuesta del servidor:', data);
-                    if (data.exito) {
-                        alert(successMessage);
-                        location.reload();
+    $('.boton-finalizar-proyecto').click(function () {
+        console.log('Clic detectado');
+        var idProyecto = $(this).data('id');
+        console.log('ID del proyecto:', idProyecto);
+        var confirmation = confirm('¿Desea finalizar este proyecto?');
+        console.log('Confirmación:', confirmation);
+        if (confirmation == true) {
+            console.log('Enviando solicitud POST al servidor');
+            $.post({
+                url: $(this).data('url'),
+                data: { id_proyecto: idProyecto, action: 'finalizar' },
+                success: function (response) {
+                    if (response.exito == true) {
+                        alert('Proyecto finalizado con éxito.');
+                        $('[data-id="' + idProyecto + '"]').hide();
                     } else {
-                        alert("Error al finalizar " + (action === "finalizar" ? "el proyecto" : "la tarea") + ": " + data.error);
+                        alert('Error al finalizar el proyecto: ' + response.error);
                     }
-                })
-                .fail(function (error) {
-                    console.log('Error en la solicitud:', error);
-                    alert("Error al realizar la solicitud al servidor.");
-                });
+                },
+                dataType: 'json'
+            });
         }
     });
 });
