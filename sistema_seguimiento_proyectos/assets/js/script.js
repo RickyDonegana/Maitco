@@ -27,7 +27,7 @@ $(document).ready(function () {
         if (confirmation == true) {
             $.post({
                 url: $(this).data('url'),
-                data: { id_tarea: idTarea, accion: 'finalizar' },
+                data: { id_tarea: idTarea, action: 'finalizar' },
                 success: function (response) {
                     if (response.exito == true) {
                         alert('Tarea finalizada con éxito.');

@@ -1,18 +1,18 @@
 /* Basic styles  */
-#gantt{
+#gantt {
 	font-family: "Roboto";
 }
 
-#gantt table{
+#gantt table {
 	border-collapse: collapse;
 	border-spacing: 0px 20px;
 }
 
-table tr{
+table tr {
 	border-bottom: 5px solid white;
 }
 
-#gantt table tr th{
+#gantt table tr th {
 	border: 1px solid white;
 	border-collapse: collapse;
 	padding: 9px;
@@ -22,18 +22,18 @@ table tr{
 }
 
 
-#gantt table tr td{
+#gantt table tr td {
 	padding: 5px;
 	line-height: 35px;
 	border-left: 1px dotted gray;
 	width: 250px;
 }
 
-#gantt table tr td:last-child{
+#gantt table tr td:last-child {
 	border-right: 1px dotted gray;
 }
 
-#gantt table tr td.event-cell{
+#gantt table tr td.event-cell {
 	color: white;
 	font-size: 12px;
 	text-align: left;
@@ -42,11 +42,11 @@ table tr{
 	border-left: none;
 }
 
-#gantt table tr td.event-cell:last-child{
+#gantt table tr td.event-cell:last-child {
 	border-right: none;
 }
 
-#gantt table tr td.event-cell span{
+#gantt table tr td.event-cell span {
 	background-color: #f6a400;
 	padding: 5px 10px;
 	border-radius: 15px;

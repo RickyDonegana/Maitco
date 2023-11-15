@@ -12,7 +12,7 @@
   --text-color: #a7a7a7;
   --text-white: #ffffff;
   --blue: #0303b5;
-  --blue-hover: #3b8eed ;
+  --blue-hover: #3b8eed;
   --blue-ultra-light: #0cb7f2;
 
   /* Fonts */
@@ -78,7 +78,8 @@ a:hover {
   color: var(--blue-hover);
 }
 
-.card, .card-nr {
+.card,
+.card-nr {
   background-color: var(--card-background);
   border-radius: var(--border-radius-cards);
   margin: 1rem;
@@ -87,7 +88,8 @@ a:hover {
 }
 
 /* Login Styles */
-.section__form, .section__add {
+.section__form,
+.section__add {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -145,7 +147,8 @@ a:hover {
   background: auto;
 }
 
-.input, .input__field {
+.input,
+.input__field {
   width: 100%;
   outline: none;
   font-size: var(--fs-1-15);
@@ -157,12 +160,14 @@ a:hover {
   transition: var(--transition);
 }
 
-.input:hover, .input__field:hover {
+.input:hover,
+.input__field:hover {
   color: var(--title-color);
   border-color: var(--blue);
 }
 
-.input:focus, .input__field:focus {
+.input:focus,
+.input__field:focus {
   color: var(--title-color);
   border-color: var(--blue-ultra-light);
 }
@@ -214,7 +219,7 @@ a:hover {
   color: var(--blue);
 }
 
-.error-message{
+.error-message {
   font-size: var(--fs-1);
   font-weight: var(--font-regular);
   color: red;
@@ -295,7 +300,7 @@ a:hover {
 }
 
 .contenedor-proyectos {
-  display: flex;  
+  display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   width: 100%;
@@ -402,9 +407,9 @@ a:hover {
 .boton-finalizar-proyecto,
 .boton-finalizar-tarea {
   background-color: transparent;
-  background-image: url('../svg/finalizar.svg'); 
+  background-image: url('../svg/finalizar.svg');
   background-repeat: no-repeat;
-  background-position: center ;
+  background-position: center;
   background-size: 60%;
   color: var(--card-background);
   border: none;
@@ -483,7 +488,7 @@ tr:nth-child(odd) {
 
 .formulario-tarea input[type="text"],
 .formulario-tarea input[type="date"],
-.formulario-tarea textarea, 
+.formulario-tarea textarea,
 .formulario-tarea select {
   width: 100%;
   padding: var(--mb-05);
@@ -570,7 +575,7 @@ tr:nth-child(odd) {
   background-color: transparent;
   background-image: url('../svg/editar.svg');
   background-repeat: no-repeat;
-  background-position: center ;
+  background-position: center;
   background-size: 60%;
   color: var(--card-background);
   border: none;

@@ -1,7 +1,8 @@
 <?php
 require_once('../php/conn.php');
 
-function esContraseñaSegura($contrasena) {
+function esContraseñaSegura($contrasena)
+{
     return preg_match('/^(?=.*[a-záéíóúüñ])(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*\d).{8,}$/', $contrasena);
 }
 

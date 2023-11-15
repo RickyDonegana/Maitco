@@ -7,14 +7,19 @@ function finalizarTarea($pdo, $id)
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
+        error_log("Tarea finalizada con éxito");
         echo json_encode(["exito" => true]);
     } catch (PDOException $e) {
+        error_log("Error al finalizar la tarea: " . $e->getMessage());
         echo json_encode(["error" => "Error al finalizar la tarea: " . $e->getMessage()]);
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["id_tarea"]) && isset($_POST["accion"]) && $_POST["accion"] === "finalizar") {
+    error_log("Entrando en post");
+    if (isset($_POST["id_tarea"]) && isset($_POST["action"]) && $_POST["action"] === "finalizar") {
+        require_once('../conn.php');
+        $pdo = conectarBaseDeDatos();
         $idTarea = $_POST["id_tarea"];
         finalizarTarea($pdo, $idTarea);
     } else {
