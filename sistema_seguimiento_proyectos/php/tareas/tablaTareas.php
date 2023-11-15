@@ -1,6 +1,4 @@
 <?php
-require_once('../php/conn.php');
-$pdo = conectarBaseDeDatos();
 
 function finalizarTarea($pdo, $id)
 {
@@ -21,6 +19,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         finalizarTarea($pdo, $idTarea);
     } else {
         echo json_encode(["error" => "Acción no válida"]);
+    }
+} else {
+    require_once('../php/conn.php');
+    $pdo = conectarBaseDeDatos();
+    $tareas = [];
+    try {
+        $stmt = $pdo->prepare("SELECT t.*, p.nombre_proyecto FROM tareas t JOIN proyectos p ON t.id_proyecto = p.id_proyecto");
+        $stmt->execute();
+        $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw new Exception("Error al consultar la tarea: " . $e->getMessage());
     }
 }
 

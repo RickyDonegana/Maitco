@@ -52,7 +52,6 @@ INSERT INTO estados_tarea (nombre_estado) VALUES
     ('Completada'),
     ('Finalizada');
 
-
 -- Tabla de Tareas
 CREATE TABLE IF NOT EXISTS tareas (
     id_tarea INT AUTO_INCREMENT PRIMARY KEY,

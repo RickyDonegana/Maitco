@@ -1,12 +1,8 @@
 $(document).ready(function () {
     $('.boton-finalizar-proyecto').click(function () {
-        console.log('Clic detectado');
         var idProyecto = $(this).data('id');
-        console.log('ID del proyecto:', idProyecto);
         var confirmation = confirm('¿Desea finalizar este proyecto?');
-        console.log('Confirmación:', confirmation);
         if (confirmation == true) {
-            console.log('Enviando solicitud POST al servidor');
             $.post({
                 url: $(this).data('url'),
                 data: { id_proyecto: idProyecto, action: 'finalizar' },
@@ -16,6 +12,28 @@ $(document).ready(function () {
                         $('[data-id="' + idProyecto + '"]').hide();
                     } else {
                         alert('Error al finalizar el proyecto: ' + response.error);
+                    }
+                },
+                dataType: 'json'
+            });
+        }
+    });
+});
+
+$(document).ready(function () {
+    $('.boton-finalizar-tarea').click(function () {
+        var idTarea = $(this).data('id');
+        var confirmation = confirm('¿Desea finalizar esta tarea?');
+        if (confirmation == true) {
+            $.post({
+                url: $(this).data('url'),
+                data: { id_tarea: idTarea, accion: 'finalizar' },
+                success: function (response) {
+                    if (response.exito == true) {
+                        alert('Tarea finalizada con éxito.');
+                        $('[data-id="' + idTarea + '"]').hide();
+                    } else {
+                        alert('Error al finalizar la tarea: ' + response.error);
                     }
                 },
                 dataType: 'json'
